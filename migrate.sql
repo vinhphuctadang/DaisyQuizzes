@@ -57,7 +57,8 @@ INSERT INTO `daisy_collection` (`id`, `created_at`, `status`) VALUES
 CREATE TABLE IF NOT EXISTS `daisy_player_round` (
   `name` int(11) DEFAULT NULL,
   `created_time` timestamp NULL DEFAULT NULL,
-  `round` varchar(6) DEFAULT NULL
+  `round` varchar(6) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 -- Dumping data for table daisybeaver.daisy_player_round: ~0 rows (approximately)
@@ -118,11 +119,11 @@ CREATE TABLE IF NOT EXISTS `daisy_round_collection` (
   CONSTRAINT `FK_daisy_round_collection_daisy_collection` FOREIGN KEY (`collection`) REFERENCES `daisy_collection` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_round_collection: ~1 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_round_collection: ~0 rows (approximately)
 DELETE FROM `daisy_round_collection`;
 /*!40000 ALTER TABLE `daisy_round_collection` DISABLE KEYS */;
 INSERT INTO `daisy_round_collection` (`collection`, `status`, `round`, `question_no`) VALUES
-	(1, 0, 'love', 0);
+	(1, 1, 'love', 1);
 /*!40000 ALTER TABLE `daisy_round_collection` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_shuffle_content
