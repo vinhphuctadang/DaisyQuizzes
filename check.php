@@ -33,23 +33,24 @@
 		return $question;
 	}
 	
-	function getScore ($conn, $round, $player) {
-		$sql = "SELECT score FROM daisy_player_round where round='$round' and name='$player'";
+	function getScore ($conn, $round, $token) {
+		$sql = "SELECT score FROM daisy_player_round where round='$round' and name='$token'";
 		$result = $conn->query ($sql);
 		if ($result->num_rows == 0)
 			throw new Exception ("Failed:NoPlayer");
+		$result = $result->fetch_assoc ();
 		return $result['score'];
 	}	
 	
-	function setScore ($conn, $round, $player, $score) {
-		$sql = "UPDATE daisy_player_round SET score = $score WHERE round='$round' and name='$player'";
+	function setScore ($conn, $round, $token, $score) {
+		$sql = "UPDATE daisy_player_round SET score = $score WHERE round='$round' and token='$token'";
 		$result = $conn->query ($sql);
 	}
 	
-	function respondCorrect ($conn, $round, $player) {	
+	function respondCorrect ($conn, $round, $token) {	
 		try {
-			$score = getScore ($conn, $round, $player);
-			setScore ($conn, $round, $player, $score+1);		
+			$score = getScore ($conn, $round, $token);
+			setScore ($conn, $round, $token, $score+1);		
 		} catch (exception $e) {
 			echo "Lỗi giao dịch: Không cập nhật được (lỗi đường truyền)<br>";
 		} finally {
@@ -57,10 +58,9 @@
 		}
 	}
 	
-	function respondIncorrect ($round, $player) {
+	function respondIncorrect ($conn, $round, $token) {
 		echo "Câu trả lời sai";
 	}
-	
 	
 	if (!array_key_exists ('round', $_POST)) 
 		die ("Không tìm thấy vòng chơi");
@@ -69,14 +69,14 @@
 	
 	$conn = connect ();
 	$round = $_POST ['round'];
-	$player = $_POST ['player'];
+	$token = $_POST ['token'];
 	//echo $player;
 	$answer = db_fetch_question ($conn, $round);
 	
 	if ($answer ['choice_a'] == $_POST['choice']) 
-		respondCorrect ($conn, $round, $player);
+		respondCorrect ($conn, $round, $token);
 	else 
-		respondIncorrect ($conn, $round, $player);
+		respondIncorrect ($conn, $round, $token);
 	
 	$conn->close ();
 ?>

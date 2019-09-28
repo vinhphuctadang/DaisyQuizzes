@@ -7,16 +7,13 @@
 	
 	<body>
 		<div id="wrapper">
-			<form action="action_page.php" method="post">
+			<form action="entry.php" method="post">
 			  <div class="imgcontainer">
 				<img src="img_avatar2.png" alt="Avatar" class="avatar">
 			  </div>
 
 			  <div class="container">
-				
-				
-				<input type="text" placeholder="Mã vòng chơi" name="uname" required>
-
+				<input type="text" placeholder="Tên bạn" name="player" required>
 				<button type="submit">TIẾP TỤC</button>    
 			  </div>
 

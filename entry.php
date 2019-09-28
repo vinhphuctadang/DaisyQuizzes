@@ -7,14 +7,18 @@
 	
 	<body>
 		<div id="wrapper">
-			<form method="post">
+			<form action="middle.php" method="post">
 			  <div class="imgcontainer">
 				<img src="img_avatar2.png" alt="Avatar" class="avatar">
 			  </div>
 
 			  <div class="container">
-				
-				<input type="text" placeholder="Tên bạn" name="uname" required>
+			
+				<input type="text" placeholder="Mã vòng chơi" name="round" required>
+				<?php
+					$player = $_POST['player'];
+					echo "<input type='hidden' name='player' value='$player'>";
+				?>
 				<button type="submit">TIẾP TỤC</button>    
 			  </div>
 
