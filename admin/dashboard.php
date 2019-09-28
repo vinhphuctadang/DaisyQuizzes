@@ -26,16 +26,27 @@
 			// TODO: đang thiếu lấy ra từ database
 			
 			function get_collections ($conn, $userid) {
-				$sql = "SELECT name FROM daisy_admin_collection, daisy_collection where collection_id = id and admin_id = $userid";
+				$sql = "SELECT name, id FROM daisy_admin_collection, daisy_collection where collection_id = id and admin_id = $userid";
 				//echo $sql;
 				$result = $conn->query ($sql);
+				return $result;
 				
+			}
+			
+			function display ($result) { // vẽ kết qủa lên màn hình
+			
 				echo "Các bộ bạn đã tạo (".$result->num_rows." bộ): <br>";
+				$i = 0;
 				while ($row = $result->fetch_assoc ()) {
-					echo json_encode ($row)."<br>";
+					$id = $row['id'];
+					$i++;
+					echo $i.". ".$row['name']." <a href='./delete.php?k=$id'> Xóa </a> <br>";
 				}
-			}				
-			get_collections ($conn, $id);
+			}
+			
+			$result = get_collections ($conn, $id);
+			display ($result);
+			echo "<a href='./add.php'> Thêm bộ câu hỏi mới </a>";
 			$conn->close ();
 		?>
 	</body>
