@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `daisy_round_collection` (
   CONSTRAINT `FK_daisy_round_collection_daisy_collection` FOREIGN KEY (`collection`) REFERENCES `daisy_collection` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_round_collection: ~0 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_round_collection: ~1 rows (approximately)
 DELETE FROM `daisy_round_collection`;
 /*!40000 ALTER TABLE `daisy_round_collection` DISABLE KEYS */;
 INSERT INTO `daisy_round_collection` (`collection`, `status`, `round`, `question_no`) VALUES

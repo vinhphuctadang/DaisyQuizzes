@@ -33,7 +33,11 @@
 		return $question;
 	}
 	
-	function respondCorrect () {
+	function respondCorrect ($round, $player) {	
+		
+	}
+	
+	function respondIncorrect ($round, $player) {
 		
 	}
 	
@@ -43,8 +47,9 @@
 	$answer = db_fetch_question ($conn, $round);
 	
 	if ($answer ['choice_a'] == $_POST['choice']) 
-		echo "Câu trả lời đúng";
+		respondCorrect ($round, $player);
 	else 
-		echo "Câu trả lời sai";
+		respondCorrect ($round, $player);
+	
 	$conn->close ();
 ?>

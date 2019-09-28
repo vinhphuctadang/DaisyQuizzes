@@ -59,21 +59,23 @@
 				return $question;
 			}
 			
-			function display ($question, $round) {		
+			function display ($question, $round, $player) {		
 				echo "<form action='check.php' method='post'>";
-				echo "<p>".$question['body']."</p>";	
-					echo "<input type='submit' name='choice' value='".$question['choice_a']."'>"."</input> <br>";
-					echo "<input type='submit' name='choice' value='".$question['choice_b']."'>"."</input> <br>";
-					echo "<input type='submit' name='choice' value='".$question['choice_c']."'>"."</input> <br>";
-					echo "<input type='submit' name='choice' value='".$question['choice_d']."'>"."</input> <br>";				
-					echo "<input type='hidden' name='round' value='".$round."'>"."</input> <br>";				
-					echo "<input type='hidden' name='player' value='".$_POST['player']."'>"."</input> <br>";										
+				echo "<p>".$question['body']."</p>";
+					$val = ['a', 'b', 'c', 'd'];
+					shuffle ($val);					
+					foreach ($val as $c) {
+						echo "<input type='submit' name='choice' value='".$question['choice_'.$c]."'>"."</input> <br>";
+					}
+					
+					echo "<input type='hidden' name='round' value='".$round."'>"."</input> <br>"; 
+					echo "<input type='hidden' name='player' value='".$player."'>"."</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy
 				echo "</form>";
 			}
 			
 			$conn = db_connect ();
 			$question = db_fetch_question ($conn, $round_code);
-			display ($question, $round_code);
+			display ($question, $round_code, $player);
 			$conn->close ();
 		?>
 	</body>
