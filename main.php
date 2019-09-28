@@ -66,8 +66,7 @@
 					shuffle ($val);					
 					foreach ($val as $c) {
 						echo "<input type='submit' name='choice' value='".$question['choice_'.$c]."'>"."</input> <br>";
-					}
-					
+					}					
 					echo "<input type='hidden' name='round' value='".$round."'>"."</input> <br>"; 
 					echo "<input type='hidden' name='player' value='".$player."'>"."</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy
 				echo "</form>";
