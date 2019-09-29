@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `daisy_admin_collection` (
   CONSTRAINT `FK_daisy_admin_collection_daisy_collection` FOREIGN KEY (`collection_id`) REFERENCES `daisy_collection` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_admin_collection: ~0 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_admin_collection: ~1 rows (approximately)
 /*!40000 ALTER TABLE `daisy_admin_collection` DISABLE KEYS */;
 INSERT INTO `daisy_admin_collection` (`admin_id`, `collection_id`, `created_at`) VALUES
 	(2, 1, '2019-09-29 06:55:33');
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `daisy_admin_login` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_admin_login: ~0 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_admin_login: ~3 rows (approximately)
 /*!40000 ALTER TABLE `daisy_admin_login` DISABLE KEYS */;
 INSERT INTO `daisy_admin_login` (`id`, `username`, `password`, `created_at`) VALUES
 	(1, 'tadang', 'f899139df5e1059396431415e770c6dd', '2019-09-28 18:10:30'),
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `daisy_collection` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COMMENT='Bao gồm các bộ các questions';
 
--- Dumping data for table daisybeaver.daisy_collection: ~0 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_collection: ~1 rows (approximately)
 /*!40000 ALTER TABLE `daisy_collection` DISABLE KEYS */;
 INSERT INTO `daisy_collection` (`id`, `created_at`, `status`, `name`) VALUES
 	(1, '2019-09-25 21:57:19', 0, 'Bộ câu hỏi 1');
