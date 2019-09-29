@@ -26,7 +26,7 @@
 			// TODO: đang thiếu lấy ra từ database
 			
 			function get_collections ($conn, $userid) {
-				$sql = "SELECT name, id FROM daisy_admin_collection, daisy_collection where collection_id = id and admin_id = $userid";
+				$sql = "SELECT name, id FROM daisy_collection WHERE admin_id = $userid";
 				//echo $sql;
 				$result = $conn->query ($sql);
 				return $result;
@@ -40,7 +40,7 @@
 				while ($row = $result->fetch_assoc ()) {
 					$id = $row['id'];
 					$i++;
-					echo $i.". ".$row['name']." <a href='./delete.php?k=$id'> Xóa </a> <br>";
+					echo $i.". <a href='./modify.php?k=$id'>".$row['name']."</a> <a href='./delete.php?k=$id'> Xóa </a> <br>";
 				}
 			}
 			
