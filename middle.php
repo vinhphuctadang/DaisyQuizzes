@@ -18,7 +18,7 @@
 	function checkExists ($conn, $player, $round) {		
 		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";
 		$result = $conn->query ($sql);
-		if ($result->num_rows < 0)
+		if ($result->num_rows == 0)
 			die ("Không tìm thấy vòng chơi yêu cầu, có thể nó đã bị xóa khỏi CSDL");
 		$result = $result->fetch_assoc ();
 		if ($result ['status'] == 0)

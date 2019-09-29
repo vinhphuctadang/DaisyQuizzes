@@ -55,17 +55,25 @@ INSERT INTO `daisy_collection` (`id`, `created_at`, `status`) VALUES
 
 -- Dumping structure for table daisybeaver.daisy_player_round
 CREATE TABLE IF NOT EXISTS `daisy_player_round` (
-  `name` int(11) DEFAULT NULL,
-  `created_time` timestamp NULL DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `token` varchar(32) DEFAULT NULL,
   `round` varchar(6) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `token` (`token`),
   KEY `round` (`round`),
   CONSTRAINT `FK_daisy_player_round_daisy_round_collection` FOREIGN KEY (`round`) REFERENCES `daisy_round_collection` (`round`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_player_round: ~0 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_player_round: ~1 rows (approximately)
 DELETE FROM `daisy_player_round`;
 /*!40000 ALTER TABLE `daisy_player_round` DISABLE KEYS */;
+INSERT INTO `daisy_player_round` (`name`, `created_time`, `token`, `round`, `score`) VALUES
+	('phucphuc', '2019-09-28 15:25:21', '08c4c16c7fcb27981fa75245d30c3e56', 'love', 0),
+	('phucphuc2', '2019-09-28 15:27:23', '527fbb98fbe082683dcb53d1d4f217fa', 'love', 0),
+	('phuc2', '2019-09-28 15:37:36', 'a02a9e873130348c90ed96f2953ea97a', 'love', 0),
+	('phuc23', '2019-09-28 15:40:56', '072459b3a56f706cffae4abad34241fa', 'love', 0);
 /*!40000 ALTER TABLE `daisy_player_round` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_question
@@ -78,16 +86,19 @@ CREATE TABLE IF NOT EXISTS `daisy_question` (
   `choice_d` text COMMENT 'Phương án 3',
   `created_at` timestamp NULL DEFAULT NULL COMMENT 'Thời gian tạo câu hỏi',
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf16;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_question: ~4 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_question: ~7 rows (approximately)
 DELETE FROM `daisy_question`;
 /*!40000 ALTER TABLE `daisy_question` DISABLE KEYS */;
 INSERT INTO `daisy_question` (`id`, `body`, `choice_a`, `choice_b`, `choice_c`, `choice_d`, `created_at`) VALUES
 	(1, 'Tôi tên gì?', 'Tạ Đặng Vĩnh Phúc', 'Tạ Vĩnh Phúc', 'Đặng Vĩnh Phúc', 'Tạ Phúc', '2019-09-25 22:07:54'),
 	(2, 'Mặt trời mọc ở hướng nào?', 'Đông', 'Tây', 'Nam', 'Bắc', '2019-09-26 10:38:24'),
 	(4, 'Thủ đô Việt Nam là', 'Hà Nội', 'Cần Thơ', 'Đà Nẵng', 'TP Hồ Chí Minh', '2019-09-26 12:48:43'),
-	(5, '1 + 2 x 0 + 3 = ?', '4', '5', '3', '1', '2019-09-26 12:49:44');
+	(5, '1 + 2 x 0 + 3 = ?', '4', '5', '3', '1', '2019-09-26 12:49:44'),
+	(6, 'Một ngày bao nhiêu giờ?', '24', '48', '8', '16', '2019-09-28 14:34:12'),
+	(7, 'I love you có nghĩa là gì', 'Tôi yêu bạn', 'Bạn yêu tôi', 'Chẳng ai yêu ai', 'Kệ nó', '2019-09-28 14:34:53'),
+	(8, 'EQ là gì', 'Emotional Quality', 'E-commerce Quality', 'Encode Quality', 'Emergency Quirk', '2019-09-28 14:36:09');
 /*!40000 ALTER TABLE `daisy_question` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_question_collection
@@ -100,14 +111,16 @@ CREATE TABLE IF NOT EXISTS `daisy_question_collection` (
   CONSTRAINT `FK_daisy_question_collection_daisy_question` FOREIGN KEY (`id_question`) REFERENCES `daisy_question` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_question_collection: ~4 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_question_collection: ~6 rows (approximately)
 DELETE FROM `daisy_question_collection`;
 /*!40000 ALTER TABLE `daisy_question_collection` DISABLE KEYS */;
 INSERT INTO `daisy_question_collection` (`id_question`, `id_collection`) VALUES
 	(1, 1),
 	(2, 1),
 	(4, 1),
-	(5, 1);
+	(5, 1),
+	(8, 1),
+	(7, 1);
 /*!40000 ALTER TABLE `daisy_question_collection` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_round_collection
