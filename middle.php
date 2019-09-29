@@ -1,19 +1,5 @@
 <?php
-	function db_connect () {
-		$servername = "localhost";
-		$username = "root";
-		$password = "";
-		$database = "daisybeaver";
-		
-		// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
-		// Check connection
-		if ($conn->connect_error) {					
-			die(json_encode (formResp (false, "Connection failed: " . $conn->connect_error)));
-		}				
-		$conn->set_charset ("utf8");
-		return $conn;
-	}	
+	include 'database.php';
 	
 	function checkExists ($conn, $player, $round) {		
 		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";
@@ -48,7 +34,8 @@
 	$player = $_POST ['player'];
 	if (checkExists ($conn, $player, $round)) {
 		echo "Tên tài khoản \"$player\" với vòng chơi này đã tồn tại, hãy đổi tên<br>";
-		echo "Trở lại <a href='./index.php'>trang đầu</a>";
+		echo "Trở lại <a href='./index.html'>trang đầu</a>";
+		exit ();
 	} else {
 		addPlayer ($conn, $player, $round);
 	}
@@ -56,7 +43,7 @@
 	$conn->close ();
 ?>
 
-<script> 
-    var url= "./main.php"; 
-    window.location = url; 
-</script> 
+#<script> 
+#    var url= "./main.php";
+#    window.location = url; 
+#</script> 

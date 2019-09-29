@@ -9,6 +9,7 @@ form {
   margin: 0 auto;
 }
 
+
 /* Full-width inputs */
 input[type=text], input[type=password] {
   width: 100%;
@@ -59,6 +60,7 @@ img.avatar {
   padding: 16px;
 }
 
+
 /* The "Forgot password" text */
 span.psw {
   float: right;
@@ -81,4 +83,8 @@ span.psw {
 	height: 100%;
 	display: flex;
 	align-items: center
+}
+form .admin {
+	display: block;
+	background: 1px solid red;
 }

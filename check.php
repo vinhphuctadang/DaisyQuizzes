@@ -1,22 +1,6 @@
 <?php
 	
-	function connect () {
-		$servername = "localhost";
-		$username = "root";
-		$password = "";
-		$database = "daisybeaver";
-		// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
-
-		// Check connection
-		if ($conn->connect_error) {
-			
-			exit(json_encode (formResp (false, "Connection failed: " . $conn->connect_error)));
-		}				
-		
-		$conn->set_charset ("utf8");
-		return $conn;
-	}
+	include 'database.php';
 	
 	function db_fetch_question ($conn, $round) {
 		$sql = "SELECT status, question_no FROM daisy_round_collection where round='$round'";
@@ -67,7 +51,7 @@
 	if (!array_key_exists ('player', $_POST)) 
 		die ("Không tìm thấy người chơi");
 	
-	$conn = connect ();
+	$conn = db_connect ();
 	$round = $_POST ['round'];
 	$token = $_POST ['token'];
 	//echo $player;
