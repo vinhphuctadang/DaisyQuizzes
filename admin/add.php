@@ -1,16 +1,13 @@
 <?php
-	include '../session_start.php';
-	if (!isset ($_SESSION['userid']))	{	
-		header('Location: ./login.php');
-		exit ();	
-	}
 	
 	
-	include '../database.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	include $str;
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $str;
 	
 	function add_collection ($conn, $userid, $collection){
 		$sql = "INSERT INTO daisy_collection (status, name, admin_id) VALUES (0, '$collection', $userid)";
-		echo $sql;
 		$conn->query ($sql);
 	}
 	$id = $_SESSION['userid'];
@@ -19,7 +16,7 @@
 		$collection = $_POST['collection'];
 		$conn = db_connect ();
 		add_collection ($conn, $id, $collection);
-		#header('Location: ./dashboard.php');
+		header('Location: ./dashboard.php');
 		$conn->close ();
 		exit ();
 	}

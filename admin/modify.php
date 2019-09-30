@@ -3,14 +3,8 @@
 	if (!checkLoggedIn ()){
 		header('Location: ./login.php');
 		exit ();	
-	}
-	
-	$userid = $_SESSION ['userid'];
-	$collection = $_GET ['k'];
-	
+	}	
 	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php');
-	
-
 	function db_fetch_questions ($conn, $collection) {
 		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_question WHERE collection_id = $collection";
 		$result = [];
@@ -21,13 +15,37 @@
 		return $result;
 	}
 	
-	$conn = db_connect ();
-	if (!db_authen ($conn, $userid, $collection)) {
+	function set_collection ($conn, $userid, $collection, $collection_name){
+		$sql = "UPDATE daisy_collection SET name='$collection_name' WHERE id=$collection and admin_id=$userid";
+		$conn->query ($sql);
+	}
+	$id = $_SESSION['userid'];
+	
+	// nên viết 1 hàm main () cho đơn giản
+	$userid = $_SESSION ['userid'];
+	$collection = $_GET ['k'];
+	$conn = db_connect ();	
+	$collection_name = db_authen ($conn, $userid, $collection);
+	
+	if ($collection_name == false) {
 		$conn->close ();
 		die ("Không tìm thấy bộ câu hỏi được yêu cầu");
 	}
+	
+	if (isset ($_POST ['collection_name'])) {
+		$collection_name = $_POST['collection_name'];
+		set_collection ($conn, $id, $collection, $collection_name);
+	}
 
 	$data = db_fetch_questions ($conn, $collection);
+	?>
+	<form action="modify.php?k=<?php echo $collection?>" method="post">
+		<input type="text" name="collection_name" value="<?php echo $collection_name?>">
+		<input type="submit" value="Đổi">
+	</form>
+	
+	<?php
+	echo '<a href="./dashboard.php">Trở lại trang chính</a><br>';
 	echo '<a href="./add_question.php?k='.$collection.'">Thêm</a><br>';
 	$cnt = 0;
 	

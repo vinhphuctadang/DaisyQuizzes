@@ -1,5 +1,7 @@
 <?php
-	include '../database.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	
+	include $str;
 	
 	function checkUserExists ($conn, $username, $password) {
 		$sql = "SELECT * FROM daisy_admin_login where username='$username' and password='".md5($password)."'";

@@ -42,7 +42,7 @@
 				while ($row = $result->fetch_assoc ()) {
 					$id = $row['id'];
 					$i++;
-					echo $i.". <a href='./modify.php?k=$id'>".$row['name']."</a> <a href='./delete.php?k=$id'> Xóa </a> <br>";
+					echo $i.". <a href='./modify.php?k=$id'>".$row['name']."</a> <a href='./delete.php?k=$id'> Xóa </a> <a href='./create_round.php?k=$id'>Tạo vòng chơi</a> <br>";
 				}
 			}
 			

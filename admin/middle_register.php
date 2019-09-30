@@ -1,5 +1,6 @@
 <?php
-	include '../database.php';
+	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php');
+	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php');
 	
 	function checkUserExists ($conn, $username) {
 		$sql = "SELECT * FROM daisy_admin_login where username='$username' LIMIT 1";
@@ -12,8 +13,15 @@
 	
 	function addUser ($conn, $username, $password) {
 		$sql = "INSERT INTO daisy_admin_login (username, password) VALUES ('$username', '".md5 ($password)."')";
-		echo $sql."<br>";
 		$result = $conn->query ($sql);
+		return $result;
+	}
+	
+	function findID ($conn, $username){
+		$sql = "SELECT id FROM daisy_admin_login WHERE username='$username'";
+		$result = $conn->query ($sql);
+		$result = $result->fetch_assoc ();
+		return $result ['id'];
 	}
 	
 	
@@ -25,7 +33,15 @@
 		die ("Password nhập lại không khớp");
 	if (checkUserExists ($conn, $username)) 
 		die ("Người dùng đã tồn tại");
-	addUser ($conn, $username, $password);
-	echo "Đăng ký thành công";
+	if (addUser ($conn, $username, $password) != TRUE) {
+		die ("Đăng ký không thành công, có thể tên đăng nhập đã tồn tại, <a href='./register.html'>Thử lại</a>");
+	}
+	
+	$_SESSION["username"] = $username;
+	$_SESSION["userid"] = findID ($conn, $username);
+	
+	echo "<p> Đăng ký thành công </p>";
+	echo "<a href='./dashboard.php'>Đi đến các bộ câu hỏi ngay</a>";	
+	$conn->close ();
 ?>
 	
