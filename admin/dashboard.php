@@ -35,6 +35,13 @@
 				$result = $conn->query ($sql);
 				return $result;
 			}
+			
+			function get_rounds ($conn, $userid){
+				$sql = "SELECT round, name FROM daisy_round_collection, daisy_collection WHERE collection = id and admin_id = $userid";
+				//echo $sql;
+				$result = $conn->query ($sql);
+				return $result;
+			}
 
 			function display ($result) { // vẽ kết qủa lên màn hình
 				echo "Các bộ bạn đã tạo (".$result->num_rows." bộ): <br>";
@@ -46,9 +53,13 @@
 				}
 			}
 			
+			
+			
 			$result = get_collections ($conn, $id);
 			display ($result);
-			echo "<a href='./add.php'> Thêm bộ câu hỏi mới </a>";
+			echo "<a href='./add.php'> Thêm bộ câu hỏi mới </a><br>";
+			echo "<p>Các vòng chơi đã tạo </p>";
+			
 			$conn->close ();
 		?>
 	</body>
