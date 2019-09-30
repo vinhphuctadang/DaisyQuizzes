@@ -1,6 +1,6 @@
 <?php
 	include 'database.php';
-	
+	$GLOBALS['apikey'] = 'daisy2610';
 	function checkExists ($conn, $player, $round) {		
 		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";
 		$result = $conn->query ($sql);
@@ -17,16 +17,14 @@
 		return false;
 	}
 	
-	function addPlayer ($conn, $player, $round) {
-		$apikey = 'daisy2610';		
-		$sql = "INSERT INTO daisy_player_round (name, round, score, token) VALUES ('$player', '$round', 0, '".md5 ($player.$apikey)."')";
-		#echo $sql;
+	function addPlayer ($conn, $player, $round) {	
+		$sql = "INSERT INTO daisy_player_round (name, round, score, token) VALUES ('$player', '$round', 0, '".md5 ($player.$GLOBALS['apikey'])."')";
 		$result = $conn->query ($sql);
 	}
 	
-	if (!array_key_exists ('round', $_POST)) 
+	if (!isset ($_POST['round'])) 
 		die ("Không tìm thấy vòng chơi");
-	if (!array_key_exists ('player', $_POST)) 
+	if (!isset ($_POST['player'])) 
 		die ("Không tìm thấy người chơi");
 	#echo json_encode ($_POST);
 	$conn = db_connect ();
@@ -38,12 +36,16 @@
 		exit ();
 	} else {
 		addPlayer ($conn, $player, $round);
+		include './session_start.php';
+		$_SESSION['round'] = $round;
+		$_SESSION['token'] = md5($player.$GLOBALS['apikey']);
+		header('Location: ./main.php');
 	}
 	
 	$conn->close ();
 ?>
 
-#<script> 
+<!-- #<script> 
 #    var url= "./main.php";
 #    window.location = url; 
-#</script> 
+#</script>  -->

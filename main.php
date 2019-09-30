@@ -1,3 +1,6 @@
+<?php
+	include './session_start.php';
+?>
 <html>
 	<head>
 		<title>Daisy Quizzes</title>
@@ -10,15 +13,14 @@
 			// $conn->close ();
 			/*if (!isset ($_POST ['player'])) {
 				die ("Không tồn tại người chơi, xóa nối kết");
-			}*/						
-			if (!array_key_exists ('round', $_POST)) 
+			}*/
+			if (!isset($_SESSION['round'])) 
 				die ("Không tìm thấy vòng chơi yêu cầu, có thể bạn cần đăng nhập lại");
-			if (!array_key_exists ('token', $_POST)) 
+			if (!isset($_SESSION['token'])) 
 				die ("Không tìm thấy người chơi");
 			
-			$token = $_POST ['token'];
-			$round = $_POST ['round'];
-			
+			$token = $_SESSION['token'];
+			$round = $_SESSION['round'];
 			#function checkPlayer ($conn, $round, $player) {
 			#	if (!in_array ('player', $_POST)) {
 			#		die ("Không tồn tại player, hãy về trang đăng nhập tại ./entry.php");

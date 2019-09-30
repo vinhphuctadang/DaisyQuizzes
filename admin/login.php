@@ -1,3 +1,6 @@
+<?php 
+	include '../session_start.php';
+?>
 <html>	
 	<head>
 		<title>Login</title>
@@ -6,8 +9,7 @@
 	</head>
 	
 	<body>
-		<?php 
-			session_start ();
+		<?php
 			if (isset ($_SESSION['userid'])) {
 				header('Location: ./dashboard.php');
 				exit ();

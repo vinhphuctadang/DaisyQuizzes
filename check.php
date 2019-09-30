@@ -1,5 +1,5 @@
 <?php
-	
+	include './session_start.php';
 	include 'database.php';
 	
 	function db_fetch_question ($conn, $round) {
@@ -7,9 +7,8 @@
 		$result = $conn->query ($sql);			
 		$assoc = $result->fetch_assoc ();
 		$status = $assoc ['status'];
-		
 		if ($status == 0)
-			die ("This round is now closed or not exists");
+			die ("Vòng này đã đóng hoặc không tồn tại!");
 		$question_no =  $assoc ['question_no'];	
 		$sql = "SELECT choice_a FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=".$question_no;
 		$result = $conn->query ($sql);
@@ -18,7 +17,7 @@
 	}
 	
 	function getScore ($conn, $round, $token) {
-		$sql = "SELECT score FROM daisy_player_round where round='$round' and name='$token'";
+		$sql = "SELECT score FROM daisy_player_round where round='$round' and token='$token'";
 		$result = $conn->query ($sql);
 		if ($result->num_rows == 0)
 			throw new Exception ("Failed:NoPlayer");
@@ -46,14 +45,14 @@
 		echo "Câu trả lời sai";
 	}
 	
-	if (!array_key_exists ('round', $_POST)) 
+	if (!isset ($_SESSION['round']))
 		die ("Không tìm thấy vòng chơi");
-	if (!array_key_exists ('player', $_POST)) 
+	if (!isset ($_SESSION['token'])) 
 		die ("Không tìm thấy người chơi");
 	
 	$conn = db_connect ();
-	$round = $_POST ['round'];
-	$token = $_POST ['token'];
+	$round = $_SESSION['round'];
+	$token = $_SESSION['token'];
 	//echo $player;
 	$answer = db_fetch_question ($conn, $round);
 	
