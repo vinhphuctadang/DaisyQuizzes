@@ -1,5 +1,11 @@
-<?php 
-	include '../session_start.php';
+<?php
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	include $str;
+	
+	if (!checkLoggedIn ())	{	
+		header('Location: ./login.php');
+		exit ();	
+	}
 ?>
 <html>	
 	<head>
@@ -11,10 +17,6 @@
 	<body>
 		
 		<?php
-			if (!isset ($_SESSION['userid']))	{	
-				header('Location: ./login.php');
-				exit ();	
-			}
 			$id = $_SESSION['userid'];
 			$username = $_SESSION['username'];
 		?>
@@ -23,7 +25,7 @@
 			<a href="logout.php"> <?php echo $username;?> Logout </a> 
 		</div>
 		<?php
-			include '../database.php'; // parent directory
+			include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
 			$conn = db_connect ();
 			// TODO: đang thiếu lấy ra từ database
 			
@@ -32,11 +34,9 @@
 				//echo $sql;
 				$result = $conn->query ($sql);
 				return $result;
-				
 			}
-			
+
 			function display ($result) { // vẽ kết qủa lên màn hình
-			
 				echo "Các bộ bạn đã tạo (".$result->num_rows." bộ): <br>";
 				$i = 0;
 				while ($row = $result->fetch_assoc ()) {

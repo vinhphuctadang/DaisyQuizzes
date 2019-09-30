@@ -1,5 +1,11 @@
 <?php 
-	include '../session_start.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	include $str;
+	
+	if (checkLoggedIn ()) {
+		header('Location: ./dashboard.php');
+		exit ();
+	}
 ?>
 <html>	
 	<head>
@@ -9,12 +15,6 @@
 	</head>
 	
 	<body>
-		<?php
-			if (isset ($_SESSION['userid'])) {
-				header('Location: ./dashboard.php');
-				exit ();
-			}
-		?>
 		<div id="wrapper">
 			
 			<form action="middle_login.php" method="post">				
