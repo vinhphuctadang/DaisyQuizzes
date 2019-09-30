@@ -34,14 +34,15 @@
 	foreach ($data as $each) {
 		$cnt++;
 		echo "<div class='question-pane'>";
-		echo $cnt.". ".$each['body']."<br>";
+		echo "<a href='delete_question.php?k=$collection&question=".$each['id']."'>Xóa</a>";
+		echo $cnt.". "."<a href='./modify_question.php?k=$collection&question=".$each['id']."'>Chỉnh sửa</a>".$each['body']."<br>";
 		echo 'A (đáp án): '.$each['choice_a']."<br>";
 		echo 'B: '.$each['choice_b']."<br>";
 		echo 'C: '.$each['choice_c']."<br>";
 		echo 'D: '.$each['choice_d']."<br>";
 		echo "</div>";
 	}
-	echo '<a href="./add_question.php?k="'.$collection.'">Thêm</a><br>';
+	echo '<a href="./add_question.php?k='.$collection.'">Thêm</a><br>';
 	?>
 	
 <?php

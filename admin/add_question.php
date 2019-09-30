@@ -9,7 +9,7 @@
 	}
 	
 	function addQuestion ($conn, $collection, $question) {
-		$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d) VALUES (".$question['body'].", ".$question['choice_a'].", ".$question['choice_b'].", ".$question['choice_c'].", ".$question['choice_d'].")";
+		$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id) VALUES ('".$question['body']."', '".$question['choice_a']."', '".$question['choice_b']."', '".$question['choice_c']."', '".$question['choice_d']."', $collection)";
 		$result = $conn->query ($sql);
 	}
 	
@@ -39,7 +39,12 @@
 			
 			if (isset ($_POST['body'])) {
 				addQuestion ($conn, $collection, $_POST);
+				$_SESSION['message'] = "Thêm câu hỏi thành công";
 				header("Location: ./add_question.php?k=$collection");
+			} else if (isset ($_SESSION ['message'])) {
+				?>
+				<p class="message"><?php echo $_SESSION['message']."<br>";?></p>
+				<?php $_SESSION['message'] = null;
 			}
 			
 			$conn->close ();
@@ -54,6 +59,11 @@
 				<input type="text" placeholder="D" name="choice_d" required><br>
 				<button type="submit">Thêm</button>    
 			  </div>
+			  
 		</form>
+		
+		<div class="redirect">
+			<a href="./modify.php?k=<?php echo $collection?>"> Quay lại chỉnh sửa </a>
+		</div>
 	</body>
 </html>
