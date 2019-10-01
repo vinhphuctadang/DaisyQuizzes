@@ -57,6 +57,6 @@
 		return formResp ($success, $result, $err);
 	}	
 	
-	$result = control ($_GET);
+	$result = control ($_POST);
 	echo json_encode ($result);
 ?>
