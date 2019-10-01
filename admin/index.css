@@ -1,0 +1,24 @@
+.question-pane{
+    border-radius:4px;
+    padding: 4px;
+    border: 1px solid gray;
+    margin: 8px auto;
+    box-shadow: 3px 3px 1px 1px gray;
+    position: relative;
+}
+.question-action-pane {
+    position: absolute;
+    right: 0%;
+    top: 25%;
+}
+
+.question-action-pane a{       
+    box-shadow: 1px 1px 1px 1px gray;
+    padding: 8px;
+    margin: auto 8px;    
+    float: right;
+    text-decoration: none;
+}	
+.heading-pane a{
+	margin: 16px;
+}

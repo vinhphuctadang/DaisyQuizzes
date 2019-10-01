@@ -1,12 +1,14 @@
 <?php
+	
 	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
 	include $str;
-	
 	
 	if (!checkLoggedIn ())	{	
 		header('Location: ./login.php');
 		exit ();	
 	}
+	
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
 	
 	function addQuestion ($conn, $collection, $question) {
 		$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id) VALUES ('".$question['body']."', '".$question['choice_a']."', '".$question['choice_b']."', '".$question['choice_c']."', '".$question['choice_d']."', $collection)";
@@ -22,14 +24,13 @@
 
 <html>	
 	<head>
-		<title>dashboard</title>
+		<title>Thêm câu hỏi</title>
 		<meta charset="utf-8">
-		<link href="./index.css" rel="stylesheet" type="text/css">
+		<link href="<?php echo assets ('css/admin/formstyle.css');?>" rel="stylesheet" type="text/css">
 	</head>
 	
 	<body>
 		<?php
-			include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
 			
 			$conn = db_connect ();
 			if (!db_authen ($conn, $userid, $collection)) {
@@ -50,7 +51,7 @@
 			$conn->close ();
 		?>
 		
-		<form action="add_question.php?k=<?php echo $collection?>" method="post">				
+		<form class="form-style-5" action="add_question.php?k=<?php echo $collection?>" method="post">				
 			  <div class="container">
 				<input type="text" placeholder="Nội dung" name="body" required><br>
 				<input type="text" placeholder="A (đáp án):" name="choice_a" required><br>
