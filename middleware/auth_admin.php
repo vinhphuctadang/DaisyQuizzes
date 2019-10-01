@@ -1,7 +1,5 @@
 <?php	
-	if (session_status() == PHP_SESSION_NONE) {
-		session_start (); // middleware 
-	}
+	include 'auth.php';
 
 	function checkLoggedIn () {
 		if (isset ($_SESSION['userid']))	{	

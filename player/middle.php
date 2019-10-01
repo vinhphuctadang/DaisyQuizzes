@@ -1,5 +1,5 @@
 <?php
-	include 'database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
 	$GLOBALS['apikey'] = 'daisy2610';
 	function checkExists ($conn, $player, $round) {		
 		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";

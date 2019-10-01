@@ -1,5 +1,6 @@
 <?php
-	include './session_start.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include serverpath ('middleware/auth.php');
 ?>
 <html>
 	<head>
@@ -9,7 +10,7 @@
 	
 	<body>		
 		<?php	
-			include 'database.php';
+			
 			// $conn->close ();
 			/*if (!isset ($_POST ['player'])) {
 				die ("Không tồn tại người chơi, xóa nối kết");
@@ -57,7 +58,7 @@
 						echo "<input type='submit' name='choice' value='".$question['choice_'.$c]."'>"."</input> <br>";
 					}					
 					echo "<input type='hidden' name='round' value='".$round."'>"."</input> <br>"; 
-					echo "<input type='hidden' name='token' value='".$token."'>"."</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy
+					echo "<input type='hidden' name='token' value='".$token."'>"."</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
 				echo "</form>";
 			}
 			

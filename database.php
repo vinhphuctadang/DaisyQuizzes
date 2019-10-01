@@ -1,5 +1,4 @@
 <?php
-	
 	function db_connect () {
 		$servername = "localhost";
 		$username = "root";
@@ -14,7 +13,7 @@
 		}				
 		
 		$conn->set_charset ("utf8");
-		return $conn;
+		return $conn;	
 	}
 	
 	function db_token ($string, $method) { // method sẽ được sử dụng sau
@@ -22,10 +21,15 @@
 		return md5 ($string.$apikey);
 	}
 	
+	function serverpath ($dir){
+		return $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/'.$dir;
+	}
+	
 	function path ($dir){
-		$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/'.$dir;
+		$str = '/DaisyQuizzes/'.$dir;
 		return $str;
 	}
+	
 	function assets ($dir) {
 		return path ('assets/'.$dir);
 	}

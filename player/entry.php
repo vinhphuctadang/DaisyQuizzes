@@ -1,6 +1,5 @@
 <?php
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
-	include $str;
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
 ?>
 
 <html>

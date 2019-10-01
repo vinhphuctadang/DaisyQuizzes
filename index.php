@@ -1,3 +1,7 @@
+<?php
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+?>
+
 <html>	
 	<head>
 		<title>Login</title>
@@ -13,7 +17,7 @@
 					<a href='./admin/login.php'> Tôi là người kiến tạo </a>			
 				</div>
 			  <div class="imgcontainer">
-				<img src="img_avatar2.png" alt="Avatar" class="avatar">
+				<img src="<?php echo assets ('img_avatar2.png')?>" alt="Avatar" class="avatar">
 			  </div>
 
 			  <div class="container">
