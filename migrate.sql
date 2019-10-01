@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `daisy_admin_login` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_admin_login: ~1 rows (approximately)
+-- Dumping data for table daisybeaver.daisy_admin_login: ~0 rows (approximately)
 /*!40000 ALTER TABLE `daisy_admin_login` DISABLE KEYS */;
 INSERT INTO `daisy_admin_login` (`id`, `username`, `password`, `created_at`) VALUES
 	(8, 'phuc', 'f899139df5e1059396431415e770c6dd', '2019-09-30 21:57:42');
@@ -89,6 +89,8 @@ CREATE TABLE IF NOT EXISTS `daisy_player_round` (
 
 -- Dumping data for table daisybeaver.daisy_player_round: ~0 rows (approximately)
 /*!40000 ALTER TABLE `daisy_player_round` DISABLE KEYS */;
+INSERT INTO `daisy_player_round` (`name`, `created_time`, `token`, `round`, `score`) VALUES
+	('DayLaToi', '2019-10-01 16:20:24', 'dcb6f5c5704af81ba2c4956a3c3a5403', 'love', 0);
 /*!40000 ALTER TABLE `daisy_player_round` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_question
@@ -140,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `daisy_round_collection` (
 -- Dumping data for table daisybeaver.daisy_round_collection: ~0 rows (approximately)
 /*!40000 ALTER TABLE `daisy_round_collection` DISABLE KEYS */;
 INSERT INTO `daisy_round_collection` (`collection`, `status`, `round`, `admin_id`, `question_no`, `access_token`) VALUES
-	(3, 0, 'love', 8, 0, 'has923$$uva_2931_2-2192');
+	(3, 1, 'love', 8, 0, 'bebda1483b8f2324d8ecd9d35b4c0e47');
 /*!40000 ALTER TABLE `daisy_round_collection` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_shuffle_content
@@ -158,15 +160,15 @@ CREATE TABLE IF NOT EXISTS `daisy_shuffle_content` (
 /*!40000 ALTER TABLE `daisy_shuffle_content` DISABLE KEYS */;
 INSERT INTO `daisy_shuffle_content` (`round`, `question_no`, `question_id`) VALUES
 	('love', 1, 20),
-	('love', 2, 12),
-	('love', 3, 11),
-	('love', 4, 14),
+	('love', 2, 13),
+	('love', 3, 18),
+	('love', 4, 16),
 	('love', 5, 17),
 	('love', 6, 19),
-	('love', 7, 18),
+	('love', 7, 14),
 	('love', 8, 15),
-	('love', 9, 13),
-	('love', 10, 16);
+	('love', 9, 11),
+	('love', 10, 12);
 /*!40000 ALTER TABLE `daisy_shuffle_content` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

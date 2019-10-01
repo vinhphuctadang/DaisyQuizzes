@@ -1,5 +1,7 @@
 <?php
 	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include serverpath ('middleware/auth.php');
+	
 	$GLOBALS['apikey'] = 'daisy2610';
 	function checkExists ($conn, $player, $round) {		
 		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";
@@ -32,11 +34,10 @@
 	$player = $_POST ['player'];
 	if (checkExists ($conn, $player, $round)) {
 		echo "Tên tài khoản \"$player\" với vòng chơi này đã tồn tại, hãy đổi tên<br>";
-		echo "Trở lại <a href='./index.html'>trang đầu</a>";
+		echo "Trở lại <a href='".path ('index.php')."'>trang đầu</a>";
 		exit ();
 	} else {
 		addPlayer ($conn, $player, $round);
-		include './session_start.php';
 		$_SESSION['round'] = $round;
 		$_SESSION['token'] = md5($player.$GLOBALS['apikey']);
 		header('Location: ./main.php');

@@ -1,6 +1,6 @@
 <?php
-	include './session_start.php';
-	include 'database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include serverpath ('middleware/auth.php');
 	
 	function db_fetch_question ($conn, $round) {
 		$sql = "SELECT status, question_no FROM daisy_round_collection where round='$round'";

@@ -11,6 +11,10 @@
 	<body>		
 		<?php	
 			
+			function onWaiting () {
+				echo "<p> Vòng chơi đang chờ đợi để bắt đầu, có thể bạn cần <a href='main.php'>tải lại trang</a></p>";
+			}
+			
 			// $conn->close ();
 			/*if (!isset ($_POST ['player'])) {
 				die ("Không tồn tại người chơi, xóa nối kết");
@@ -38,7 +42,10 @@
 				$status = $assoc ['status'];
 				
 				if ($status == 0)
-					die ("This round is now closed or not exists");
+					die ("Vòng chơi này đang đóng hoặc không tồn tại");
+				if ($status == 1) {
+					die (onWaiting ());
+				}
 				
 				$question_no =  $assoc ['question_no'];
 								
@@ -56,15 +63,17 @@
 					shuffle ($val);					
 					foreach ($val as $c) {
 						echo "<input type='submit' name='choice' value='".$question['choice_'.$c]."'>"."</input> <br>";
-					}					
+					}
+					echo "<input type='hidden' name='question' value=".$question['id'].">";
 					echo "<input type='hidden' name='round' value='".$round."'>"."</input> <br>"; 
 					echo "<input type='hidden' name='token' value='".$token."'>"."</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
+					
 				echo "</form>";
 			}
 			
 			$conn = db_connect ();
 			$question = db_fetch_question ($conn, $round);
-			display ($question, $round_code, $token);
+			display ($question, $round, $token);
 			$conn->close ();
 		?>
 	</body>
