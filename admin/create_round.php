@@ -1,11 +1,8 @@
-<?php
-	
-	
+<?php			
 	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
 	include $str;
 	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
 	include $str;
-	
 	
 	if (!checkLoggedIn ())	{	
 		header('Location: ./login.php');
@@ -26,7 +23,9 @@
 	}
 	
 	function generate ($conn, $userid, $round, $collection) {
-		$sql = "INSERT INTO daisy_round_collection (collection, status, round, admin_id, question_no) VALUES ($collection, 0, '$round', $userid, 0)";
+		
+		$token = db_token ($round, "");
+		$sql = "INSERT INTO daisy_round_collection (collection, status, round, admin_id, question_no, access_token) VALUES ($collection, 0, '$round', $userid, 0, '$token')";
 		echo $sql."<br>";
 		$result = $conn->query ($sql);
 		$sql = "DELETE FROM daisy_shuffle_content WHERE round='$round'";
@@ -38,7 +37,6 @@
 		foreach ($outp as $value) {
 			$cnt++;
 			$sql = "INSERT INTO daisy_shuffle_content (round, question_no, question_id) VALUES ('$round', $cnt, $value)";
-			echo $sql."<br>";
 			$conn->query ($sql);
 		}		
 	}
@@ -56,6 +54,9 @@
 	if (isset($_POST ['round'])) {
 		$round = $_POST['round'];
 		generate ($conn, $userid, $round, $collection);
+		$conn->close ();
+		header("Location: ./dashboard.php");
+		exit ();
 	}
 	$conn->close ();
 	?>
@@ -74,4 +75,4 @@
 			  </div>
 		</form>
 	</body>
-</html>
+</html>	

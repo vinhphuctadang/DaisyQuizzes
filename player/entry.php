@@ -1,3 +1,8 @@
+<?php
+	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $str;
+?>
+
 <html>
 	<head>
 		<title>Login</title>
@@ -9,7 +14,7 @@
 		<div id="wrapper">
 			<form action="middle.php" method="post">
 			  <div class="imgcontainer">
-				<img src="img_avatar2.png" alt="Avatar" class="avatar">
+				<img src="<?php echo assets ('img_avatar2.png')?>" alt="Avatar" class="avatar">
 			  </div>
 
 			  <div class="container">

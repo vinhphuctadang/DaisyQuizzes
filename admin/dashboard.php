@@ -37,8 +37,7 @@
 			}
 			
 			function get_rounds ($conn, $userid){
-				$sql = "SELECT round, name FROM daisy_round_collection, daisy_collection WHERE collection = id and admin_id = $userid";
-				//echo $sql;
+				$sql = "SELECT round, name FROM daisy_round_collection, daisy_collection WHERE collection = id and daisy_round_collection.admin_id = $userid";
 				$result = $conn->query ($sql);
 				return $result;
 			}
@@ -53,13 +52,22 @@
 				}
 			}
 			
-			
+			function display_round ($result) {
+				echo "<p>Các vòng chơi đã tạo (".$result->num_rows." vòng) </p>";
+				$i = 0;
+				while ($row = $result->fetch_assoc ()) {
+					$id   = $row ['round'];
+					$name = $row ['name'];
+					$i++;
+					echo "<p>$i. $id: $name <a href='delete_round.php?k=$id'>Xóa</a>, <a href='modify_round.php?k=$id'>Trạng thái</a></p>";
+				}
+			}
 			
 			$result = get_collections ($conn, $id);
 			display ($result);
 			echo "<a href='./add.php'> Thêm bộ câu hỏi mới </a><br>";
-			echo "<p>Các vòng chơi đã tạo </p>";
-			
+			$rounds = get_rounds ($conn, $id);
+			display_round ($rounds);
 			$conn->close ();
 		?>
 	</body>

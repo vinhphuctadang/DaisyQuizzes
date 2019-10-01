@@ -10,7 +10,6 @@
 
 		// Check connection
 		if ($conn->connect_error) {
-			
 			exit(json_encode (formResp (false, "Connection failed: " . $conn->connect_error)));
 		}				
 		
@@ -18,4 +17,16 @@
 		return $conn;
 	}
 	
+	function db_token ($string, $method) { // method sẽ được sử dụng sau
+		$apikey = 'daisy2610';
+		return md5 ($string.$apikey);
+	}
+	
+	function path ($dir){
+		$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/'.$dir;
+		return $str;
+	}
+	function assets ($dir) {
+		return path ('assets/'.$dir);
+	}
 ?>

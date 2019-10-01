@@ -13,16 +13,19 @@
 		
 	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
 	
-	function delete_collection ($conn, $userid, $collection) {
-		$sql = "DELETE FROM daisy_collection WHERE id = $collection";
-		$conn->query($sql);
+	function delete_round ($conn, $userid, $round) {
+		$sql = "DELETE FROM daisy_round_collection WHERE round = '$round' and admin_id=$userid";
+		$result = $conn->query($sql);
+		if ($result == FALSE)
+			return FALSE;
+		return TRUE;
 	}
 	
+	// TODO: (Nguy hiểm): Hãy kiểm tra round đó có phải do đúng admin này tạo hay không (bảo mật)
+	
 	$conn = db_connect ();
-	$collection = $_GET ['k'];
-	delete_collection ($conn, $id, $collection);
+	$round = $_GET ['k'];
+	delete_round ($conn, $id, $round);
 	$conn->close ();
 	header("Location: ./dashboard.php");
 ?>
-	
-	
