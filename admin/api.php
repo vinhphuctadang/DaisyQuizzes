@@ -13,8 +13,7 @@
 			$json['error'] = $error;
 		return $json;
 	}
-	function findLoggedPlayer ($conn, $token) {
-		
+	function findLoggedPlayer ($conn, $token) {		
 		$sql = "SELECT name, score FROM daisy_player_round, daisy_round_collection WHERE daisy_round_collection.round=daisy_player_round.round and access_token='$token' ORDER BY score DESC";
 		$result = $conn->query ($sql);
 		$list = [];
