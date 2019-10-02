@@ -29,6 +29,12 @@
 		</div>
 		<?php
 			
+			//Các trạng thái của một vòng chơi
+			$const_status = [
+				0=> 'Đóng',
+				1=> 'Mở và chờ đợi',
+				2=> 'Đang diễn ra'];
+				
 			$conn = db_connect ();
 			// TODO: đang thiếu lấy ra từ database
 			
@@ -43,7 +49,7 @@
 			}
 			
 			function get_rounds ($conn, $userid){
-				$sql = "SELECT round, name FROM daisy_round_collection, daisy_collection WHERE collection = id and daisy_round_collection.admin_id = $userid";
+				$sql = "SELECT round, name, daisy_round_collection.status FROM daisy_round_collection, daisy_collection WHERE collection = id and daisy_round_collection.admin_id = $userid";
 				$result = $conn->query ($sql);
 				return $result;
 			}
@@ -78,10 +84,9 @@
 				
 				echo "<td colspan=5><a class='action' href='./add.php'> Thêm bộ câu hỏi mới </a></td>";
 				echo "</table>";
-			
 			}
 			
-			function display_round ($result) {
+			function display_round ($result, $const_status) {
 				
 				echo "<p class='heading'>Các vòng chơi đã tạo (".$result->num_rows." vòng) </p>";
 				$i = 0;
@@ -99,13 +104,14 @@
 					while ($row = $result->fetch_assoc ()) {
 						$id   = $row ['round'];
 						$name = $row ['name'];
+						$status = $row['status'];
 						$i++;
 						
 						echo "<tr>";
 						echo "<td>$i</td>"
 							."<td>$id</td>"
-							."<td>$name</td>"
-							."<td><a href='modify_round.php?k=$id'>Trạng thái</a></td>"
+							."<td><a href='modify_round.php?k=$id'>$name</a></td>"
+							."<td>".$const_status[$status]."</td>"
 							."<td><a href='delete_round.php?k=$id'>Xóa</a></td>";	
 						echo "</tr>";
 					}
@@ -119,7 +125,7 @@
 			display ($result);
 			
 			$rounds = get_rounds ($conn, $id);
-			display_round ($rounds);
+			display_round ($rounds, $const_status);
 			$conn->close ();
 		?>
 		</div>
