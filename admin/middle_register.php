@@ -3,7 +3,7 @@
 	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php');
 	
 	function checkUserExists ($conn, $username) {
-		$sql = "SELECT * FROM daisy_admin_login where username='$username' LIMIT 1";
+		$sql = "SELECT * FROM daisy_admin where username='$username' LIMIT 1";
 		$result = $conn->query ($sql);
 		if ($result->num_rows == 0) {
 			return false;
@@ -12,13 +12,13 @@
 	}
 	
 	function addUser ($conn, $username, $password) {
-		$sql = "INSERT INTO daisy_admin_login (username, password) VALUES ('$username', '".md5 ($password)."')";
+		$sql = "INSERT INTO daisy_admin (username, password) VALUES ('$username', '".md5 ($password)."')";
 		$result = $conn->query ($sql);
 		return $result;
 	}
 	
 	function findID ($conn, $username){
-		$sql = "SELECT id FROM daisy_admin_login WHERE username='$username'";
+		$sql = "SELECT id FROM daisy_admin WHERE username='$username'";
 		$result = $conn->query ($sql);
 		$result = $result->fetch_assoc ();
 		return $result ['id'];
@@ -43,5 +43,3 @@
 	echo "<p> Đăng ký thành công </p>";
 	echo "<a href='./dashboard.php'>Đi đến các bộ câu hỏi ngay</a>";	
 	$conn->close ();
-?>
-	

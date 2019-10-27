@@ -16,8 +16,8 @@
 CREATE DATABASE IF NOT EXISTS `daisybeaver` /*!40100 DEFAULT CHARACTER SET utf16 */;
 USE `daisybeaver`;
 
--- Dumping structure for table daisybeaver.daisyscore
-CREATE TABLE IF NOT EXISTS `daisyscore` (
+-- Dumping structure for table daisybeaver.daisy_score
+CREATE TABLE IF NOT EXISTS `daisy_score` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'STT của record',
   `fbid` varchar(255) DEFAULT NULL COMMENT 'ID của người dùng facebook',
   `score` int(10) unsigned DEFAULT NULL COMMENT 'Điểm của người dùng facebook',
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `daisyscore` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisyscore: ~7 rows (approximately)
-/*!40000 ALTER TABLE `daisyscore` DISABLE KEYS */;
-INSERT INTO `daisyscore` (`id`, `fbid`, `score`, `created_at`) VALUES
+-- Dumping data for table daisybeaver.daisy_score: ~7 rows (approximately)
+/*!40000 ALTER TABLE `daisy_score` DISABLE KEYS */;
+INSERT INTO `daisy_score` (`id`, `fbid`, `score`, `created_at`) VALUES
 	(1, 'Phuc', 1000, '2019-09-22 14:56:23'),
 	(2, 'Phuc', 1000, '2019-09-22 14:57:32'),
 	(3, 'Phuc', 1000, '2019-09-22 15:00:21'),
@@ -35,10 +35,10 @@ INSERT INTO `daisyscore` (`id`, `fbid`, `score`, `created_at`) VALUES
 	(5, 'Phuc', 30000, '2019-09-23 10:45:59'),
 	(6, 'Phuc', 300000, '2019-09-23 12:08:13'),
 	(7, 'Phuc', 300000, '2019-09-23 12:23:24');
-/*!40000 ALTER TABLE `daisyscore` ENABLE KEYS */;
+/*!40000 ALTER TABLE `daisy_score` ENABLE KEYS */;
 
--- Dumping structure for table daisybeaver.daisy_admin_login
-CREATE TABLE IF NOT EXISTS `daisy_admin_login` (
+-- Dumping structure for table daisybeaver.daisy_admin
+CREATE TABLE IF NOT EXISTS `daisy_admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(24) DEFAULT NULL,
   `password` varchar(35) DEFAULT NULL,
@@ -46,12 +46,12 @@ CREATE TABLE IF NOT EXISTS `daisy_admin_login` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf16;
 
--- Dumping data for table daisybeaver.daisy_admin_login: ~1 rows (approximately)
-/*!40000 ALTER TABLE `daisy_admin_login` DISABLE KEYS */;
-INSERT INTO `daisy_admin_login` (`id`, `username`, `password`, `created_at`) VALUES
+-- Dumping data for table daisybeaver.daisy_admin: ~1 rows (approximately)
+/*!40000 ALTER TABLE `daisy_admin` DISABLE KEYS */;
+INSERT INTO `daisy_admin` (`id`, `username`, `password`, `created_at`) VALUES
 	(8, 'phuc', 'f899139df5e1059396431415e770c6dd', '2019-09-30 21:57:42'),
 	(9, 'maymay2610', 'f899139df5e1059396431415e770c6dd', '2019-10-01 16:27:07');
-/*!40000 ALTER TABLE `daisy_admin_login` ENABLE KEYS */;
+/*!40000 ALTER TABLE `daisy_admin` ENABLE KEYS */;
 
 -- Dumping structure for table daisybeaver.daisy_collection
 CREATE TABLE IF NOT EXISTS `daisy_collection` (
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `daisy_collection` (
   `description` text DEFAULT NULL COMMENT 'Mô tả về bộ câu hỏi',
   PRIMARY KEY (`id`),
   KEY `admin_id` (`admin_id`),
-  CONSTRAINT `FK_daisy_collection_daisy_admin_login` FOREIGN KEY (`admin_id`) REFERENCES `daisy_admin_login` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_daisy_collection_daisy_admin` FOREIGN KEY (`admin_id`) REFERENCES `daisy_admin` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf16 COMMENT='Bao gồm các bộ các questions';
 
 -- Dumping data for table daisybeaver.daisy_collection: ~4 rows (approximately)
@@ -131,7 +131,7 @@ INSERT INTO `daisy_question` (`id`, `body`, `choice_a`, `choice_b`, `choice_c`, 
 -- Dumping structure for table daisybeaver.daisy_round_collection
 CREATE TABLE IF NOT EXISTS `daisy_round_collection` (
   `collection` int(11) DEFAULT NULL COMMENT 'Bộ sưu tập vòng chơi',
-  `description` text DEFAULT 'Không có mô tả' COMMENT 'Mô tả của mỗi vòng chơi',
+  `description` varchar(255) DEFAULT 'Không có mô tả' COMMENT 'Mô tả của mỗi vòng chơi',
   `status` tinyint(4) DEFAULT NULL COMMENT 'Trạng thái vòng chơi 0: Chưa sẵn sàng, 1: Sẵn sàng nhận thành viên; 2 đang chơi',
   `round` varchar(6) DEFAULT NULL COMMENT 'Mã vòng chơi',
   `admin_id` int(11) DEFAULT NULL COMMENT 'Admin đã tạo ra vòng chơi này',
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `daisy_round_collection` (
   UNIQUE KEY `access_token` (`access_token`),
   KEY `collection` (`collection`),
   KEY `admin_id` (`admin_id`),
-  CONSTRAINT `FK_daisy_round_collection_daisy_admin_login` FOREIGN KEY (`admin_id`) REFERENCES `daisy_admin_login` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_daisy_round_collection_daisy_admin` FOREIGN KEY (`admin_id`) REFERENCES `daisy_admin` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_daisy_round_collection_daisy_collection` FOREIGN KEY (`collection`) REFERENCES `daisy_collection` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
