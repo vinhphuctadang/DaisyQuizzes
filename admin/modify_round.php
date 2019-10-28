@@ -68,8 +68,9 @@
 			<input type="submit" value="Thay đổi trạng thái">
 		</form>
 		<div class="container">
-		
-			<p id="change">10</p>
+			<p> Câu hỏi hiện tại: <p id="number">1</p></p>
+			<p id="time">10</p>
+			
 			<table border="1">
 				<tr>
 					<th>Số thứ tự</th>
@@ -91,6 +92,65 @@
 				?>
 			</table>
 		</div>
+		<script>
+			var timing = 5;
+			var x = null;
+			
+			function startInterval () {
+				render ();
+				x = setInterval ("onInterval()", 1000);
+			}
+			
+			function render () {
+				document.getElementById ("time").innerText = timing;
+			}
+			
+			function onInterval () {
+				timing -= 1;
+				render ();
+				if (timing == 0) {
+					
+					timing = 10;
+					increaseQuestionNumber (updateQuestionNumber);
+				}
+			}
+			
+			function increaseQuestionNumber (onDoneResp) {
+				httprqIQ = new XMLHttpRequest ();
+
+				httprqIQ.onreadystatechange = function () {
+					if (httprq.readyState == 4 && httprq.status == 200) {
+						onDoneResp (httprqIQ.responseText);
+					}
+				}
+				
+				httprqIQ.open ("GET", "api.php?method=change_question&token=<?php echo $token?>&change=1", true);
+				httprqIQ.send ();
+				//alert ("New question updated");
+			}
+			
+			function updateQuestionNumber (msg) {
+				
+				httprq = new XMLHttpRequest ();
+				httprq.onreadystatechange = function () {
+					if (httprq.readyState == 4 && httprq.status == 200) {
+						var txt = httprq.responseText;
+						var jsn = JSON.parse (txt);
+						document.getElementById ("number").innerText = jsn.result;
+					}
+				}
+				
+				httprq.open ("GET", "api.php?method=get_question_no&token=<?php echo $token?>", true);
+				httprq.send ();
+			}
+			
+			function stopInterval () {
+				clearInterval (x);
+			}
+			
+			startInterval ();
+			updateQuestionNumber ();
+		</script>
 	</body>
 </html>
 	

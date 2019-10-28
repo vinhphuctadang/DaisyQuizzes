@@ -38,6 +38,29 @@
 		return "";
 	}
 	
+	function setStatus ($conn, $round, $status) {
+		$sql = "UPDATE daisy_round_collection SET status=$status, question_no=1 WHERE round='$round'";
+		$conn->query ($sql);	
+	}
+	
+	function getStatus ($conn, $token) {
+		$sql = "SELECT status FROM daisy_round_collection WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		if ($result->num_rows == 0)
+			return -1;
+		$result = $result->fetch_assoc ();
+		return $result['status'];
+	}
+	
+	function getQuestionNumber ($conn, $token) {
+		$sql = "SELECT question_no FROM daisy_round_collection WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		if ($result->num_rows == 0)
+			return -1;
+		$result = $result->fetch_assoc ();
+		return $result['question_no'];
+	}
+	
 	function control ($request) {
 		$result = [];
 		if (!array_key_exists ('method', $request)) {
@@ -55,6 +78,22 @@
 				else 
 					$success = false;
 				break;
+			case "get_status":
+				$err = checkRequiredParam ($request, ['token']);				
+				if ($err === "")
+					$result = getStatus ($conn, $request['token']);				
+				else 
+					$success = false;
+				break;
+			
+			case "get_question_no":
+				$err = checkRequiredParam ($request, ['token']);		
+				if ($err === "")
+					$result = getQuestionNumber ($conn, $request['token']);				
+				else 
+					$success = false;
+				break;
+						
 			case "change_question": 
 				$err = checkRequiredParam ($request, ['token', 'change']);
 				if ($err === "")
@@ -62,6 +101,7 @@
 				else 
 					$success = false;				
 				break;
+			
 			default:
 				$err = "ERR_UNSUPPORTED_METHOD";
 				$success = false;

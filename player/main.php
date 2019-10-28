@@ -51,8 +51,9 @@
 		}
 
 		$question_no =  $assoc['question_no'];
-
+		// TODO: Here comes a bug
 		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=" . $question_no;
+		//echo $sql;
 		$result = $conn->query($sql);
 		$question = $result->fetch_assoc();
 		return $question;
@@ -80,6 +81,8 @@
 	display($question, $round, $token);
 	$conn->close();
 	?>
-</body>
-
+	</body>
+	<script>
+		reloadInterval = setInterval ("location.reload ()", 10000);
+	</script>
 </html>
