@@ -1,10 +1,10 @@
 <?php
-		include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php');
+		include($_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php');
 		if (!checkLoggedIn ()){
 			header('Location: ./login.php');
 			exit ();	
 		}	
-		include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php');
+		include($_SERVER['DOCUMENT_ROOT'].'/database.php');
 		function db_fetch_questions ($conn, $collection) {
 			$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_question WHERE collection_id = $collection";
 			$result = [];

@@ -1,5 +1,6 @@
 <?php
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php'; // parent directory
+	$str = $_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php';
 	include $str;
 	
 	
@@ -27,7 +28,7 @@
 	
 	$userid = $_SESSION ['userid'];
 	if (!isset ($_GET['k'])) 
-		exit ('Không tìm thấy bộ câu hỏi');
+		exit ('NOT FOUND');
 	
 	$collection = $_GET ['k'];
 	$question_id = $_GET['question'];
@@ -38,11 +39,12 @@
 		<title>dashboard</title>
 		<meta charset="utf-8">
 		<link href="./index.css" rel="stylesheet" type="text/css">
+		<link href="<?php echo assets('css/admin/formstyle.css');?>" rel="stylesheet" type="text/css">
 	</head>
 	
 	<body>
 		<?php
-			include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
+			
 			
 			$conn = db_connect ();
 			if (!db_authen ($conn, $userid, $collection)) {

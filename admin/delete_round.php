@@ -1,6 +1,6 @@
 <?php
 
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php';
 	include $str;
 	
 	if (!checkLoggedIn ())	{	
@@ -11,7 +11,7 @@
 	$id = $_SESSION['userid'];
 	$username = $_SESSION['username'];
 		
-	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php'; // parent directory
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php'; // parent directory
 	
 	function delete_round ($conn, $userid, $round) {
 		$sql = "DELETE FROM daisy_round_collection WHERE round = '$round' and admin_id=$userid";

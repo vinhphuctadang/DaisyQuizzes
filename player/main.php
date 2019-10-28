@@ -1,6 +1,6 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/database.php';
-include serverpath('middleware/auth.php');
+	include $_SERVER['DOCUMENT_ROOT'] . '/database.php';
+	include serverpath('middleware/auth.php');
 ?>
 <html>
 
@@ -63,6 +63,7 @@ include serverpath('middleware/auth.php');
 		echo "<h1>Câu hỏi</h1>";
 		echo "<p>" . $question['body'] . "</p>";
 		$val = ['a', 'b', 'c', 'd'];
+		
 		shuffle($val);
 		foreach ($val as $c) {
 			echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
@@ -70,12 +71,12 @@ include serverpath('middleware/auth.php');
 		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
 		echo "<input type='hidden' name='round' value='" . $round . "'>" . "</input> <br>";
 		echo "<input type='hidden' name='token' value='" . $token . "'>" . "</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
-
 		echo "</form>";
 	}
 
 	$conn = db_connect();
 	$question = db_fetch_question($conn, $round);
+	//echo $round;
 	display($question, $round, $token);
 	$conn->close();
 	?>

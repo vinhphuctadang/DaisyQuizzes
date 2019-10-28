@@ -1,6 +1,6 @@
 <?php
 
-$str = $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/middleware/auth_admin.php';
+$str = $_SERVER['DOCUMENT_ROOT'] . '/middleware/auth_admin.php';
 include $str;
 
 if (!checkLoggedIn()) {
@@ -8,7 +8,7 @@ if (!checkLoggedIn()) {
 	exit();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/database.php'; // parent directory
+include $_SERVER['DOCUMENT_ROOT'] . '/database.php'; // parent directory
 
 function addQuestion($conn, $collection, $question)
 {

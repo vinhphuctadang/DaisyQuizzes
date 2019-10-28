@@ -1,7 +1,7 @@
 <?php
-$str = $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/middleware/auth_admin.php';
+$str = $_SERVER['DOCUMENT_ROOT'] . '/middleware/auth_admin.php';
 include $str;
-$str = $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/database.php';
+$str = $_SERVER['DOCUMENT_ROOT'] . '/database.php';
 include $str;
 
 if (!checkLoggedIn()) {

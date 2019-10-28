@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php';
 
 	// Dành cho đội ngũ phát triển sử dụng
 	// sử dụng api để lấy dữ liệu từ vòng chơi (admin)
@@ -21,6 +21,13 @@
 			$list[] = $row;
 		}
 		return $list;
+	}
+	
+	function changeQuestion ($conn, $token, $increment) {
+		// TODO: Fix injection error here (IMPORTANT)
+		$sql = "UPDATE daisy_round_collection SET question_no=question_no+$increment WHERE access_token='$token'";
+		$conn->query ($sql);
+		return "success";
 	}
 	
 	function checkRequiredParam ($request, $params) {
@@ -48,6 +55,13 @@
 				else 
 					$success = false;
 				break;
+			case "change_question": 
+				$err = checkRequiredParam ($request, ['token', 'change']);
+				if ($err === "")
+					$result = changeQuestion ($conn, $request['token'], $request['change']);
+				else 
+					$success = false;				
+				break;
 			default:
 				$err = "ERR_UNSUPPORTED_METHOD";
 				$success = false;
@@ -57,6 +71,6 @@
 		return formResp ($success, $result, $err);
 	}	
 	
-	$result = control ($_POST);
+	$result = control ($_GET);
 	echo json_encode ($result);
 ?>

@@ -1,13 +1,13 @@
 <?php
 	
 	
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php';
 	include $str;
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/database.php';
 	include $str;
 	
 	function add_collection ($conn, $userid, $collection){
-		$sql = "INSERT INTO daisy_collection (status, name, admin_id) VALUES (0, '$collection', $userid)";
+		$sql = "INSERT INTO daisy_collection (name, admin_id) VALUES ('$collection', $userid)";
 		$conn->query ($sql);
 	}
 	$id = $_SESSION['userid'];

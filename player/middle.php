@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php';
 	include serverpath ('middleware/auth.php');
 	
 	$GLOBALS['apikey'] = 'daisy2610';

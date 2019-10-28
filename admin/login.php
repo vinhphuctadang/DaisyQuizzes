@@ -1,5 +1,5 @@
 <?php 
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php';
 	include $str;
 	
 	if (checkLoggedIn ()) {

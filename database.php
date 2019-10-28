@@ -22,11 +22,11 @@
 	}
 	
 	function serverpath ($dir){
-		return $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/'.$dir;
+		return $_SERVER['DOCUMENT_ROOT'].'/'.$dir;
 	}
 	
 	function path ($dir){
-		$str = '/DaisyQuizzes/'.$dir;
+		$str = '/'.$dir;
 		return $str;
 	}
 	

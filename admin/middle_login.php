@@ -1,15 +1,20 @@
 <?php
-$str = $_SERVER['DOCUMENT_ROOT'] . '/DaisyQuizzes/database.php';
+$str = $_SERVER['DOCUMENT_ROOT'].	'/database.php';
 
 include $str;
 
-function checkUserExists($conn, $username, $password)
-{
+function checkUserExists($conn, $username, $password) {
 	$sql = "SELECT * FROM daisy_admin where username='$username' and password='" . md5($password) . "'";
-	$result = $conn->query($sql);
+	//echo $sql;
+	$result = $conn->query($sql);	
+	if (!$result) {
+		return false;
+	}
+	
 	if ($result->num_rows == 0) {
 		return false;
 	}
+	
 	$result = $result->fetch_assoc();
 	return $result['id'];
 }
@@ -19,7 +24,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $id = checkUserExists($conn, $username, $password);
 if ($id == false)
-	echo "<p> Đăng nhập thất bại </p>";
+	echo "<p> Tên tài khoản hoặc mật khẩu không tồn tại, đăng nhập thất bại </p>";
 else {
 	session_start();
 	$_SESSION['userid'] = $id;

@@ -1,6 +1,7 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php');
-	include($_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php');
+
+	include($_SERVER['DOCUMENT_ROOT'].'/database.php');
+	include($_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php');
 	
 	function checkUserExists ($conn, $username) {
 		$sql = "SELECT * FROM daisy_admin where username='$username' LIMIT 1";
@@ -43,3 +44,5 @@
 	echo "<p> Đăng ký thành công </p>";
 	echo "<a href='./dashboard.php'>Đi đến các bộ câu hỏi ngay</a>";	
 	$conn->close ();
+	
+?>

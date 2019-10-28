@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php';
 	include serverpath ('middleware/auth.php');
 	
 	function db_fetch_question ($conn, $round) {

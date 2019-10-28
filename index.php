@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	include $_SERVER['DOCUMENT_ROOT'].'/database.php';
 ?>
 
 <html>	
@@ -10,7 +10,6 @@
 	</head>
 	
 	<body>
-		
 		<div id="wrapper">
 			<form action="player/entry.php" method="post">
 				<div class='admin'>

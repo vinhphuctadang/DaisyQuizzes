@@ -1,7 +1,7 @@
 <?php
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/middleware/auth_admin.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/middleware/auth_admin.php';
 	include $str;
-	$str = $_SERVER['DOCUMENT_ROOT'].'/DaisyQuizzes/database.php';
+	$str = $_SERVER['DOCUMENT_ROOT'].'/database.php';
 	include $str;
 	
 	if (!checkLoggedIn ())	{	
@@ -19,8 +19,8 @@
 	}
 	
 	function setStatus ($conn, $round, $status) {
-		$sql = "UPDATE daisy_round_collection SET status=$status WHERE round='$round'";
-		$conn->query ($sql);
+		$sql = "UPDATE daisy_round_collection SET status=$status, question_no=1 WHERE round='$round'";
+		$conn->query ($sql);	
 	}
 	
 	function findLoggedPlayer ($conn, $round) {
@@ -68,6 +68,8 @@
 			<input type="submit" value="Thay đổi trạng thái">
 		</form>
 		<div class="container">
+		
+			<p id="change">10</p>
 			<table border="1">
 				<tr>
 					<th>Số thứ tự</th>
