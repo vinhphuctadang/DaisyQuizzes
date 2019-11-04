@@ -11,23 +11,38 @@
 	<head>
 		<title>Login</title>
 		<meta charset="utf-8">
-		<link href="./index.css" rel="stylesheet" type="text/css">
+		
+
+		<!-- <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		 -->
+		<link href="./general.css" rel="stylesheet">
+		<!-- <style>
+			@import "@material/notched-outline/mdc-notched-outline";
+		</style>
+		 -->
 	</head>
 	
 	<body>
 		<div id="wrapper">
-			
-			<form action="middle_login.php" method="post">				
-			  <div class="container">
+			<form class="center-card" action="middle_login.php" method="post">				
+
 				<input type="text" placeholder="Tên đăng nhập" name="username" required><br>
 				<input type="password" placeholder="Mật khẩu" name="password" required><br>
-				<button type="submit">TIẾP TỤC</button>    
-			  </div>
+				<button class="btn" type="submit">TIẾP TỤC</button>  
+				<p> Chưa có tài khoản? <a href="./register.html">Đăng ký </a> </p>
+
 			</form>
+			
 		</div>
 		
-		<div id="register">
-			<p> Chưa có tài khoản? <a href="./register.html">Đăng ký </a> </p>
-		</div>
+		
+		<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+		<script>
+			import {MDCNotchedOutline} from '@material/notched-outline';
+			const notchedOutline = new MDCNotchedOutline(document.querySelector('.mdc-text-field mdc-text-field--outlined'));
+			
+		</script>
 	</body>
+	
 </html>

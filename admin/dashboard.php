@@ -7,9 +7,8 @@
 		header('Location: ./login.php');
 		exit ();	
 	}
-	
-	
 ?>
+
 <html>	
 	<head>
 		<title>Quản lí câu hỏi</title>
@@ -50,7 +49,7 @@
 			}
 			
 			function get_rounds ($conn, $userid){
-				$sql = "SELECT round, name, daisy_round_collection.status FROM daisy_round_collection, daisy_collection WHERE collection = id and daisy_round_collection.admin_id = $userid";
+				$sql = "SELECT round, name, daisy_round.status FROM daisy_round, daisy_collection WHERE collection = id and daisy_round.admin_id = $userid";
 				$result = $conn->query ($sql);
 				return $result;
 			}

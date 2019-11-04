@@ -39,7 +39,7 @@
 
 	function db_fetch_question($conn, $round)
 	{
-		$sql = "SELECT status, question_no FROM daisy_round_collection where round='$round'";
+		$sql = "SELECT status, question_no FROM daisy_round where round='$round'";
 		$result = $conn->query($sql);
 		$assoc = $result->fetch_assoc();
 		$status = $assoc['status'];
@@ -72,6 +72,7 @@
 		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
 		echo "<input type='hidden' name='round' value='" . $round . "'>" . "</input> <br>";
 		echo "<input type='hidden' name='token' value='" . $token . "'>" . "</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
+
 		echo "</form>";
 	}
 
@@ -82,7 +83,5 @@
 	$conn->close();
 	?>
 	</body>
-	<script>
-		reloadInterval = setInterval ("location.reload ()", 10000);
-	</script>
+	
 </html>

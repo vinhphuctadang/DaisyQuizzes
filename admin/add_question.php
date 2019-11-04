@@ -11,8 +11,10 @@ if (!checkLoggedIn()) {
 include $_SERVER['DOCUMENT_ROOT'] . '/database.php'; // parent directory
 
 function addQuestion($conn, $collection, $question)
-{
-	$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id) VALUES ('" . $question['body'] . "', '" . $question['choice_a'] . "', '" . $question['choice_b'] . "', '" . $question['choice_c'] . "', '" . $question['choice_d'] . "', $collection)";
+{	
+	$explain = $question['explain'];
+	$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id, explaination) ".
+		"VALUES ('" . $question['body'] . "', '" . $question['choice_a'] . "', '" . $question['choice_b'] . "', '" . $question['choice_c'] . "', '" . $question['choice_d'] . "', $collection, '$explain')";	
 	$result = $conn->query($sql);
 }
 
@@ -31,9 +33,8 @@ if (!db_authen($conn, $userid, $collection)) {
 if (isset($_POST['body'])) {
 	addQuestion($conn, $collection, $_POST);
 	$_SESSION['message'] = "Thêm câu hỏi thành công";
-	header("Location: ./add_question.php?k=$collection");
+	//header("Location: ./add_question.php?k=$collection");
 }
-$_SESSION['message'] = null;
 
 $conn->close();
 ?>
@@ -48,7 +49,6 @@ $conn->close();
 
 <body>
 	<?php
-
 	$conn = db_connect();
 	if (!db_authen($conn, $userid, $collection)) {
 		$conn->close();
@@ -57,18 +57,19 @@ $conn->close();
 
 	if (isset($_SESSION['message'])) {
 		?>
-		<p class="message"><?php echo $_SESSION['message'] . "<br>"; ?></p>
+		<p class="message"><?php echo $_SESSION['message']; $_SESSION['message'] = null;?></p>
 	<?php
 	}
 	?>
 
 	<form class="form-style-5" action="add_question.php?k=<?php echo $collection ?>" method="post">
 		<div class="container">
-			<input type="text" placeholder="Nội dung" name="body" required><br>
-			<input type="text" placeholder="A (đáp án):" name="choice_a" required><br>
-			<input type="text" placeholder="B" name="choice_b" required><br>
-			<input type="text" placeholder="C" name="choice_c" required><br>
-			<input type="text" placeholder="D" name="choice_d" required><br>
+			<textarea placeholder="Nội dung" name="body" required></textarea><br>
+			<textarea type="text" placeholder="A (đáp án):" name="choice_a" required></textarea><br>
+			<textarea type="text" placeholder="B" name="choice_b" required></textarea><br>
+			<textarea type="text" placeholder="C" name="choice_c" required></textarea><br>
+			<textarea type="text" placeholder="D" name="choice_d" required></textarea><br>
+			<textarea type="text" placeholder="Giải thích cho câu trả lời" name="explain"></textarea><br>
 			<button type="submit">Thêm</button>
 		</div>
 

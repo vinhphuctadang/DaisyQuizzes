@@ -10,7 +10,7 @@
 	}
 	
 	function getStatus ($conn, $round) {
-		$sql = "SELECT status, access_token FROM daisy_round_collection WHERE round='$round'";
+		$sql = "SELECT status, access_token FROM daisy_round WHERE round='$round'";
 		$result = $conn->query ($sql);
 		if ($result->num_rows == 0)
 			return -1;
@@ -59,7 +59,7 @@
 	
 	<body>
 		<p> <a href="dashboard.php">Quay lại trang chính </a></p>
-		<p>Trạng thái: <?php echo $status;?></p>
+		<p>Trạng thái: <p id="status"><?php echo $status;?></p></p>
 		<p>Mã truy cập cho nhà phát triển: <i> <?php echo $token;?> </i></p>
 		<form action="modify_round.php?k=<?php echo $round;?>" method="post">
 			<input type="radio" name="change" value="0" <?php echo ($status==0?'checked':'');?>> Đóng <br>			
@@ -93,7 +93,7 @@
 			</table>
 		</div>
 		<script>
-			var timing = 5;
+			var timing = 10;
 			var x = null;
 			
 			function startInterval () {
@@ -122,9 +122,8 @@
 					if (httprq.readyState == 4 && httprq.status == 200) {
 						onDoneResp (httprqIQ.responseText);
 					}
-				}
-				
-				httprqIQ.open ("GET", "api.php?method=change_question&token=<?php echo $token?>&change=1", true);
+				}				
+				httprqIQ.open ("GET", "api.php?method=change_question&token=<?php echo $token?>&change=1&nextupdate=10", true);
 				httprqIQ.send ();
 				//alert ("New question updated");
 			}
@@ -148,8 +147,12 @@
 				clearInterval (x);
 			}
 			
-			startInterval ();
-			updateQuestionNumber ();
+			var status = document.getElementById ("status").innerText;
+			if (status == '2') {
+				startInterval ();
+				updateQuestionNumber ();
+			}
+
 		</script>
 	</body>
 </html>

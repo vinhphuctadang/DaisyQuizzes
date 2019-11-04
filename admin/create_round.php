@@ -27,7 +27,7 @@ function generate($conn, $userid, $round, $collection)
 {
 
 	$token = db_token($round, "");
-	$sql = "INSERT INTO daisy_round_collection (collection, status, round, admin_id, question_no, access_token) VALUES ($collection, 0, '$round', $userid, 0, '$token')";
+	$sql = "INSERT INTO daisy_round (collection, status, round, admin_id, question_no, access_token) VALUES ($collection, 0, '$round', $userid, 0, '$token')";
 	// echo $sql."<br>";
 	$result = $conn->query($sql);
 	$sql = "DELETE FROM daisy_shuffle_content WHERE round='$round'";
