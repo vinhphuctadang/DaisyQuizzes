@@ -14,7 +14,7 @@
 	include $_SERVER['DOCUMENT_ROOT'].'/database.php'; // parent directory
 	
 	function delete_round ($conn, $userid, $round) {
-		$sql = "DELETE FROM daisy_round_collection WHERE round = '$round' and admin_id=$userid";
+		$sql = "DELETE FROM daisy_round WHERE round = '$round' and admin_id=$userid";
 		$result = $conn->query($sql);
 		if ($result == FALSE)
 			return FALSE;
