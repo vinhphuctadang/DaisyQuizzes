@@ -4,7 +4,7 @@
 	
 	$GLOBALS['apikey'] = 'daisy2610';
 	function checkExists ($conn, $player, $round) {		
-		$sql = "SELECT status FROM daisy_round_collection WHERE round='$round'";
+		$sql = "SELECT status FROM daisy_round WHERE round='$round'";
 		$result = $conn->query ($sql);
 		if ($result->num_rows == 0)
 			die ("Không tìm thấy vòng chơi yêu cầu, có thể nó đã bị xóa khỏi CSDL");

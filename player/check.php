@@ -3,7 +3,7 @@
 	include serverpath ('middleware/auth.php');
 	
 	function db_fetch_question ($conn, $round) {
-		$sql = "SELECT status, question_no FROM daisy_round_collection where round='$round'";
+		$sql = "SELECT status, question_no FROM daisy_round where round='$round'";
 		$result = $conn->query ($sql);			
 		$assoc = $result->fetch_assoc ();
 		$status = $assoc ['status'];
