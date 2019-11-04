@@ -19,7 +19,7 @@
 	}
 	
 	function setStatus ($conn, $round, $status) {
-		$sql = "UPDATE daisy_round_collection SET status=$status, question_no=1 WHERE round='$round'";
+		$sql = "UPDATE daisy_round SET status=$status, question_no=1 WHERE round='$round'";
 		$conn->query ($sql);	
 	}
 	
