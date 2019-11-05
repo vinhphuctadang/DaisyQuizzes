@@ -1,20 +1,23 @@
 <?php
-
-$str = $_SERVER['DOCUMENT_ROOT'] . '/middleware/auth_admin.php';
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+$str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
 
 if (!checkLoggedIn()) {
-	header('Location: ./login.php');
+	header('Location: ./login');
 	exit();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/database.php'; // parent directory
+include $DOCUMENT_ROOT . '/database.php'; // parent directory
 
 function addQuestion($conn, $collection, $question)
-{	
+{
 	$explain = $question['explain'];
-	$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id, explaination) ".
-		"VALUES ('" . $question['body'] . "', '" . $question['choice_a'] . "', '" . $question['choice_b'] . "', '" . $question['choice_c'] . "', '" . $question['choice_d'] . "', $collection, '$explain')";	
+	$sql = "INSERT INTO daisy_question (body, choice_a, choice_b, choice_c, choice_d, collection_id, explaination) " .
+		"VALUES ('" . $question['body'] . "', '" . $question['choice_a'] . "', '" . $question['choice_b'] . "', '" . $question['choice_c'] . "', '" . $question['choice_d'] . "', $collection, '$explain')";
 	$result = $conn->query($sql);
 }
 
@@ -57,7 +60,8 @@ $conn->close();
 
 	if (isset($_SESSION['message'])) {
 		?>
-		<p class="message"><?php echo $_SESSION['message']; $_SESSION['message'] = null;?></p>
+		<p class="message"><?php echo $_SESSION['message'];
+								$_SESSION['message'] = null; ?></p>
 	<?php
 	}
 	?>

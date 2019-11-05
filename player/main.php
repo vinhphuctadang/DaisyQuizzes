@@ -1,6 +1,10 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/database.php';
-	include serverpath('middleware/auth.php');
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+include $DOCUMENT_ROOT . '/database.php';
+include serverpath('middleware/auth.php');
 ?>
 <html>
 
@@ -64,7 +68,7 @@
 		echo "<h1>Câu hỏi</h1>";
 		echo "<p>" . $question['body'] . "</p>";
 		$val = ['a', 'b', 'c', 'd'];
-		
+
 		shuffle($val);
 		foreach ($val as $c) {
 			echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
@@ -82,6 +86,6 @@
 	display($question, $round, $token);
 	$conn->close();
 	?>
-	</body>
-	
+</body>
+
 </html>

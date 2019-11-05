@@ -5,5 +5,4 @@
 	// Destroying session
 	session_destroy();
 	
-	header("Location: ./login.php"); /* Redirect browser */
-?>
+	header("Location: ./login"); /* Redirect browser */

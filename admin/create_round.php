@@ -1,11 +1,15 @@
 <?php
-$str = $_SERVER['DOCUMENT_ROOT'] . '/middleware/auth_admin.php';
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+$str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
-$str = $_SERVER['DOCUMENT_ROOT'] . '/database.php';
+$str = $DOCUMENT_ROOT . '/database.php';
 include $str;
 
 if (!checkLoggedIn()) {
-	header('Location: ./login.php');
+	header('Location: ./login');
 	exit();
 }
 
