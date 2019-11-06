@@ -58,6 +58,7 @@
 		$question = $result->fetch_assoc();
 		return $question;
 	}
+
 	function display($question, $round, $token)
 	{
 		echo "<form action='check.php' method='post'>";
@@ -76,12 +77,31 @@
 		echo "</form>";
 	}
 
-	$conn = db_connect();
-	$question = db_fetch_question($conn, $round);
-	//echo $round;
-	display($question, $round, $token);
-	$conn->close();
+	// $conn = db_connect();
+	// $question = db_fetch_question($conn, $round);
+	// display($question, $round, $token);
+	// $conn->close();
 	?>
+	<form action='check.php' method='post'>
+		
+	</form>
+
 	</body>
+
+	<script>
+		// viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
+		function render (question) {
+
+		}
+
+		function requestNext () {
+
+		}
+
+		function onInterval () {
+
+			requestNext ();
+		}
+	</script>
 	
 </html>
