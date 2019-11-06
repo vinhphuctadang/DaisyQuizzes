@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+}
+#wrapper {
+    display: flex;
+    padding-top: 80px;
+    flex-direction: column;
+    width: 60%;
+    justify-content: center;
+    margin: 0 auto;
+}
+.mdc-dialog__surface {
+    width: 380px;
+}
+.mdc-text-field {
+    width: 100%;
+}
+.mdc-top-app-bar, .mdc-fab, .mdc-snackbar__surface{
+    background-color: #4CAF50;
+}
+.mdc-fab--extended, .mdc-fab--extended:hover {
+    background-color: #4CAF50;
+    box-shadow: none;
+}
+.app-fab--absolute {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  @media(min-width: 1024px) {
+     .app-fab--absolute {
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+table td a {
+    text-decoration: none;
+}
+table td a:hover {
+    text-decoration: underline;
+}
+
+#my-dialog-title {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+#mdc-dialog-title {
+    margin-left: 8px;
+}

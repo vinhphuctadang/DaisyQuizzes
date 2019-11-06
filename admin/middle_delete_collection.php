@@ -27,4 +27,5 @@ $conn = db_connect();
 $collection = $_GET['k'];
 delete_collection($conn, $id, $collection);
 $conn->close();
+$_SESSION['flash_alert'] = "Xoá bộ câu hỏi thành công!";
 header("Location: ./dashboard.php");

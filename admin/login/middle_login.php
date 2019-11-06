@@ -34,6 +34,7 @@ else {
 	session_start();
 	$_SESSION['userid'] = $id;
 	$_SESSION['username'] = $username;
+	$_SESSION['flash_username'] = "Xin chào, " . $username . "!";
 	header('Location: ../dashboard.php');
 }
 ?>

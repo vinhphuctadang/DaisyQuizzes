@@ -31,4 +31,5 @@ $conn = db_connect();
 $round = $_GET['k'];
 delete_round($conn, $id, $round);
 $conn->close();
+$_SESSION['flash_alert'] = "Xoá vòng chơi thành công!";
 header("Location: ./dashboard.php");
