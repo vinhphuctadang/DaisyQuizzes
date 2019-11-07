@@ -29,5 +29,5 @@ $question_id = $_GET['question'];
 $conn = db_connect();
 deleteQuestion($conn, $collection, $question_id);
 $conn->close();
-
-header("Location: ./modify.php?k=$collection");
+$_SESSION['flash_alert'] = " Xoá câu hỏi thành công!";
+header("Location: ./index.php?k=$collection");

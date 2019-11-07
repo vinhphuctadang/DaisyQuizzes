@@ -60,3 +60,27 @@ table td a:hover {
 #mdc-dialog-title {
     margin-left: 8px;
 }
+.mdc-card {
+    margin-bottom: 8px;
+}
+.mdc-card__actions .mdc-fab {
+    background-color: transparent;
+    color: black;
+    font-size: 10px;
+}
+.mdc-card__actions .material-icons {
+    font-size: 14px;
+    margin-right: 0;
+}
+.mdc-fab-edit {
+    color: #3498db !important;
+}
+.mdc-fab-delete {
+    color: #e74c3c !important;
+}
+.mdc-card__content {
+    padding: 0 24px;
+}
+.mdc-typography--headline6 {
+    margin: 4px 0;
+}

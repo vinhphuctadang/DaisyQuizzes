@@ -80,7 +80,7 @@ $conn->close();
 	</form>
 
 	<div class="redirect">
-		<a href="./modify.php?k=<?php echo $collection ?>"> Quay lại chỉnh sửa </a>
+		<a href="./index.php?k=<?php echo $collection ?>"> Quay lại chỉnh sửa </a>
 	</div>
 </body>
 
