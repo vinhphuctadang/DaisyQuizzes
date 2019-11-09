@@ -41,7 +41,7 @@ if ($collection_name == false) {
 if (isset($_POST['collection_name'])) {
 	$collection_name = $_POST['collection_name'];
 	set_collection($conn, $id, $collection, $collection_name);
-	$_SESSION['flash_alert'] = " Cập nhật tên bộ câu hỏi thành công!";
+	$_SESSION['flash_alert'] = "Cập nhật tên bộ câu hỏi thành công!";
 	header('Location: index.php?k=' . $collection);
 	$conn->close();
 }

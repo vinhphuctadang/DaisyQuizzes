@@ -1,3 +1,9 @@
+:root {
+    --mdc-theme-primary: #6EC1C4 !important;
+  }
+  .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: #6EC1C4;
+  }
 body {
     margin: 0;
 }
@@ -52,12 +58,10 @@ table td a:hover {
     text-decoration: underline;
 }
 
-#my-dialog-title {
+#my-dialog-title, #my-dialog-title-question {
     display: flex;
     align-items: center;
     margin-top: 8px;
-}
-#mdc-dialog-title {
     margin-left: 8px;
 }
 .mdc-card {
@@ -73,7 +77,7 @@ table td a:hover {
     margin-right: 0;
 }
 .mdc-fab-edit {
-    color: #3498db !important;
+    color: #6EC1C4 !important;
 }
 .mdc-fab-delete {
     color: #e74c3c !important;
@@ -84,3 +88,136 @@ table td a:hover {
 .mdc-typography--headline6 {
     margin: 4px 0;
 }
+#content {
+    overflow-y: scroll;
+    height: calc(100vh - 180px);
+    padding: 8px;
+}
+textarea::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+textarea::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 10px;
+}
+
+#content::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+#content::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 10px;
+}
+#tQuestion {
+    width: 100%;
+    margin: 8px 0;
+}
+#tQuestion .mdc-text-field {
+    margin-top: 4px;
+}
+#mdc-dialog-question .mdc-dialog__surface {
+    width: 120%;
+}
+.mdc-textfield__label--float-above-fixed {
+    transform: translateY(-100%) scale(0.75, 0.75);
+    cursor: auto;
+  }
+#radio-status {
+    display: flex;
+    flex-direction: column;
+    margin: 0 24px;
+}
+label {
+    cursor: pointer;
+}
+.mdc-data-table {
+    width: 100%;
+}
+.mdc-data-table::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+.mdc-data-table::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 10px;
+}
+#time {
+    text-align: center;
+    font-size: 60px;
+    margin: 0;
+    font-family: fantasy;
+    color: dimgrey;
+}
+#fStatus {
+    margin: 0;
+    text-align: center;
+}
+#btnStatus {
+    margin: 16px 0;
+    width: max-content;
+}
+#status-container {
+    display: flex;
+    justify-content: center;
+}
+fieldset {
+    width: fit-content;
+}
+legend {
+    margin: 0 auto;
+}
+#token {
+    display: flex;
+    justify-content: center;
+}
+#token input {
+    font-size: 13px;
+    outline: none;
+    width: 260px;
+    border: none;
+    font-family: monospace;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    font-size: 14px;
+    visibility: hidden;
+    width: 50px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 14px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -40px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  .btn-copy {
+      cursor: pointer;
+      font-size: 18px;
+  }

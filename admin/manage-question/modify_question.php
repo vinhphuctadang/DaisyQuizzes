@@ -7,9 +7,15 @@ include $DOCUMENT_ROOT . '/database.php'; // parent directory
 $str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
 
+$userid = $_SESSION['userid'];
+if (!isset($_GET['k']))
+	exit('NOT FOUND');
+
+$collection = $_GET['k'];
+$question_id = $_GET['question'];
 
 if (!checkLoggedIn()) {
-	header('Location: ./login');
+	header('Location: ../login');
 	exit();
 }
 
@@ -21,69 +27,26 @@ function db_fetch_question($conn, $collection, $question)
 	return $row;
 }
 
-function modifyQuestion($conn, $collection, $question)
+function modifyQuestion($conn, $question_id, $question)
 {
 	$sql = "UPDATE daisy_question SET " .
 		"body='" . $question['body'] . "', " .
 		"choice_a='" . $question['choice_a'] . "', " .
 		"choice_b='" . $question['choice_b'] . "', " .
 		"choice_c='" . $question['choice_c'] . "', " .
-		"choice_d='" . $question['choice_d'] . "' WHERE id=" . $question['id'];
+		"choice_d='" . $question['choice_d'] . "', " .
+		"explaination='" . $question['explain'] . "' WHERE id=" . $question_id;
 	$result = $conn->query($sql);
 }
 
-$userid = $_SESSION['userid'];
-if (!isset($_GET['k']))
-	exit('NOT FOUND');
-
-$collection = $_GET['k'];
-$question_id = $_GET['question'];
-?>
-
-<html>
-
-<head>
-	<title>dashboard</title>
-	<meta charset="utf-8">
-	<link href="./index.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo assets('css/admin/formstyle.css'); ?>" rel="stylesheet" type="text/css">
-</head>
-
-<body>
-	<?php
-
-
-	$conn = db_connect();
-	if (!db_authen($conn, $userid, $collection)) {
-		$conn->close();
-		die("Không tìm thấy bộ câu hỏi được yêu cầu"); // hãy thay thế bằng một gateway nào đó
-	}
-
-	if (isset($_POST['body'])) {
-		modifyQuestion($conn, $collection, $_POST);
-		header("Location: ./modify.php?k=$collection");
-	}
-
-	$question = db_fetch_question($conn, $collection, $question_id);
+$conn = db_connect();
+if (!db_authen($conn, $userid, $collection)) {
 	$conn->close();
-	?>
+	die("Không tìm thấy bộ câu hỏi được yêu cầu"); // hãy thay thế bằng một gateway nào đó
+}
 
-	<form action="modify_question.php?k=<?php echo $collection ?>&question=<?php echo $question_id ?>" method="post">
-		<div class="container">
-
-			<input type="text" placeholder="Nội dung" name="body" value="<?php echo $question['body'] ?>" required><br>
-			<input type="text" placeholder="A (đáp án):" name="choice_a" value="<?php echo $question['choice_a'] ?>" required><br>
-			<input type="text" placeholder="B:" name="choice_b" value="<?php echo $question['choice_b'] ?>" required><br>
-			<input type="text" placeholder="C:" name="choice_c" value="<?php echo $question['choice_c'] ?>" required><br>
-			<input type="text" placeholder="D:" name="choice_d" value="<?php echo $question['choice_d'] ?>" required><br>
-			<input type="hidden" name="id" value=<?php echo $question['id'] ?>>
-			<button type="submit">Cập nhật</button>
-		</div>
-	</form>
-
-	<div class="redirect">
-		<a href="./modify.php?k=<?php echo $collection ?>"> Quay lại xem các câu hỏi </a>
-	</div>
-</body>
-
-</html>
+if (isset($_POST['body'])) {
+	modifyQuestion($conn, $question_id, $_POST);
+	$_SESSION['flash_alert'] = "Chỉnh sửa câu hỏi thành công";
+	header("Location: ./index.php?k=$collection");
+}

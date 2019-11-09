@@ -44,10 +44,8 @@ function disp_alert($alertText)
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 				<i class="material-icons">check_circle</i><span class="mdc-top-app-bar__title">Xin chào, <?php echo $_SESSION['username']; ?>!</span> </section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-				<!-- <button class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded" aria-label="LogOut" onclick="linkTo('./logout.php')"> exit_to_app </button>
-				<a href="logout.php">Đăng xuất</a> -->
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('./logout.php')">
-					<div class="mdc-fab__ripple"></div>
+					<!-- <div class="mdc-fab__ripple"></div> -->
 					<span class="material-icons mdc-fab__icon">exit_to_app</span>
 					<span class="mdc-fab__label">Đăng xuất</span>
 				</button>
@@ -97,7 +95,7 @@ function disp_alert($alertText)
 					<thead>
 						<tr class="mdc-data-table__header-row">
 							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
-							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Bộ câu hỏ<i></i></th>
+							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Bộ câu hỏi<i></i></th>
 							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Số câu</th>
 							<th class="mdc-data-table__header-cell" role="columnheader" scope="col"></th>
 						</tr>
@@ -111,11 +109,11 @@ function disp_alert($alertText)
 								?>
 							<tr class="mdc-data-table__row">
 								<td class="mdc-data-table__cell text-center"><?php echo $i; ?></td>
-								<td class="mdc-data-table__cell"><a href='./manage-question?k=<?php echo $id; ?>'> <?php echo  $row['name']; ?></a></td>
+								<td class="mdc-data-table__cell"><a href='./manage-question?k=<?php echo $id; ?>' style="max-width: 500px;"> <?php echo  $row['name']; ?></a></td>
 								<td class="mdc-data-table__cell text-center"><?php echo $num; ?></td>
 								<td class="mdc-data-table__cell text-right">
-									<button class="mdc-icon-button material-icons" aria-label="CreateRound" onclick="open_confirm('add_circle', 'Tạo vòng chơi', '', './create_round.php?k=<?php echo $id; ?>', 'round')" title="Tạo vòng chơi"> create </button>
-									<button class="mdc-icon-button material-icons" aria-label="DeleteCollection" onclick="open_confirm('delete', 'Xoá bộ câu hỏi','Bạn có chắc muốn xoá bộ câu hỏi?', './middle_delete_collection.php?k=<?php echo $id; ?>')" title="Xoá bộ câu hỏi"> delete </button>
+									<button class="mdc-icon-button mdc-icon-edit material-icons" aria-label="CreateRound" onclick="open_confirm('add_circle', 'Tạo vòng chơi', '', './create_round.php?k=<?php echo $id; ?>', 'round')" title="Tạo vòng chơi"> create </button>
+									<button class="mdc-icon-button mdc-icon-delete material-icons" aria-label="DeleteCollection" onclick="open_confirm('delete', 'Xoá bộ câu hỏi','Bạn có chắc muốn xoá bộ câu hỏi?', './middle_delete_collection.php?k=<?php echo $id; ?>')" title="Xoá bộ câu hỏi"> delete </button>
 								</td>
 							</tr>
 						<?php
@@ -142,7 +140,7 @@ function disp_alert($alertText)
 								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Mã vòng chơi</th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Bộ câu hỏi</th>
-								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Trạng thái</th>
+								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Trạng thái</th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col"></th>
 							</tr>
 						</thead>
@@ -157,10 +155,10 @@ function disp_alert($alertText)
 								<tr class="mdc-data-table__row">
 									<td class="mdc-data-table__cell text-center"><?php echo $i; ?></td>
 									<td class="mdc-data-table__cell"><?php echo $id; ?></td>
-									<td class="mdc-data-table__cell"><a href='modify_round.php?k=<?php echo $id; ?>'><?php echo $name; ?></a></td>
-									<td class="mdc-data-table__cell text-center"><?php echo $const_status[$status]; ?></td>
+									<td class="mdc-data-table__cell"><a href='manage-question/modify_round.php?k=<?php echo $id; ?>'><?php echo $name; ?></a></td>
+									<td class="mdc-data-table__cell"><?php echo $const_status[$status]; ?></td>
 									<td class="mdc-data-table__cell text-right">
-										<button class="mdc-icon-button material-icons" aria-label="Delete" onclick="open_confirm('delete', 'Xoá vòng chơi', 'Bạn có chắc muốn xoá vòng chơi?', './delete_round.php?k=<?php echo $id; ?>')" title="Xoá vòng chơi"> delete </button>
+										<button class="mdc-icon-button mdc-icon-delete material-icons" aria-label="Delete" onclick="open_confirm('delete', 'Xoá vòng chơi', 'Bạn có chắc muốn xoá vòng chơi?', './delete_round.php?k=<?php echo $id; ?>')" title="Xoá vòng chơi"> delete </button>
 									</td>
 								</tr>
 							<?php
@@ -182,10 +180,14 @@ function disp_alert($alertText)
 		display_round($rounds, $const_status);
 		$conn->close();
 		?>
-		<button class="mdc-fab app-fab--absolute" aria-label="Add" title="Tạo bộ câu hỏi" onclick="open_confirm('add_circle', 'Tạo bộ câu hỏi', '', './middle_add_collection.php', 'collection')">
-			<div class="mdc-fab__ripple"></div>
-			<span class="mdc-fab__icon material-icons">add</span>
-		</button>
+		<div class="tooltip">
+			<button class="mdc-fab app-fab--absolute" aria-label="Add" onclick="open_confirm('add_circle', 'Tạo bộ câu hỏi', '', './middle_add_collection.php', 'collection')">
+				<div class="mdc-fab__ripple"></div>
+				<span class="mdc-fab__icon material-icons">add</span>
+				<span class="tooltiptext" id="myTooltip">Tạo bộ câu hỏi</span>
+			</button>
+		</div>
+
 	</div>
 	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
 		<div class="mdc-snackbar__surface">
@@ -211,9 +213,11 @@ function disp_alert($alertText)
 				</div>
 				<footer class="mdc-dialog__actions">
 					<button id="btnCancel" type="button" class="mdc-button mdc-dialog__button" data-mdc-auto-init="MDCRipple" data-mdc-dialog-action="close">
+						<div class="mdc-button__ripple"></div>
 						<span class="mdc-button__label">Huỷ</span>
 					</button>
 					<button id="btnOK" type="button" class="mdc-button mdc-dialog__button mdc-button--raised" data-mdc-auto-init="MDCRipple" data-mdc-dialog-action="accept">
+						<div class="mdc-button__ripple"></div>
 						<span class="mdc-button__label">Đồng ý</span>
 					</button>
 				</footer>

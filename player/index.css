@@ -1,28 +1,34 @@
+:root {
+  --mdc-theme-primary: #6EC1C4 !important;
+}
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: #6EC1C4;
+}
 /* Bordered form */
 * {
 	margin : 0;
 	font-family: sans-serif;	
 }
 form {
-	
+	width: 400px;
   border: 3px solid #f1f1f1;
   margin: 0 auto;
 }
 
 
 /* Full-width inputs */
-input[type=text], input[type=password] {
+/* input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
-}
+} */
 
 /* Set a style for all buttons */
 button {
-  background-color: #4CAF50;
+  background-color: #4CAF50 !important;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -51,16 +57,17 @@ button:hover {
 
 /* Avatar image */
 img.avatar {
-  width: 20%;
-  border-radius: 50%;
+  width: 100px;
+  height: 100px;
 }
 
 /* Add padding to containers */
 .container {
   padding: 16px;
 }
-
-
+.container .mdc-text-field {
+  width: 100%;
+}
 /* The "Forgot password" text */
 span.psw {
   float: right;
@@ -86,5 +93,45 @@ span.psw {
 }
 form .admin {
 	display: block;
-	background: 1px solid red;
+  background: 1px solid #f44336;
+  text-align: right;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+form .admin a {
+  text-decoration: none;
+}
+
+#error {
+  font-size: 14px;
+  color: #f44336;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+button[disabled] {
+  background-color: rgba(0,0,0,.12) !important;
+  color: rgba(0,0,0,.37) !important;
+}
+.main-container .mdc-text-field {
+  margin-bottom: 8px;
+}
+.main-container .mdc-text-field input {
+  cursor: pointer;
+}
+.main-container form {
+  padding: 40px;
+  padding-bottom: 0;
+  width: 600px;
+}
+.main-container h1, .main-container p {
+  margin-bottom: 20px;
+  font-family: Roboto, sans-serif;
+}
+.main-container {
+  font-size: 16px;
+}
+.main-container .group-answer {
+  display: flex;
+  flex-direction: column;
 }

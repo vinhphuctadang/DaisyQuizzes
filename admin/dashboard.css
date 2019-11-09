@@ -1,3 +1,9 @@
+:root {
+    --mdc-theme-primary: #6EC1C4 !important;
+  }
+  .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: #6EC1C4;
+  }
 body {
     margin: 0;
 }
@@ -47,6 +53,10 @@ body {
 }
 table td a {
     text-decoration: none;
+    display: block;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 table td a:hover {
     text-decoration: underline;
@@ -56,7 +66,57 @@ table td a:hover {
     display: flex;
     align-items: center;
     margin-top: 8px;
-}
-#mdc-dialog-title {
     margin-left: 8px;
 }
+.mdc-data-table::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+.mdc-data-table::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 10px;
+}
+
+/* .mdc-icon-edit {
+    color: #6EC1C4 !important;
+}
+.mdc-icon-delete {
+    color: #e74c3c !important;
+} */
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: fit-content;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 16px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -52px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }

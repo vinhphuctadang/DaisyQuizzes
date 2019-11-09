@@ -11,8 +11,8 @@ function checkExists($conn, $player, $round)
 {
 	$sql = "SELECT status FROM daisy_round WHERE round='$round'";
 	$result = $conn->query($sql);
-	if ($result->num_rows == 0)
-		die("Không tìm thấy vòng chơi yêu cầu, có thể nó đã bị xóa khỏi CSDL");
+	if ($result->num_rows == 0) die("* Không tìm thấy vòng chơi yêu cầu");
+	// die("Không tìm thấy vòng chơi yêu cầu, có thể nó đã bị xóa khỏi CSDL");
 	$result = $result->fetch_assoc();
 	if ($result['status'] == 0)
 		die("Không thể đăng nhập, vòng chơi đã kết thúc");
@@ -39,9 +39,11 @@ $conn = db_connect();
 $round = $_POST['round'];
 $player = $_POST['player'];
 if (checkExists($conn, $player, $round)) {
-	echo "Tên tài khoản \"$player\" với vòng chơi này đã tồn tại, hãy đổi tên<br>";
-	echo "Trở lại <a href='" . path('index.php') . "'>trang đầu</a>";
-	exit();
+	// echo "Tên tài khoản \"$player\" với vòng chơi này đã tồn tại, hãy đổi tên<br>";
+	// echo "Trở lại <a href='../'>trang đầu</a>";
+	$_SESSION['flash_alert'] = "Tên tài khoản '" . $player . "' với vòng chơi này đã tồn tại, hãy đổi tên";
+	// echo $_SESSION['flash_alert'];
+	header("Location: ../index.php");
 } else {
 	addPlayer($conn, $player, $round);
 	$_SESSION['round'] = $round;

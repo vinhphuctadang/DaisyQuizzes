@@ -56,7 +56,7 @@ if (checkLoggedIn()) {
 			<div id="error_password" class="error">helper_text</div>
 			<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
 			</button>
-			<p class="footer"> Chưa có tài khoản? <a href="../register">Đăng ký </a> </p>
+			<p class="footer"><a href="../../">Tham gia </a><br>Chưa có tài khoản? <a href="../register">Đăng ký </a> </p>
 
 		</form>
 

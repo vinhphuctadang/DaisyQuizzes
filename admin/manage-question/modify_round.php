@@ -55,52 +55,181 @@ if (isset($_POST['change'])) {
 	$status = $_POST['change'];
 	setStatus($conn, $round, $status);
 }
+function disp_alert($alertText)
+{
+	if (isset($alertText)) {
+		?>
+		<script type="text/javascript">
+			open_alert("<?php echo $alertText; ?>");
+		</script>
+<?php
+		unset($_SESSION['flash_username']);
+		unset($_SESSION['flash_alert']);
+	}
+}
 $conn->close();
 ?>
 <html>
 
 <head>
-	<title>dashboard</title>
+	<title>Vòng <?php echo $round; ?></title>
 	<meta charset="utf-8">
-	<link href="./index.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="./styles.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-	<p> <a href="dashboard.php">Quay lại trang chính </a></p>
-	<p>Trạng thái: <p id="status"><?php echo $status; ?></p>
-	</p>
-	<p>Mã truy cập cho nhà phát triển: <i> <?php echo $token; ?> </i></p>
-	<form action="modify_round.php?k=<?php echo $round; ?>" method="post">
-		<input type="radio" name="change" value="0" <?php echo ($status == 0 ? 'checked' : ''); ?>> Đóng <br>
-		<input type="radio" name="change" value="1" <?php echo ($status == 1 ? 'checked' : ''); ?>> Mở và chờ đợi <br>
-		<input type="radio" name="change" value="2" <?php echo ($status == 2 ? 'checked' : ''); ?>> Diễn ra <br>
-		<input type="submit" value="Thay đổi trạng thái">
-	</form>
-	<div class="container">
-		<p> Câu hỏi hiện tại: <p id="number">1</p>
-		</p>
-		<p id="time">10</p>
+	<header class="mdc-top-app-bar" data-mdc-auto-init="MDCTopAppBar">
+		<div class="mdc-top-app-bar__row">
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../dashboard.php')">
+					<span class="material-icons mdc-fab__icon">arrow_back</span>
+				</button>
+				<i class="material-icons">check_circle</i><span class="mdc-top-app-bar__title">Xin chào, <?php echo $_SESSION['username']; ?>!</span> </section>
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../logout.php')">
+					<!-- <div class="mdc-fab__ripple"></div> -->
+					<span class="material-icons mdc-fab__icon">exit_to_app</span>
+					<span class="mdc-fab__label">Đăng xuất</span>
+				</button>
+			</section>
+		</div>
+		<?php
+		$status_name = array("Đóng", "Mở và chời đợi", "Đang diễn ra");
+		$status_color = array("#e74c3c", "#6EC1C4", "#4CAF50");
+		$status_icon = array("cancel", "cached", "check_circle");
+		?>
+	</header>
 
-		<table border="1">
-			<tr>
-				<th>Số thứ tự</th>
-				<th>Tên người chơi</th>
-				<th>Dấu thời gian</th>
-				<th>Điểm </th>
-			</tr>
-			<?php
-			$cnt = 0;
-			foreach ($result as $each) {
-				$cnt++;
-				echo "<tr>";
-				echo "<td>" . $cnt . "</td>";
-				echo "<td>" . $each['name'] . "</td>";
-				echo "<td>" . $each['created_time'] . "</td>";
-				echo "<td>" . $each['score'] . "</td>";
-				echo "</tr>";
-			}
-			?>
-		</table>
+	<div id="wrapper">
+		<!-- <a href="../dashboard.php">Quay lại trang chính </a> -->
+		<h3 style="display: none">Trạng thái: <span id="status"><?php echo $status; ?></span>
+		</h3>
+
+		<div id="status-container">
+			<button id="btnStatus" class="mdc-button mdc-button--raised" style="background-color: <?php echo $status_color[$status] ?>" onclick="open_confirm()">
+				<div class="mdc-button__ripple"></div>
+				<i class="material-icons mdc-button__icon" aria-hidden="true"><?php echo $status_icon[$status] ?></i>
+				<span class="mdc-button__label"><?php echo $status_name[$status] ?></span>
+			</button>
+		</div>
+		<div id="token">
+			<fieldset>
+				<legend>Mã truy cập cho nhà phát triển</legend>
+				<div style="display: flex">
+					<input type="text" value="<?php echo $token; ?>" id="myInput" readonly>
+					<div class="tooltip">
+						<span class="tooltiptext" id="tooltip-token">Copy</span>
+						<i class="material-icons btn-copy" aria-hidden="true" onclick="myFunction()" onmouseout="outFunc()">file_copy</i>
+					</div>
+				</div>
+
+			</fieldset>
+		</div>
+		<div class="container">
+			<h3> Câu hỏi hiện tại: <span id="number">1</span>
+			</h3>
+			<p id="time">10</p>
+			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
+				<table class="mdc-data-table__table" aria-label="Dessert calories">
+					<thead>
+						<tr class="mdc-data-table__header-row">
+							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
+							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
+							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th>
+							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
+						</tr>
+					</thead>
+					<tbody class="mdc-data-table__content">
+						<?php
+						$cnt = 0;
+						foreach ($result as $each) {
+							++$cnt;
+							?>
+							<tr class="mdc-data-table__row">
+								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
+								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
+								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
+								<td class="mdc-data-table__cell text-center">
+									<?php echo $each['score']; ?>
+								</td>
+							</tr>
+						<?php
+						}
+						?>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="mdc-dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content" data-mdc-auto-init="MDCDialog">
+		<div class="mdc-dialog__container">
+			<div class="mdc-dialog__surface">
+				<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+				<h2 class="mdc-dialog__title" id="my-dialog-title">
+					<i id="mdc-dialog-icon" class="material-icons">
+						edit
+					</i>
+					<span id="mdc-dialog-title">Cập nhật trạng thái</span>
+
+				</h2>
+				<div class="mdc-dialog__content" id="my-dialog-content">
+					<form id="fStatus" action="modify_round.php?k=<?php echo $round; ?>" method="post">
+						<div id="radio-status">
+							<div class="mdc-form-field">
+								<div class="mdc-radio">
+									<input class="mdc-radio__native-control" type="radio" id="radio-1" name="change" <?php echo ($status == 0 ? 'checked ' : ''); ?> value="0">
+									<div class="mdc-radio__background">
+										<div class="mdc-radio__outer-circle"></div>
+										<div class="mdc-radio__inner-circle"></div>
+									</div>
+									<div class="mdc-radio__ripple"></div>
+								</div>
+								<label for="radio-1">Đóng</label>
+							</div>
+							<div class="mdc-form-field">
+								<div class="mdc-radio">
+									<input class="mdc-radio__native-control" type="radio" id="radio-2" name="change" <?php echo ($status == 1 ? 'checked ' : ''); ?> value="1">
+									<div class="mdc-radio__background">
+										<div class="mdc-radio__outer-circle"></div>
+										<div class="mdc-radio__inner-circle"></div>
+									</div>
+									<div class="mdc-radio__ripple"></div>
+								</div>
+								<label for="radio-2">Mở và chờ đợi</label>
+							</div>
+							<div class="mdc-form-field">
+								<div class="mdc-radio">
+									<input class="mdc-radio__native-control" type="radio" id="radio-3" name="change" <?php echo ($status == 2 ? 'checked ' : ''); ?>value="2">
+									<div class="mdc-radio__background">
+										<div class="mdc-radio__outer-circle"></div>
+										<div class="mdc-radio__inner-circle"></div>
+									</div>
+									<div class="mdc-radio__ripple"></div>
+								</div>
+								<label for="radio-3">Đang diễn ra</label>
+							</div>
+						</div>
+						<footer class="mdc-dialog__actions">
+							<button id="btnCancel" type="button" class="mdc-button mdc-dialog__button" data-mdc-auto-init="MDCRipple" data-mdc-dialog-action="close">
+								<div class="mdc-button__ripple"></div>
+								<span class="mdc-button__label">Huỷ</span>
+							</button>
+							<button id="btnOK" type="submit" class="mdc-button mdc-dialog__button mdc-button--raised" data-mdc-auto-init="MDCRipple" data-mdc-dialog-action="accept">
+								<div class="mdc-button__ripple"></div>
+								<span class="mdc-button__label">Đồng ý</span>
+							</button>
+						</footer>
+						<!-- <button class="mdc-button mdc-button--raised" type="submit">Thay đổi trạng thái</button> -->
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<div class="mdc-dialog__scrim"></div>
 	</div>
 	<script>
 		var timing = 10;
@@ -162,7 +291,70 @@ $conn->close();
 			startInterval();
 			updateQuestionNumber();
 		}
+		window.mdc.autoInit();
+		var MDCDialog = mdc.dialog.MDCDialog;
+		const dialog = new MDCDialog(document.querySelector('.mdc-dialog'));
+
+		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
+		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+
+		function linkTo(link) {
+			window.location = link;
+		}
+
+		function disp_confirm(text, link) {
+			var delete_confirm = confirm(text);
+			if (delete_confirm == true) {
+				linkTo(link)
+			}
+		}
+
+		function status_OK(type, event) {
+			let value = document.getElementById(type).value;
+			if (!value) {
+				document.getElementById('btnOK').disabled = true;
+			} else {
+				document.getElementById('btnOK').disabled = false;
+				if (event.key == 'Enter') {
+					document.getElementById('btnOK').click();
+				}
+			}
+		}
+
+		function open_confirm() {
+			dialog.open()
+		}
+
+		function open_alert(text) {
+			document.getElementById('mdc-snackbar-label').innerHTML = text;
+			snackbar.open();
+		}
+
+		function close_alert() {
+			snackbar.close();
+		}
+		document.addEventListener("click", function() {
+			close_alert();
+		});
+
+		function myFunction() {
+			var copyText = document.getElementById("myInput");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+
+			var tooltip = document.getElementById("tooltip-token");
+			tooltip.innerHTML = "Copied!!!";
+		}
+
+		function outFunc() {
+			var tooltip = document.getElementById("tooltip-token");
+			tooltip.innerHTML = "Copy";
+		}
 	</script>
+	<?php
+	disp_alert($_SESSION['flash_alert']);
+	?>
 </body>
 
 </html>
