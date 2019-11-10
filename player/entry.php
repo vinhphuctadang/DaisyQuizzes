@@ -98,6 +98,17 @@ function disp_alert($alertText)
 			document.getElementById('input_round').classList.remove("mdc-text-field--invalid");
 		}
 
+		function open_alert(text) {
+			document.getElementById('mdc-snackbar-label').innerHTML = text;
+			snackbar.open();
+		}
+
+		function close_alert() {
+			snackbar.close();
+		}
+		document.addEventListener("click", function() {
+			close_alert();
+		});
 	</script>
 	<?php
 	disp_alert($_SESSION['flash_alert']);
