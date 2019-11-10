@@ -18,6 +18,8 @@ function disp_alert($alertText)
 		unset($_SESSION['flash_alert']);
 	}
 }
+
+$player = $_POST['player'];
 ?>
 
 <html>
@@ -51,7 +53,7 @@ function disp_alert($alertText)
 
 				<!-- <input type="text" placeholder="Mã vòng chơi" name="round" required> -->
 				<?php
-				$player = $_POST['player'];
+				
 				echo "<input type='hidden' name='player' value='$player'>";
 				?>
 			</div>
@@ -70,9 +72,6 @@ function disp_alert($alertText)
 	</div>
 	<script>
 		window.mdc.autoInit();
-
-		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
-		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
 		function loadXMLDoc(round, player) {
 			var xmlhttp;
