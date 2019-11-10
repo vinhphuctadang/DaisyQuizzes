@@ -54,6 +54,7 @@ $token = $statusTuple['access_token'];
 if (isset($_POST['change'])) {
 	$status = $_POST['change'];
 	setStatus($conn, $round, $status);
+	$_SESSION['flash_alert'] = "Cập nhật trạng thái vòng chơi thành công!";
 }
 function disp_alert($alertText)
 {
@@ -230,6 +231,14 @@ $conn->close();
 			</div>
 		</div>
 		<div class="mdc-dialog__scrim"></div>
+	</div>
+	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
+		<div class="mdc-snackbar__surface">
+			<div id="mdc-snackbar-label" class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+			<div class="mdc-snackbar__actions">
+				<button class="mdc-icon-button mdc-snackbar__dismiss material-icons" title="Dismiss">close</button>
+			</div>
+		</div>
 	</div>
 	<script>
 		var timing = 10;
