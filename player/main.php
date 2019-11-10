@@ -1,6 +1,10 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/database.php';
-	include serverpath('middleware/auth.php');
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+include $DOCUMENT_ROOT . '/database.php';
+include serverpath('middleware/auth.php');
 ?>
 <html>
 

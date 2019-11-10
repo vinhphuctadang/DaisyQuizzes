@@ -1,20 +1,25 @@
 <?php
-$str = $_SERVER['DOCUMENT_ROOT'].	'/database.php';
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+$str = $DOCUMENT_ROOT .	'/database.php';
 
 include $str;
 
-function checkUserExists($conn, $username, $password) {
+function checkUserExists($conn, $username, $password)
+{
 	$sql = "SELECT * FROM daisy_admin where username='$username' and password='" . md5($password) . "'";
 	//echo $sql;
-	$result = $conn->query($sql);	
+	$result = $conn->query($sql);
 	if (!$result) {
 		return false;
 	}
-	
+
 	if ($result->num_rows == 0) {
 		return false;
 	}
-	
+
 	$result = $result->fetch_assoc();
 	return $result['id'];
 }
@@ -29,10 +34,11 @@ else {
 	session_start();
 	$_SESSION['userid'] = $id;
 	$_SESSION['username'] = $username;
-	header('Location: ./dashboard.php');
+	$_SESSION['flash_username'] = "Xin chào, " . $username . "!";
+	header('Location: ../dashboard.php');
 }
 ?>
-<a href='./login.php'>Thử lại</a>
+<a href='./index.php'>Thử lại</a>
 <?php
 $conn->close();
 ?>

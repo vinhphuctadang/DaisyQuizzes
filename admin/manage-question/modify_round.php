@@ -9,7 +9,7 @@ $str = $DOCUMENT_ROOT . '/database.php';
 include $str;
 
 if (!checkLoggedIn()) {
-	header('Location: ./login');
+	header('Location: ../login');
 	exit();
 }
 
@@ -133,43 +133,20 @@ $conn->close();
 					onDoneResp(httprqIQ.responseText);
 				}
 			}
-			
-			function increaseQuestionNumber (onDoneResp) {
-				httprqIQ = new XMLHttpRequest ();
+			httprqIQ.open("GET", "api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
+			httprqIQ.send();
+			//alert ("New question updated");
+		}
 
-				httprqIQ.onreadystatechange = function () {
-					if (httprq.readyState == 4 && httprq.status == 200) {
-						onDoneResp (httprqIQ.responseText);
-					}
-				}				
-				httprqIQ.open ("GET", "/api.php?method=change_question&token=<?php echo $token?>&change=1&nextupdate=10", true);
-				httprqIQ.send ();
-				//alert ("New question updated");
-			}
-			
-			function updateQuestionNumber (msg) {
-				
-				httprq = new XMLHttpRequest ();
-				httprq.onreadystatechange = function () {
-					if (httprq.readyState == 4 && httprq.status == 200) {
-						var txt = httprq.responseText;
-						var jsn = JSON.parse (txt);
-						document.getElementById ("number").innerText = jsn.result;
-					}
+		function updateQuestionNumber(msg) {
+
+			httprq = new XMLHttpRequest();
+			httprq.onreadystatechange = function() {
+				if (httprq.readyState == 4 && httprq.status == 200) {
+					var txt = httprq.responseText;
+					var jsn = JSON.parse(txt);
+					document.getElementById("number").innerText = jsn.result;
 				}
-				
-				httprq.open ("GET", "/api.php?method=get_question_no&token=<?php echo $token?>", true);
-				httprq.send ();
-			}
-			
-			function stopInterval () {
-				clearInterval (x);
-			}
-			
-			var status = document.getElementById ("status").innerText;
-			if (status == '2') {
-				startInterval ();
-				updateQuestionNumber ();
 			}
 
 			httprq.open("GET", "api.php?method=get_question_no&token=<?php echo $token ?>", true);

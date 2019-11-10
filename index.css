@@ -11,18 +11,18 @@ form {
 
 
 /* Full-width inputs */
-input[type=text], input[type=password] {
+/* input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
-}
+} */
 
 /* Set a style for all buttons */
 button {
-  background-color: #4CAF50;
+  background-color: #4CAF50 !important;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -59,8 +59,9 @@ img.avatar {
 .container {
   padding: 16px;
 }
-
-
+.container .mdc-text-field {
+  width: 100%;
+}
 /* The "Forgot password" text */
 span.psw {
   float: right;
@@ -86,5 +87,11 @@ span.psw {
 }
 form .admin {
 	display: block;
-	background: 1px solid red;
+  background: 1px solid red;
+  text-align: right;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+form .admin a {
+  text-decoration: none;
 }

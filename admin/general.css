@@ -119,8 +119,10 @@ table img{
 }
 
 .error {
-	color: red;
-	display: none;
+  font-style: italic;
+  color: red;
+  margin-bottom: 4px;
+  visibility: hidden;
 }
 
 

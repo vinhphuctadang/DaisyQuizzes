@@ -5,7 +5,7 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 }
 include($DOCUMENT_ROOT . '/middleware/auth_admin.php');
 if (!checkLoggedIn()) {
-	header('Location: ./login');
+	header('Location: ../login');
 	exit();
 }
 include($DOCUMENT_ROOT . '/database.php');
@@ -50,7 +50,7 @@ $data = db_fetch_questions($conn, $collection);
 <head>
 	<title><?php echo $collection_name; ?></title>
 	<meta charset="utf-8">
-	<link href="./index.css" rel="stylesheet" type="text/css">
+	<link href="../index.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -62,8 +62,8 @@ $data = db_fetch_questions($conn, $collection);
 
 	<?php
 	echo "<div class='heading-pane'>";
-	echo '<a href="./dashboard.php">Trở lại trang chính</a>';
-	echo '<a href="./add_question.php?k=' . $collection . '">Thêm</a>';
+	echo '<a href="../dashboard.php">Trở lại trang chính</a>';
+	echo '<a href="add_question.php?k=' . $collection . '">Thêm</a>';
 	echo "</div>";
 	$cnt = 0;
 
@@ -72,7 +72,7 @@ $data = db_fetch_questions($conn, $collection);
 		echo "<div class='question-pane'>";
 		echo "<div class='question-action-pane'>";
 		echo "<a href='delete_question.php?k=$collection&question=" . $each['id'] . "'>Xóa</a>";
-		echo "<a href='./modify_question.php?k=$collection&question=" . $each['id'] . "'>Chỉnh sửa</a>";
+		echo "<a href='modify_question.php?k=$collection&question=" . $each['id'] . "'>Chỉnh sửa</a>";
 		echo "</div>";
 		echo "<div class='body-pane'>";
 
@@ -85,7 +85,7 @@ $data = db_fetch_questions($conn, $collection);
 		echo "</div>";
 		echo "</div>";
 	}
-	echo '<a href="./add_question.php?k=' . $collection . '">Thêm</a><br>';
+	echo '<a href="add_question.php?k=' . $collection . '">Thêm</a><br>';
 	?>
 
 	<?php

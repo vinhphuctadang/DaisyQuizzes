@@ -1,11 +1,15 @@
 <?php
-$str = $_SERVER['DOCUMENT_ROOT'] . '/middleware/auth_admin.php';
+$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+}
+$str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
-$str = $_SERVER['DOCUMENT_ROOT'] . '/database.php';
+$str = $DOCUMENT_ROOT . '/database.php';
 include $str;
 
 if (!checkLoggedIn()) {
-	header('Location: ./login.php');
+	header('Location: ./login');
 	exit();
 }
 
@@ -53,31 +57,12 @@ if ($collection_name == false) {
 	die("Không tìm thấy bộ câu hỏi được yêu cầu");
 }
 
-if (isset($_POST['round'])) {
-	$round = $_POST['round'];
+if (isset($_GET['round'])) {
+	$round = $_GET['round'];
 	generate($conn, $userid, $round, $collection);
 	$conn->close();
+	$_SESSION['flash_alert'] = "Tạo vòng chơi thành công!";
 	header("Location: ./dashboard.php");
 	exit();
 }
 $conn->close();
-?>
-<html>
-
-<head>
-	<title>dashboard</title>
-	<meta charset="utf-8">
-	<link href="./index.css" rel="stylesheet" type="text/css">
-</head>
-
-<body>
-
-	<form action="create_round.php?k=<?php echo $collection ?>" method="post">
-		<div class="container">
-			<input type="text" placeholder="Mã vòng (là duy nhất trong hệ thống)" name="round" required><br>
-			<button type="submit">TIẾP TỤC</button>
-		</div>
-	</form>
-</body>
-
-</html>

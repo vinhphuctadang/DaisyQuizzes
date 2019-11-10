@@ -7,7 +7,7 @@ $str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
 
 if (!checkLoggedIn()) {
-	header('Location: ./login');
+	header('Location: ../login');
 	exit();
 }
 
