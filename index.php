@@ -4,6 +4,20 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 }
 include $DOCUMENT_ROOT . '/database.php';
+include "session_start.php";
+
+function disp_alert($alertText)
+{
+	if (isset($alertText)) {
+		?>
+		<script type="text/javascript">
+			open_alert("<?php echo $alertText; ?>");
+		</script>
+<?php
+		unset($_SESSION['flash_username']);
+		unset($_SESSION['flash_alert']);
+	}
+}
 ?>
 
 <html>
@@ -22,30 +36,59 @@ include $DOCUMENT_ROOT . '/database.php';
 		<form action="player/entry.php" method="post">
 
 			<div class="imgcontainer">
-				<!-- <img src="<?php echo assets('img_avatar2.png') ?>" alt="Avatar" class="avatar"> -->
-				<img src="assets/img_avatar2.png" alt="Avatar" class="avatar">
+				<!-- <img src="<?php echo assets('img_avatar.png') ?>" alt="Avatar" class="avatar"> -->
+				<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 			</div>
 
 			<div class="container">
 				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-					<input class="mdc-text-field__input" id="player" name="player" required>
+					<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
 					<div class="mdc-line-ripple"></div>
-					<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị</label>
+					<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
 				</div>
 				<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
-				<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit">TIẾP TỤC
+				<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
 				</button>
 			</div>
 			<div class='admin'>
 				<a href='./admin/login'> Tôi là người kiến tạo? </a>
 			</div>
-
 	</div>
 	</form>
 	</div>
+	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
+		<div class="mdc-snackbar__surface">
+			<div id="mdc-snackbar-label" class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+			<div class="mdc-snackbar__actions">
+				<button class="mdc-icon-button mdc-snackbar__dismiss material-icons" title="Dismiss">close</button>
+			</div>
+		</div>
+	</div>
 	<script>
 		window.mdc.autoInit();
+		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
+		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+
+		function open_alert(text) {
+			console.log(text);
+			document.getElementById('mdc-snackbar-label').innerHTML = text;
+			snackbar.open();
+		}
+
+		function close_alert() {
+			snackbar.close();
+		}
+
+		function handle_change(value) {
+			document.getElementById('btnLogin').disabled = value.length == 0;
+		}
+		document.addEventListener("click", function() {
+			close_alert();
+		});
 	</script>
+	<?php
+	disp_alert($_SESSION['flash_alert']);
+	?>
 </body>
 
 </html>

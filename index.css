@@ -1,10 +1,16 @@
+:root {
+  --mdc-theme-primary: #6EC1C4 !important;
+}
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: #6EC1C4;
+}
 /* Bordered form */
 * {
 	margin : 0;
 	font-family: sans-serif;	
 }
 form {
-	
+	width: 400px;
   border: 3px solid #f1f1f1;
   margin: 0 auto;
 }
@@ -51,8 +57,8 @@ button:hover {
 
 /* Avatar image */
 img.avatar {
-  width: 20%;
-  border-radius: 50%;
+  width: 100px;
+  height: 100px;
 }
 
 /* Add padding to containers */
@@ -94,4 +100,19 @@ form .admin {
 }
 form .admin a {
   text-decoration: none;
+}
+form .admin a:hover {
+  text-decoration: underline;
+}
+.mdc-top-app-bar, .mdc-fab, .mdc-snackbar__surface{
+  background-color: #4CAF50;
+}
+.mdc-fab--extended, .mdc-fab--extended:hover {
+  background-color: #4CAF50;
+  box-shadow: none;
+}
+
+button[disabled] {
+  background-color: rgba(0,0,0,.12) !important;
+  color: rgba(0,0,0,.37) !important;
 }

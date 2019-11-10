@@ -25,6 +25,10 @@ function db_token($string, $method)
 
 function serverpath($dir)
 {
+	$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+	if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
+		$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
+	}
 	return $DOCUMENT_ROOT . '/' . $dir;
 }
 
