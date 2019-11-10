@@ -71,6 +71,9 @@ function disp_alert($alertText)
 	<script>
 		window.mdc.autoInit();
 
+		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
+		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+
 		function loadXMLDoc(round, player) {
 			var xmlhttp;
 			if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
