@@ -59,49 +59,66 @@
 		return $question;
 	}
 
-	function display($question, $round, $token)
-	{
-		echo "<form action='check.php' method='post'>";
-		echo "<h1>Câu hỏi</h1>";
-		echo "<p>" . $question['body'] . "</p>";
-		$val = ['a', 'b', 'c', 'd'];
+	// function display($question, $round, $token)
+	// {
+	// 	echo "<form action='check.php' method='post'>";
+	// 	echo "<h1>Câu hỏi</h1>";
+	// 	echo "<p>" . $question['body'] . "</p>";
+	// 	$val = ['a', 'b', 'c', 'd'];
 		
-		shuffle($val);
-		foreach ($val as $c) {
-			echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-		}
-		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
-		echo "<input type='hidden' name='round' value='" . $round . "'>" . "</input> <br>";
-		echo "<input type='hidden' name='token' value='" . $token . "'>" . "</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
+	// 	shuffle($val);
+	// 	foreach ($val as $c) {
+	// 		echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
+	// 	}
+	// 	echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
+	// 	echo "<input type='hidden' name='round' value='" . $round . "'>" . "</input> <br>";
+	// 	echo "<input type='hidden' name='token' value='" . $token . "'>" . "</input> <br>"; # cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật
 
-		echo "</form>";
-	}
+	// 	echo "</form>";
+	// }
 
 	// $conn = db_connect();
 	// $question = db_fetch_question($conn, $round);
 	// display($question, $round, $token);
 	// $conn->close();
 	?>
-	<form action='check.php' method='post'>
-		
+
+	<form id="question" action='check.php' method='post'>	
 	</form>
 
 	</body>
 
 	<script>
+
 		// viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
 		function render (question) {
+			var question_pane = document.getElementById ("question");
+			question_pane.innerHTML = question;
 
+			var nxtTime = document.getElementById ("next_timestamp").value;
+			if (next_timestamp != null) {
+				
+			}
+			// TODO: Invoke onInterval after a desired time 
 		}
 
 		function requestNext () {
-
+			request = new XMLHttpRequest ();
+			request.open ("GET", "/api.php?method=get_question_body", true)
+			request.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {			
+					render (this.responseText);					
+				}
+			};
+			request.send ();
 		}
 
 		function onInterval () {
-
 			requestNext ();
 		}
+
+		requestNext ();
+
 	</script>
 	
 </html>

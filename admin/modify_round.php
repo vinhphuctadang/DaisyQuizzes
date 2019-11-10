@@ -123,7 +123,7 @@
 						onDoneResp (httprqIQ.responseText);
 					}
 				}				
-				httprqIQ.open ("GET", "api.php?method=change_question&token=<?php echo $token?>&change=1&nextupdate=10", true);
+				httprqIQ.open ("GET", "/api.php?method=change_question&token=<?php echo $token?>&change=1&nextupdate=10", true);
 				httprqIQ.send ();
 				//alert ("New question updated");
 			}
@@ -139,7 +139,7 @@
 					}
 				}
 				
-				httprq.open ("GET", "api.php?method=get_question_no&token=<?php echo $token?>", true);
+				httprq.open ("GET", "/api.php?method=get_question_no&token=<?php echo $token?>", true);
 				httprq.send ();
 			}
 			
