@@ -1,8 +1,8 @@
 :root {
-  --mdc-theme-primary: #6EC1C4 !important;
+  --mdc-theme-primary: #1976d2 !important;
 }
 .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
-  color: #6EC1C4;
+  color: #1976d2;
 }
 /* Bordered form */
 * {

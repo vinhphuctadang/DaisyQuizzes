@@ -1,8 +1,8 @@
 :root {
-    --mdc-theme-primary: #6EC1C4 !important;
+    --mdc-theme-primary: #1976d2 !important;
   }
   .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
-    color: #6EC1C4;
+    color: #1976d2;
   }
 body {
     margin: 0;
@@ -77,10 +77,10 @@ table td a:hover {
     margin-right: 0;
 }
 .mdc-fab-edit {
-    color: #6EC1C4 !important;
+    color: #1976d2 !important;
 }
 .mdc-fab-delete {
-    color: #e74c3c !important;
+    color: #ED1C24 !important;
 }
 .mdc-card__content {
     padding: 0 24px;
@@ -220,4 +220,10 @@ legend {
   .btn-copy {
       cursor: pointer;
       font-size: 18px;
+  }
+  #change {
+    background-color: #1976d2;
+  }
+  label {
+    color: #000000;
   }

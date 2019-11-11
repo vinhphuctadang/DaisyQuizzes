@@ -99,7 +99,7 @@ $conn->close();
 		</div>
 		<?php
 		$status_name = array("Đóng", "Mở và chời đợi", "Đang diễn ra");
-		$status_color = array("#e74c3c", "#6EC1C4", "#4CAF50");
+		$status_color = array("#ED1C24", "#1976d2", "#4CAF50");
 		$status_icon = array("cancel", "cached", "check_circle");
 		?>
 	</header>
