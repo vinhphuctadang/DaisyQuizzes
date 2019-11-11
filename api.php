@@ -14,6 +14,53 @@
 		return $json;
 	}
 
+	function __render($question){
+		// echo json_encode ($question);
+		if ($question == "ERR_NOT_LOGGED_IN" || $question == "ERR_ROUND_CLOSED"){
+			echo $question;
+			return;
+		}
+
+		$round = $_SESSION['round'];
+		$token = $_SESSION['token'];		
+		?>
+		<div id="wrapper" class="main-container">
+			<form action='check.php' method='post'>
+				<h1>Câu hỏi</h1>
+				<p><?php echo $question['body'] ?></p>
+				<div class="group-answer">
+					<?php
+						$val = ['a', 'b', 'c', 'd'];
+						shuffle($val);
+						foreach ($val as $c) {
+							?>
+						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" type='submit' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<div class="mdc-notched-outline mdc-notched-outline--no-label">
+								<div class="mdc-notched-outline__leading"></div>
+								<div class="mdc-notched-outline__notch">
+									<label for="text-field-hero-input" class="mdc-floating-label"></label>
+								</div>
+								<div class="mdc-notched-outline__trailing"></div>
+							</div>
+						</div>
+					<?php
+							// echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
+						}
+						?>
+				</div>
+				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
+				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
+				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
+				<!--cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật -->
+				<?php
+					echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
+				?>
+			</form>
+		</div>
+	<?php
+	}
+
 	function renderQuestion ($question)
 	{
 		// should render NULL (ERROR) QUESTION
@@ -33,6 +80,7 @@
 			echo "<input type='button' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
 		}
 		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
+		
 		echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
 	}
 
@@ -171,8 +219,8 @@
 				$token = "";	
 				if (array_key_exists("token", $request)) $token = $request["token"];
 				if ($err === "") {
-					$result = getQuestionBody ($conn, $token);				
-					renderQuestion($result);
+					$result = getQuestionBody ($conn, $token);
+					__render($result);
 				}
 				else 
 					$success = false;
@@ -195,7 +243,7 @@
 				break;
 		}				
 		$conn->close ();
-	}	
+	}
 	
 	$result = control ($_GET);
 	if ($result != "")

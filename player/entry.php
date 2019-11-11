@@ -72,6 +72,8 @@ $player = $_POST['player'];
 	</div>
 	<script>
 		window.mdc.autoInit();
+		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
+		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
 		function loadXMLDoc(round, player) {
 			var xmlhttp;

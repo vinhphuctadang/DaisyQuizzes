@@ -80,6 +80,7 @@ include serverpath('middleware/auth.php');
 			$question = $result->fetch_assoc();
 			return $question;
 		}
+
 		function display($question, $round, $token)
 		{
 			?>
@@ -111,21 +112,13 @@ include serverpath('middleware/auth.php');
 				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
 				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
 				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-				<!--cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật -->
 			</form>
 		</div>
 	<?php
 
 	}
-
-	// $conn = db_connect();
-	// $question = db_fetch_question($conn, $round);
-	// display($question, $round, $token);
-	// $conn->close();
 	?>
-	<script>
-		window.mdc.autoInit();
-	</script>
+	
 </body>
 
 	<form id="question" action='check.php' method='post'>	
@@ -134,15 +127,19 @@ include serverpath('middleware/auth.php');
 	</body>
 
 	<script>
+		window.mdc.autoInit();
+	</script>
+
+	<script>
+
 
 		// viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
 		function render (question) {
 			var question_pane = document.getElementById ("question");
 			question_pane.innerHTML = question;
-
 			var nxtTime = document.getElementById ("next_timestamp").value;
 			if (next_timestamp != null) {
-				
+				calculate (nxtTime);
 			}
 			// TODO: Invoke onInterval after a desired time 
 		}
@@ -156,6 +153,16 @@ include serverpath('middleware/auth.php');
 				}
 			};
 			request.send ();
+		}
+
+		function calculate (nxtTime) {
+			var fromTime = Date ();
+			var toTime   = Date (nxtTime)+1;
+			var diff = toTime - fromTime;
+			console.log (fromTime);
+			console.log (toTime);
+			console.log (diff);
+			setTimeout("requestNext", diff);
 		}
 
 		function onInterval () {
