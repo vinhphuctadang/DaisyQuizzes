@@ -87,8 +87,9 @@ $conn->close();
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../dashboard.php')">
 					<span class="material-icons mdc-fab__icon">arrow_back</span>
+					<span class="mdc-fab__label">Trang chủ</span>
 				</button>
-				<i class="material-icons">check_circle</i><span class="mdc-top-app-bar__title">Xin chào, <?php echo $_SESSION['username']; ?>!</span> </section>
+			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../logout.php')">
 					<!-- <div class="mdc-fab__ripple"></div> -->
@@ -361,7 +362,7 @@ $conn->close();
 		}
 	</script>
 	<?php
-	if (isset ($_SESSION['flash_alert']))
+	if (isset($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
 </body>

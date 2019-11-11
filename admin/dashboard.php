@@ -112,7 +112,7 @@ function disp_alert($alertText)
 								<td class="mdc-data-table__cell"><a href='./manage-question?k=<?php echo $id; ?>' style="max-width: 500px;"> <?php echo  $row['name']; ?></a></td>
 								<td class="mdc-data-table__cell text-center"><?php echo $num; ?></td>
 								<td class="mdc-data-table__cell text-right">
-									<button class="mdc-icon-button mdc-icon-edit material-icons" aria-label="CreateRound" onclick="open_confirm('add_circle', 'Tạo vòng chơi', '', './create_round.php?k=<?php echo $id; ?>', 'round')" title="Tạo vòng chơi"> create </button>
+									<button class="mdc-icon-button mdc-icon-edit material-icons" aria-label="CreateRound" onclick="open_confirm('add_circle', 'Tạo vòng chơi', '', './create_round.php?k=<?php echo $id; ?>', 'round')" title="Tạo vòng chơi"> play_circle_filled </button>
 									<button class="mdc-icon-button mdc-icon-delete material-icons" aria-label="DeleteCollection" onclick="open_confirm('delete', 'Xoá bộ câu hỏi','Bạn có chắc muốn xoá bộ câu hỏi?', './middle_delete_collection.php?k=<?php echo $id; ?>')" title="Xoá bộ câu hỏi"> delete </button>
 								</td>
 							</tr>
@@ -310,9 +310,9 @@ function disp_alert($alertText)
 		});
 	</script>
 	<?php
-	if (isset ($_SESSION['flash_username']))
+	if (isset($_SESSION['flash_username']))
 		disp_alert($_SESSION['flash_username']);
-	if (isset ($_SESSION['flash_alert']))
+	if (isset($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
 </body>

@@ -77,10 +77,11 @@ table td a:hover {
     border-radius: 10px;
 }
 
-/* .mdc-icon-edit {
-    color: #1976d2 !important;
+.mdc-icon-edit, .mdc-icon-delete {
+  opacity: .54;
+    /* color: #1976d2 !important; */
 }
-.mdc-icon-delete {
+/* .mdc-icon-delete {
     color: #ED1C24 !important;
 } */
 .tooltip {
