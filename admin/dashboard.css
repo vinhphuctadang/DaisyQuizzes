@@ -1,8 +1,8 @@
 :root {
-    --mdc-theme-primary: #6EC1C4 !important;
+    --mdc-theme-primary: #1976d2 !important;
   }
   .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
-    color: #6EC1C4;
+    color: #1976d2;
   }
 body {
     margin: 0;
@@ -78,10 +78,10 @@ table td a:hover {
 }
 
 /* .mdc-icon-edit {
-    color: #6EC1C4 !important;
+    color: #1976d2 !important;
 }
 .mdc-icon-delete {
-    color: #e74c3c !important;
+    color: #ED1C24 !important;
 } */
 .tooltip {
     position: relative;

@@ -79,7 +79,6 @@ function disp_alert($alertText)
 				<i class="material-icons">check_circle</i><span class="mdc-top-app-bar__title">Xin chào, <?php echo $_SESSION['username']; ?>!</span> </section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../logout.php')">
-					<!-- <div class="mdc-fab__ripple"></div> -->
 					<span class="material-icons mdc-fab__icon">exit_to_app</span>
 					<span class="mdc-fab__label">Đăng xuất</span>
 				</button>
@@ -94,7 +93,7 @@ function disp_alert($alertText)
 				<div class="mdc-line-ripple"></div>
 				<label for="collection_name" class="mdc-floating-label">Tên bộ câu hỏi</label>
 			</div>
-			<button class="mdc-fab mdc-fab--extended" type="submit">
+			<button id="change" class="mdc-fab mdc-fab--extended" type="submit">
 				<div class="mdc-fab__ripple"></div>
 				<span class="material-icons mdc-fab__icon">send</span>
 				<span class="mdc-fab__label">Đổi</span>
