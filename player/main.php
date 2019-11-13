@@ -120,57 +120,13 @@ include serverpath('middleware/auth.php');
 	?>
 	
 </body>
-
-	<form id="question" action='check.php' method='post'>	
-	</form>
+	<form id="question" action='check.php' method='post'></form>
 
 	</body>
 
 	<script>
 		window.mdc.autoInit();
 	</script>
+	<script src="main.js"></script>
 
-	<script>
-
-
-		// viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
-		function render (question) {
-			var question_pane = document.getElementById ("question");
-			question_pane.innerHTML = question;
-			var nxtTime = document.getElementById ("next_timestamp").value;
-			if (next_timestamp != null) {
-				calculate (nxtTime);
-			}
-			// TODO: Invoke onInterval after a desired time 
-		}
-
-		function requestNext () {
-			request = new XMLHttpRequest ();
-			request.open ("GET", "/api.php?method=get_question_body", true)
-			request.onreadystatechange = function () {
-				if (this.readyState == 4 && this.status == 200) {			
-					render (this.responseText);					
-				}
-			};
-			request.send ();
-		}
-
-		function calculate (nxtTime) {
-			var fromTime = Date ();
-			var toTime   = Date (nxtTime)+1;
-			var diff = toTime - fromTime;
-			console.log (fromTime);
-			console.log (toTime);
-			console.log (diff);
-			setTimeout("requestNext", diff);
-		}
-
-		function onInterval () {
-			requestNext ();
-		}
-
-		requestNext ();
-
-	</script>
-	
 </html>

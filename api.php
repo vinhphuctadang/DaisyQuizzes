@@ -51,11 +51,7 @@
 				</div>
 				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
 				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-				<!--cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật -->
-				<?php
-					echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
-				?>
+				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>				
 			</form>
 		</div>
 	<?php
@@ -81,7 +77,7 @@
 		}
 		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
 		
-		echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
+		
 	}
 
 	/*
@@ -114,8 +110,10 @@
 			return "ERR_ROUND_STILL_CLOSE ".getStatus ($conn, $token);
 		}
 
-		$sql = "UPDATE daisy_round SET question_no=question_no+$increment, next_timestamp=TIMESTAMP (CURRENT_TIMESTAMP()+$time) WHERE access_token='$token'";
+		$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
 		$conn->query ($sql);
+		// TODO: Send NodeJS request to notify all clients about that
+
 		return "success";
 	}
 	
@@ -128,7 +126,7 @@
 	}
 	
 	function setStatus ($conn, $round, $status) {
-		$sql = "UPDATE daisy_round SET status=$status, question_no=1 WHERE round='$round'";
+		$sql = "UPDATE daisy_round SET status=$status, question_no=0 WHERE round='$round'";
 		$conn->query ($sql);	
 	}
 	
@@ -149,15 +147,15 @@
 
 		if ($token === "") {
 			$round = $_SESSION['round'];
-			$sql = "SELECT status, question_no, next_timestamp FROM daisy_round where round='$round'";
+			$sql = "SELECT status, question_no  FROM daisy_round where round='$round'";
 		} else {
-			$sql = "SELECT status, question_no, next_timestamp FROM daisy_round where access_token='$token'";
+			$sql = "SELECT status, question_no FROM daisy_round where access_token='$token'";
 		}
 		
 		$result = $conn->query($sql);
 		$assoc = $result->fetch_assoc();
 		$status = $assoc['status'];
-		$next_timestamp = $assoc['next_timestamp'];
+		
 
 		if ($status == 0)
 			return "ERR_ROUND_CLOSED";
@@ -174,7 +172,7 @@
 			return -1;
 		$result = $result->fetch_assoc ();
 		$result["question_no"] = $question_no;
-		$result["next_timestamp"] = $next_timestamp;
+		
 		// echo json_encode ($result);
 		return $result;
 	}
@@ -242,6 +240,7 @@
 				return formResp ($success, $result, $err);
 				break;
 		}				
+
 		$conn->close ();
 	}
 	
