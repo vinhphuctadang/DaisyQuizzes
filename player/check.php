@@ -45,13 +45,13 @@ function respondCorrect($conn, $round, $token)
 	} catch (exception $e) {
 		echo "Lỗi giao dịch: Không cập nhật được (lỗi đường truyền)<br>";
 	} finally {
-		echo "Câu trả lời đúng";
+		echo "Câu trả lời đã được xử lí";
 	}
 }
 
 function respondIncorrect($conn, $round, $token)
 {
-	echo "Câu trả lời sai";
+	echo "Câu trả lời đã được xử lí";
 }
 
 if (!isset($_SESSION['round']))
@@ -60,14 +60,13 @@ if (!isset($_SESSION['token']))
 	die("Không tìm thấy người chơi");
 
 $conn = db_connect();
+
 $round = $_SESSION['round'];
 $token = $_SESSION['token'];
 //echo $player;
 $answer = db_fetch_question($conn, $round);
-
 if ($answer['choice_a'] == $_POST['choice'])
 	respondCorrect($conn, $round, $token);
 else
 	respondIncorrect($conn, $round, $token);
-
 $conn->close();

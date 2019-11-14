@@ -79,55 +79,43 @@ include serverpath('middleware/auth.php');
 			$result = $conn->query($sql);
 			$question = $result->fetch_assoc();
 			return $question;
-		}
-
-		function display($question, $round, $token)
-		{
-			?>
-		<div id="wrapper" class="main-container">
-			<form action='check.php' method='post'>
-				<h1>Câu hỏi</h1>
-				<p><?php echo $question['body'] ?></p>
-				<div class="group-answer">
-					<?php
-						$val = ['a', 'b', 'c', 'd'];
-						shuffle($val);
-						foreach ($val as $c) {
-							?>
-						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" type='submit' name='choice' value="<?php echo $question['choice_' . $c] ?>">
-							<div class="mdc-notched-outline mdc-notched-outline--no-label">
-								<div class="mdc-notched-outline__leading"></div>
-								<div class="mdc-notched-outline__notch">
-									<label for="text-field-hero-input" class="mdc-floating-label"></label>
-								</div>
-								<div class="mdc-notched-outline__trailing"></div>
-							</div>
-						</div>
-					<?php
-							// echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-						}
-						?>
-				</div>
-				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
-				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-			</form>
-		</div>
-	<?php
-
-	}
+		}		
 	?>
-	
-</body>
-	<form id="question" action='check.php' method='post'></form>
 
+</body>
+	<p id="timing">10</p>
+	<form id="question" method='post'></form>
 	</body>
 	<script>
 		window.mdc.autoInit();
 	</script>
-	<script src="<?php echo path ("socket.io.js")?>"></script>
+	<script src="<?php echo path ("socket.io.js");?>"></script>
 	<script>
+		timeLeft = 10;
+		intervalHandler = null;
+
+		function renderTimer () {
+			document.getElementById ("timing").innerText = timeLeft;
+		}
+
+		function setEllapsedTime (time) {
+			if (intervalHandler != null)
+				clearInterval (intervalHandler);
+			intervalHandler = setInterval ("onTimingInterval ()", 1000);
+			timeLeft = time;
+			renderTimer ();
+		}
+
+		function onTimingInterval () {
+			if (timeLeft > 0) {
+				renderTimer ();
+				timeLeft-=1;
+			} else {
+				timeLeft = 0;
+				renderTimer ();
+			}
+		}
+
 		var socket = io.connect('http://localhost:8080');
 
 		function render (question) {
@@ -138,21 +126,37 @@ include serverpath('middleware/auth.php');
 
 		function requestNext () {
 			request = new XMLHttpRequest ();
-			request.open ("GET", "/api.php?method=get_question_body", true)
 			
 			request.onreadystatechange = function () {	
-					if (this.readyState == 4 && this.status == 200) {			
-						render (this.responseText);					
-					}
+				if (this.readyState == 4 && this.status == 200) {			
+					render (this.responseText);					
+				}
 			};
-
+			request.open ("GET", "/api.php?method=get_question_body", true)
 			request.send ();
 		}
 
 		socket.on('<?php echo "onChange".$round?>', function(time){
 			// alert ("update needed: " + time);
+			setEllapsedTime (time);
         	requestNext ();
         });
 
+        function onChoiceClick (choice) {
+        	request = new XMLHttpRequest ();
+        	request.onreadystatechange = function () {	
+				if (this.readyState == 4 && this.status == 200) {			
+					var question_pane = document.getElementById ("question");
+					question_pane.innerHTML = this.responseText;
+				}		
+			};
+
+			var params = "choice="+choice;
+			request.open ("POST", "check.php", true);
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.send (params);
+        }
+
+        requestNext ();
 	</script>
 </html>

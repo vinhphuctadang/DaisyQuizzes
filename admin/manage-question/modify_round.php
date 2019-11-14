@@ -363,8 +363,6 @@ $conn->close();
 			var tooltip = document.getElementById("tooltip-token");
 			tooltip.innerHTML = "Copy";
 		}
-
-		
 	</script>
 	<?php
 	if (isset ($_SESSION['flash_alert']))

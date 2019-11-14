@@ -36,7 +36,7 @@
 						foreach ($val as $c) {
 							?>
 						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" type='submit' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick ()" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
