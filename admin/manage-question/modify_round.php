@@ -281,6 +281,13 @@ $conn->close();
 
 		function updateQuestionNumber(msg) {
 
+			jsn = JSON.parse (msg);
+			if (jsn.result === "ERR_EXCEED") {
+				alert ("Vòng chơi đã kết thúc");	
+				clearInterval (x);			
+				return;
+			}
+
 			httprq = new XMLHttpRequest();
 			httprq.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -289,6 +296,8 @@ $conn->close();
 					document.getElementById("number").innerText = jsn.result;
 				}
 			}
+
+
 
 			httprq.open("GET", "/api.php?method=get_question_no&token=<?php echo $token ?>", true);
 			httprq.send();

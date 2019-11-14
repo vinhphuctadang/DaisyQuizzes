@@ -16,9 +16,19 @@
 	}
 
 	function __render($question){
+
 		// echo json_encode ($question);
-		if ($question == "ERR_NOT_LOGGED_IN" || $question == "ERR_ROUND_CLOSED"){
-			echo $question;
+		if ($question == "ERR_NOT_LOGGED_IN"){
+			echo "<p> Vui lòng đăng nhập vào vòng chơi </p>";
+			return;
+		}
+		if ($question == "ERR_ROUND_CLOSED"){
+			echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='/'>trang chủ </a></p>";
+			return;
+		}
+
+		if ($question == "ERR_ROUND_IS_WAITING") {
+			echo "<p>Vòng chơi đang chờ đợi để bắt đầu</p>";
 			return;
 		}
 
@@ -104,6 +114,14 @@
 		return $result['status'];
 	}
 	
+	function getQuestionNumber ($conn, $token) {
+		$sql = "SELECT question_no FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		if ($result->num_rows == 0)
+			return -1;
+		$result = $result->fetch_assoc ();
+		return $result['question_no'];
+	}
 
 	function changeQuestion ($conn, $token, $increment, $time) { 
 		// TODO: Fix injection error here (IMPORTANT)
@@ -111,18 +129,26 @@
 			return "ERR_ROUND_STILL_CLOSE ".getStatus ($conn, $token);
 		}
 
+
+		$sql = "SELECT MAX(question_no) AS mx FROM daisy_shuffle_content";
+		$result = $conn->query ($sql);
+		$maxNumber = $result->fetch_assoc ()['mx'];
+		$questionNumber = getQuestionNumber ($conn, $token);
+
+		if ($questionNumber + $increment > $maxNumber) 
+			return "ERR_EXCEED";
+		
+
 		$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
 		$conn->query ($sql);
 		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
 		$result = $conn->query ($sql);
-
 		$value = $result->fetch_assoc ();
 		$round = $value['round'];
 		// TODO: Send NodeJS request to notify all clients about that
 		
 		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
 		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
-
 		file_get_contents ($NODEJS_HOST_SERVER.'/notify/'.$round."/".$time); 
 		return "success";
 	}
@@ -140,14 +166,7 @@
 		$conn->query ($sql);	
 	}
 	
-	function getQuestionNumber ($conn, $token) {
-		$sql = "SELECT question_no FROM daisy_round WHERE access_token='$token'";
-		$result = $conn->query ($sql);
-		if ($result->num_rows == 0)
-			return -1;
-		$result = $result->fetch_assoc ();
-		return $result['question_no'];
-	}
+	
 
 	function getQuestionBody ($conn, $token) { //để javascript truy cập từ bên ngoài
 
@@ -155,7 +174,7 @@
 			if (!isset($_SESSION['round']))
 				return "ERR_NOT_LOGGED_IN";
 
-		if ($token === "") {
+			if ($token === "") {
 			$round = $_SESSION['round'];
 			$sql = "SELECT status, question_no  FROM daisy_round where round='$round'";
 		} else {

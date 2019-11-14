@@ -82,10 +82,13 @@ include serverpath('middleware/auth.php');
 		}		
 	?>
 
-</body>
-	<p id="timing">10</p>
-	<form id="question" method='post'></form>
-	</body>
+
+
+	<form id="question">
+		<p class="timing" id="timing">10</p>
+		<div id="question-body"></div>
+	</form>
+
 	<script>
 		window.mdc.autoInit();
 	</script>
@@ -95,7 +98,9 @@ include serverpath('middleware/auth.php');
 		intervalHandler = null;
 
 		function renderTimer () {
-			document.getElementById ("timing").innerText = timeLeft;
+			var timingView = document.getElementById ("timing");
+			if (timingView != null)
+				timingView.innerText = timeLeft;
 		}
 
 		function setEllapsedTime (time) {
@@ -119,7 +124,7 @@ include serverpath('middleware/auth.php');
 		var socket = io.connect('http://localhost:8080');
 
 		function render (question) {
-			var question_pane = document.getElementById ("question");
+			var question_pane = document.getElementById ("question-body");
 			question_pane.innerHTML = question;
 			// TODO: Invoke onInterval after a desired time 
 		}
@@ -132,7 +137,7 @@ include serverpath('middleware/auth.php');
 					render (this.responseText);					
 				}
 			};
-			request.open ("GET", "/api.php?method=get_question_body", true)
+			request.open ("GET", "/api.php?method=get_question_body", true);
 			request.send ();
 		}
 
@@ -146,7 +151,7 @@ include serverpath('middleware/auth.php');
         	request = new XMLHttpRequest ();
         	request.onreadystatechange = function () {	
 				if (this.readyState == 4 && this.status == 200) {			
-					var question_pane = document.getElementById ("question");
+					var question_pane = document.getElementById ("question-body");
 					question_pane.innerHTML = this.responseText;
 				}		
 			};
@@ -159,4 +164,5 @@ include serverpath('middleware/auth.php');
 
         requestNext ();
 	</script>
+	</body>
 </html>
