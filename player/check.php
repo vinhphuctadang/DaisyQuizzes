@@ -45,13 +45,13 @@ function respondCorrect($conn, $round, $token)
 	} catch (exception $e) {
 		echo "Lỗi giao dịch: Không cập nhật được (lỗi đường truyền)<br>";
 	} finally {
-		echo "Câu trả lời đã được xử lí";
+		echo "Câu trả lời đã được ghi nhận";
 	}
 }
 
 function respondIncorrect($conn, $round, $token)
 {
-	echo "Câu trả lời đã được xử lí";
+	echo "Câu trả lời đã được ghi nhận";
 }
 
 if (!isset($_SESSION['round']))
@@ -65,7 +65,9 @@ $round = $_SESSION['round'];
 $token = $_SESSION['token'];
 //echo $player;
 $answer = db_fetch_question($conn, $round);
-if ($answer['choice_a'] == $_POST['choice'])
+// echo json_encode($_POST);
+
+if ($answer['choice_a'] == $_POST['choice']) 
 	respondCorrect($conn, $round, $token);
 else
 	respondIncorrect($conn, $round, $token);

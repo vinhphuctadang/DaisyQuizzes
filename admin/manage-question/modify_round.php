@@ -276,15 +276,26 @@ $conn->close();
 			}
 			httprqIQ.open("GET", "/api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
 			httprqIQ.send();
-			//alert ("New question updated");
+		}
+
+		function notifyRoundFinish () {
+			var request = new XMLHttpRequest ();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log (this.responseText);			
+				}
+			}
+			request.open("GET", "/api.php?method=notify_round_finish&token=<?php echo $token; ?>", true);
+			request.send();	
 		}
 
 		function updateQuestionNumber(msg) {
 
 			jsn = JSON.parse (msg);
 			if (jsn.result === "ERR_EXCEED") {
-				alert ("Vòng chơi đã kết thúc");	
 				clearInterval (x);			
+				notifyRoundFinish ();
+				alert ("Vòng chơi đã kết thúc");	
 				return;
 			}
 
@@ -296,8 +307,6 @@ $conn->close();
 					document.getElementById("number").innerText = jsn.result;
 				}
 			}
-
-
 
 			httprq.open("GET", "/api.php?method=get_question_no&token=<?php echo $token ?>", true);
 			httprq.send();

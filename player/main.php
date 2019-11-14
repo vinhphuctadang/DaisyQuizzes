@@ -147,6 +147,12 @@ include serverpath('middleware/auth.php');
         	requestNext ();
         });
 
+   		socket.on('<?php echo "onFinished".$round?>', function(message){
+			alert ("recieve onFinish ");
+			clearInterval(intervalHandler);
+        	window.location.href = "rank.php";
+        });
+
         function onChoiceClick (choice) {
         	request = new XMLHttpRequest ();
         	request.onreadystatechange = function () {	
@@ -158,7 +164,7 @@ include serverpath('middleware/auth.php');
 
 			var params = "choice="+choice;
 			request.open ("POST", "check.php", true);
-			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");			
 			request.send (params);
         }
 

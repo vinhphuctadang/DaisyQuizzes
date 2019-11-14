@@ -14,10 +14,10 @@ io.sockets.on('connection', function (socket) {
     	socket.emit('onChange'+round, time);
   	});
 
-  	serverEmitter.on('finish', function (round, time) {
+  	serverEmitter.on('finish', function (round) {
     // this message will be sent to all connected users
-    	console.log ("event emitter finish round");
-    	socket.emit('onFinished'+round);
+    	console.log ("event emitter finish round: '"+round+"'");
+    	socket.emit('onFinished'+round, "reload");
   	});
 });
 
@@ -31,8 +31,7 @@ app.get('/notify/:round/:time', function(request, response) {
 
 app.get('/finish/:round', function(request, response) { // tuyên bố kết thúc màn chơi
 	var round = request.params ["round"];
-	var time = request.params ["time"];
-	serverEmitter.emit ('finish', round, time);
+	serverEmitter.emit ('finish', round);
 	response.send ('finish notified');
 });
 

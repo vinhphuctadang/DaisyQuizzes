@@ -46,7 +46,7 @@
 						foreach ($val as $c) {
 							?>
 						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick ()" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this.value)" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
@@ -141,15 +141,26 @@
 
 		$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
 		$conn->query ($sql);
+
 		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
 		$result = $conn->query ($sql);
 		$value = $result->fetch_assoc ();
 		$round = $value['round'];
 		// TODO: Send NodeJS request to notify all clients about that
-		
 		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
 		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
 		file_get_contents ($NODEJS_HOST_SERVER.'/notify/'.$round."/".$time); 
+		return "success";
+	}
+
+	function notifyRoundFinish ($conn, $token) {
+		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		$row = $result->fetch_assoc();
+		$round= $row['round'];
+		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
+		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
+		file_get_contents ($NODEJS_HOST_SERVER.'/finish/'.$round); 
 		return "success";
 	}
 	
@@ -241,6 +252,13 @@
 					$success = false;
 				return formResp ($success, $result, $err);
 				break;
+			case "notify_round_finish":
+				$err = checkRequiredParam ($request, ['token']);
+				if ($err === "")
+					$result = notifyRoundFinish ($conn, $request['token']);				
+				else 
+					$success = false;
+				return formResp ($success, $result, $err);				
 			case "get_question_body":
 				$err = checkRequiredParam ($request, []);
 				$token = "";	
