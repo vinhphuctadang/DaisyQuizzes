@@ -169,9 +169,9 @@
 
 		if ($status == 0)
 			return "ERR_ROUND_CLOSED";
-		// if ($status == 1) {
-		// 	return "ERR_ROUND_IS_WAITING";
-		// }
+		if ($status == 1) {
+			return "ERR_ROUND_IS_WAITING";
+		}
 
 		$question_no =  $assoc['question_no'];
 		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE daisy_shuffle_content.question_id = daisy_question.id AND daisy_shuffle_content.question_no=$question_no";
