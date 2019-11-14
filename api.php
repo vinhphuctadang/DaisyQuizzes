@@ -3,6 +3,7 @@
 	include serverpath ('middleware/auth_admin.php');
 	// Dành cho đội ngũ phát triển sử dụng
 	// sử dụng api để lấy dữ liệu từ vòng chơi (admin)
+	$NODEJS_HOST_SERVER = 'http://localhost:8080';	
 
 	function formResp ($success, $result, $error) {
 		$json = [];
@@ -112,8 +113,17 @@
 
 		$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
 		$conn->query ($sql);
-		// TODO: Send NodeJS request to notify all clients about that
+		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
 
+		$value = $result->fetch_assoc ();
+		$round = $value['round'];
+		// TODO: Send NodeJS request to notify all clients about that
+		
+		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
+		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
+
+		file_get_contents ($NODEJS_HOST_SERVER.'/notify/'.$round."/".$time); 
 		return "success";
 	}
 	

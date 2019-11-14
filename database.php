@@ -29,7 +29,7 @@ function serverpath($dir)
 	if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 		$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 	}
-	return $DOCUMENT_ROOT . '/' . $dir;
+	return $DOCUMENT_ROOT .'/' . $dir;
 }
 
 function path($dir)

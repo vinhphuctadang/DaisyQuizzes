@@ -1,4 +1,8 @@
 // viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
+
+
+var socket = io.connect('http://localhost:8080');
+
 function render (question) {
 	var question_pane = document.getElementById ("question");
 	question_pane.innerHTML = question;
@@ -15,5 +19,3 @@ function requestNext () {
 	};
 	request.send ();
 }
-
-requestNext ();

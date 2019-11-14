@@ -241,7 +241,8 @@ $conn->close();
 		</div>
 	</div>
 	<script>
-		var timing = 10;
+		var totalTime = 10;
+		var timing = totalTime;
 		var x = null;
 
 		function startInterval() {
@@ -256,13 +257,12 @@ $conn->close();
 		function onInterval() {
 			
 			if (timing == 0) {
-				timing = 10;
+				timing = totalTime;
 				increaseQuestionNumber(updateQuestionNumber);
 			} else 
 				timing -= 1;
 
 			render();
-
 		}
 
 		function increaseQuestionNumber(onDoneResp) {
@@ -270,7 +270,8 @@ $conn->close();
 
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					onDoneResp(httprqIQ.responseText);
+					onDoneResp(this.responseText);
+					console.log (this.responseText);
 				}
 			}
 			httprqIQ.open("GET", "/api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
@@ -286,7 +287,6 @@ $conn->close();
 					var txt = httprq.responseText;
 					var jsn = JSON.parse(txt);
 					document.getElementById("number").innerText = jsn.result;
-
 				}
 			}
 

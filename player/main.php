@@ -6,8 +6,8 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 include $DOCUMENT_ROOT . '/database.php';
 include serverpath('middleware/auth.php');
 ?>
-<html>
 
+<html>
 <head>
 	<title>Daisy Quizzes</title>
 	<meta charset="utf-8">
@@ -123,10 +123,36 @@ include serverpath('middleware/auth.php');
 	<form id="question" action='check.php' method='post'></form>
 
 	</body>
-
 	<script>
 		window.mdc.autoInit();
 	</script>
-	<script src="main.js"></script>
+	<script src="<?php echo path ("socket.io.js")?>"></script>
+	<script>
+		var socket = io.connect('http://localhost:8080');
 
+		function render (question) {
+			var question_pane = document.getElementById ("question");
+			question_pane.innerHTML = question;
+			// TODO: Invoke onInterval after a desired time 
+		}
+
+		function requestNext () {
+			request = new XMLHttpRequest ();
+			request.open ("GET", "/api.php?method=get_question_body", true)
+			
+			request.onreadystatechange = function () {	
+					if (this.readyState == 4 && this.status == 200) {			
+						render (this.responseText);					
+					}
+			};
+
+			request.send ();
+		}
+
+		socket.on('<?php echo "onChange".$round?>', function(time){
+			// alert ("update needed: " + time);
+        	requestNext ();
+        });
+
+	</script>
 </html>
