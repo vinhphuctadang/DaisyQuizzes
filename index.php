@@ -36,7 +36,6 @@ function disp_alert($alertText)
 		<form action="player/entry.php" method="post">
 
 			<div class="imgcontainer">
-				<!-- <img src="<?php echo assets('img_avatar.png') ?>" alt="Avatar" class="avatar"> -->
 				<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 			</div>
 

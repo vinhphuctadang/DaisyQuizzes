@@ -1,9 +1,9 @@
 :root {
     --mdc-theme-primary: #1976d2 !important;
-  }
-  .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+}
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
     color: #1976d2;
-  }
+}
 #wrapper {
     margin-top: 200px;
 }
@@ -16,7 +16,7 @@
 }
 .header button {
     color: white !important;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     border-radius: 24px;
     margin: 4px;
 }
@@ -32,6 +32,22 @@
 a {
     text-decoration: none;
 }
-a {
+a:hover {
     text-decoration: underline;
+}
+.imgcontainer {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Avatar image */
+img.avatar {
+    width: 80px;
+    height: 80px;
+}
+
+.wrapper-card {
+    width: fit-content;
+    padding: 40px 16px 20px 16px;
+    margin: 0 auto;
 }

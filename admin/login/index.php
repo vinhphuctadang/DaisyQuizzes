@@ -27,38 +27,41 @@ if (checkLoggedIn()) {
 
 <body>
 	<div id="wrapper">
-		<form name="fLogin" class="center-card" action="middle_login.php" method="post">
-			<div class="header">
-				<button class="mdc-icon-button material-icons" disabled>lock</button>
-				<div>Đăng nhập</div>
-			</div>
-			<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-				<input class="mdc-text-field__input" id="username" name="username" required onkeyup="validateForm(event)" />
-				<div class="mdc-notched-outline">
-					<div class="mdc-notched-outline__leading"></div>
-					<div class="mdc-notched-outline__notch">
-						<label for="username" class="mdc-floating-label">Tên đăng nhập</label>
-					</div>
-					<div class="mdc-notched-outline__trailing"></div>
+		<div class="mdc-card wrapper-card">
+			<form name="fLogin" class="center-card" action="middle_login.php" method="post">
+				<div class="imgcontainer">
+					<img src="../../assets/img_avatar.png" alt="Avatar" class="avatar">
+					<div>Đăng nhập</div>
 				</div>
-			</div>
-			<div id="error_username" class="error">helper_text</div>
-			<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-				<input class="mdc-text-field__input" id="password" name="password" type="password" required onkeyup="validateForm(event)">
-				<div class="mdc-notched-outline">
-					<div class="mdc-notched-outline__leading"></div>
-					<div class="mdc-notched-outline__notch">
-						<label for="password" class="mdc-floating-label">Mật khẩu</label>
+				<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+					<input class="mdc-text-field__input" id="username" name="username" required onkeyup="validateForm(event)" />
+					<div class="mdc-notched-outline">
+						<div class="mdc-notched-outline__leading"></div>
+						<div class="mdc-notched-outline__notch">
+							<label for="username" class="mdc-floating-label">Tên đăng nhập</label>
+						</div>
+						<div class="mdc-notched-outline__trailing"></div>
 					</div>
-					<div class="mdc-notched-outline__trailing"></div>
 				</div>
-			</div>
-			<div id="error_password" class="error">helper_text</div>
-			<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
-			</button>
-			<p class="footer"><a href="../../">Tham gia </a><br>Chưa có tài khoản? <a href="../register">Đăng ký </a> </p>
+				<div id="error_username" class="error">helper_text</div>
+				<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+					<input class="mdc-text-field__input" id="password" name="password" type="password" required onkeyup="validateForm(event)">
+					<div class="mdc-notched-outline">
+						<div class="mdc-notched-outline__leading"></div>
+						<div class="mdc-notched-outline__notch">
+							<label for="password" class="mdc-floating-label">Mật khẩu</label>
+						</div>
+						<div class="mdc-notched-outline__trailing"></div>
+					</div>
+				</div>
+				<div id="error_password" class="error">helper_text</div>
+				<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
+				</button>
+				<p class="footer"><a href="../../">Tham gia </a><br>Chưa có tài khoản? <a href="../register">Đăng ký </a> </p>
 
-		</form>
+			</form>
+		</div>
+
 
 	</div>
 	<script>
