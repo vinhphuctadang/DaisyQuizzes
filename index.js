@@ -19,6 +19,12 @@ io.sockets.on('connection', function (socket) {
     	console.log ("event emitter finish round: '"+round+"'");
     	socket.emit('onFinished'+round, "reload");
   	});
+
+
+    serverEmitter.on('player', function (round, player) {
+        console.log ("Player notify '"+round+"'");
+        socket.emit('onPlayer'+round, player);
+    });
 });
 
 
@@ -33,6 +39,14 @@ app.get('/finish/:round', function(request, response) { // tuyên bố kết th�
 	var round = request.params ["round"];
 	serverEmitter.emit ('finish', round);
 	response.send ('finish notified');
+});
+
+app.get('/player/:round/:player/', function(request, response) { // tuyên bố thay đổi điểm
+    var round = request.params ["round"];
+    var player = request.params ["player"];
+
+    serverEmitter.emit ('player', round, player);
+    response.send ('finish notified');
 });
 
 const server = http.listen(8080, function() {

@@ -95,8 +95,15 @@
 		Tất cả các hàm sau đều là các hàm chức năng
 	*/	
 
-	function findLoggedPlayer ($conn, $token) {		
-		$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' ORDER BY score DESC";
+	// Trả về (danh sách) người chơi trong vòng đó ($name là tùy chọn, nếu $name = "", hàm trả về danh sách tất cả người chơi tương ứng vòng đó)
+	// Lỗi: Chưa sửa injection
+
+	function findLoggedPlayer ($conn, $token, $name) {
+
+		$addition = "";
+		if ($name != "")
+			$addition = " AND name='$name'";
+		$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' $addition ORDER BY score DESC";
 		$result = $conn->query ($sql);
 		$list = [];
 		while ($row = $result->fetch_assoc ()){
@@ -229,8 +236,11 @@
 		switch ($request['method']) {
 			case "get_player":
 				$err = checkRequiredParam ($request, ['token']);
+				$name = "";
+				if (isset($request['name']))
+					$name = $request['name'];
 				if ($err === "")
-					$result = findLoggedPlayer ($conn, $request['token']);				
+					$result = findLoggedPlayer ($conn, $request['token'], $name);				
 				else 
 					$success = false;
 				return formResp ($success, $result, $err);

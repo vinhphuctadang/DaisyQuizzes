@@ -153,7 +153,7 @@ $conn->close();
 								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
-								<td class="mdc-data-table__cell text-center">
+								<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 									<?php echo $each['score']; ?>
 								</td>
 							</tr>
@@ -386,6 +386,9 @@ $conn->close();
 	if (isset ($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
+
+	<script src="<?php echo path ("socket.io.js");?>"></script>
+	
 </body>
 
 </html>
