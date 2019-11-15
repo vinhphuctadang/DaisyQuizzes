@@ -22,7 +22,7 @@ io.sockets.on('connection', function (socket) {
 
 
     serverEmitter.on('player', function (round, player) {
-        console.log ("Player notify '"+round+"'");
+        console.log ("Player " + player + " notify '"+round+"'");
         socket.emit('onPlayer'+round, player);
     });
 });

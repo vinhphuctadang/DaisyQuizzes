@@ -3,7 +3,7 @@
 	include serverpath ('middleware/auth_admin.php');
 	// Dành cho đội ngũ phát triển sử dụng
 	// sử dụng api để lấy dữ liệu từ vòng chơi (admin)
-	$NODEJS_HOST_SERVER = 'http://localhost:8080';	
+	
 
 	function formResp ($success, $result, $error) {
 		$json = [];
@@ -96,13 +96,14 @@
 	*/	
 
 	// Trả về (danh sách) người chơi trong vòng đó ($name là tùy chọn, nếu $name = "", hàm trả về danh sách tất cả người chơi tương ứng vòng đó)
+	// Lưu ý: name là token của người chơi
 	// Lỗi: Chưa sửa injection
 
 	function findLoggedPlayer ($conn, $token, $name) {
 
 		$addition = "";
 		if ($name != "")
-			$addition = " AND name='$name'";
+			$addition = " AND daisy_player_round.token='$name'";
 		$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' $addition ORDER BY score DESC";
 		$result = $conn->query ($sql);
 		$list = [];
@@ -192,16 +193,17 @@
 			if (!isset($_SESSION['round']))
 				return "ERR_NOT_LOGGED_IN";
 
-			if ($token === "") {
+		if ($token === "") {
 			$round = $_SESSION['round'];
-			$sql = "SELECT status, question_no  FROM daisy_round where round='$round'";
+			$sql = "SELECT status, question_no, round FROM daisy_round where round='$round'";
 		} else {
-			$sql = "SELECT status, question_no FROM daisy_round where access_token='$token'";
+			$sql = "SELECT status, question_no, round FROM daisy_round where access_token='$token'";
 		}
 		
 		$result = $conn->query($sql);
 		$assoc = $result->fetch_assoc();
 		$status = $assoc['status'];
+		$round = $assoc['round'];
 		
 
 		if ($status == 0)
@@ -211,7 +213,8 @@
 		}
 
 		$question_no =  $assoc['question_no'];
-		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE daisy_shuffle_content.question_id = daisy_question.id AND daisy_shuffle_content.question_no=$question_no";
+		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE daisy_shuffle_content.question_id = daisy_question.id AND daisy_shuffle_content.question_no=$question_no
+			AND daisy_shuffle_content.round = '$round'";
 		// echo $sql;
 		// echo $sql;
 		$result = $conn->query ($sql);

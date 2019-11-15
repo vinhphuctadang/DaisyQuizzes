@@ -1,4 +1,7 @@
 <?php
+
+$NODEJS_HOST_SERVER = 'http://localhost:8080';	
+
 function db_connect()
 {
 	$servername = "localhost";

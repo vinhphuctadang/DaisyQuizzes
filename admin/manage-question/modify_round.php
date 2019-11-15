@@ -381,6 +381,27 @@ $conn->close();
 			var tooltip = document.getElementById("tooltip-token");
 			tooltip.innerHTML = "Copy";
 		}
+
+		function updatePlayerScore (player) {
+			
+			httprq = new XMLHttpRequest();
+				
+			httprq.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var txt = httprq.responseText;
+					console.log (txt);
+					var jsn = JSON.parse(txt);
+					var arr = jsn.result;
+					var id = arr[0].name;
+					var score = arr[0].score;
+					document.getElementById(id).innerText = score;
+				}
+			}
+
+			httprq.open("GET", "/api.php?method=get_player&name="+player+"&token=<?php echo $token ?>", true);
+			httprq.send();
+		}
+
 	</script>
 	<?php
 	if (isset ($_SESSION['flash_alert']))
@@ -388,7 +409,15 @@ $conn->close();
 	?>
 
 	<script src="<?php echo path ("socket.io.js");?>"></script>
-	
+	<script>
+
+        var socket = io.connect('http://localhost:8080');
+		socket.on('<?php echo "onPlayer".$round?>', function(player){
+			// alert ("update needed: " + time);
+			updatePlayerScore (player);	
+        });        
+
+	</script>
 </body>
 
 </html>

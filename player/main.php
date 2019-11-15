@@ -121,7 +121,7 @@ include serverpath('middleware/auth.php');
 			}
 		}
 
-		var socket = io.connect('http://localhost:8080');
+		
 
 		function render (question) {
 			var question_pane = document.getElementById ("question-body");
@@ -141,18 +141,6 @@ include serverpath('middleware/auth.php');
 			request.send ();
 		}
 
-		socket.on('<?php echo "onChange".$round?>', function(time){
-			// alert ("update needed: " + time);
-			setEllapsedTime (time);
-        	requestNext ();
-        });
-
-   		socket.on('<?php echo "onFinished".$round?>', function(message){
-			alert ("recieve onFinish ");
-			clearInterval(intervalHandler);
-        	window.location.href = "rank.php";
-        });
-
         function onChoiceClick (choice) {
         	request = new XMLHttpRequest ();
         	request.onreadystatechange = function () {	
@@ -167,6 +155,21 @@ include serverpath('middleware/auth.php');
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");			
 			request.send (params);
         }
+
+        var socket = io.connect('http://localhost:8080');
+		
+		socket.on('<?php echo "onChange".$round?>', function(time){
+			// alert ("update needed: " + time);
+			setEllapsedTime (time);
+        	requestNext ();
+        });
+
+   		socket.on('<?php echo "onFinished".$round?>', function(message){
+			alert ("recieve onFinish ");
+			clearInterval(intervalHandler);
+        	window.location.href = "rank.php";
+        });
+
 
         requestNext ();
 	</script>
