@@ -37,7 +37,7 @@ function serverpath($dir) // generate path for serverside
 
 function path($dir) // path for client side that connects to server
 {
-	$str = '../' . $dir;
+	$str = 'DaisyQuizzes/' . $dir;
 	return $str;
 }
 
