@@ -67,9 +67,13 @@ function __render($question)
 						}
 						?>
 				</div>
+				<div class="explanation">
+					<div class="title">* GIẢI THÍCH:</div>
+					<div class="content">Explanation...</div>
+				</div>
 				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
-				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
+				<input type='hidden' name='round' value='<?php echo $round ?>'>
+				<input type='hidden' name='token' value='<?php echo $token ?>'>
 			</form>
 		</div>
 	</div>

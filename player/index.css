@@ -158,7 +158,7 @@ button[disabled] {
     font-size: 60px;
     position: absolute;
     width: 100%;
-    top: 54px;
+    top: 24px;
 }
 .finish {
     font-size: 26px;
@@ -179,4 +179,22 @@ button[disabled] {
 .mdc-data-table::-webkit-scrollbar-thumb {
     background: #909090;
     border-radius: 10px;
+}
+.explanation {
+    margin-top: 24px;
+    border-left: 4px solid #4caf50;
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    padding: 8px 0;
+    padding-left: 8px;
+}
+.explanation .title {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.explanation .content {
+    word-break: break-all;
 }
