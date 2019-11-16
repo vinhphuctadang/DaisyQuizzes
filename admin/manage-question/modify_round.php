@@ -274,7 +274,7 @@ $conn->close();
 					console.log (this.responseText);
 				}
 			}
-			httprqIQ.open("GET", "/api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
+			httprqIQ.open("GET", '<?php echo path ("api.php?method=change_question&token=$token&change=1&nextupdate=10");?>', true);
 			httprqIQ.send();
 		}
 
@@ -285,7 +285,7 @@ $conn->close();
 					console.log (this.responseText);			
 				}
 			}
-			request.open("GET", "/api.php?method=notify_round_finish&token=<?php echo $token; ?>", true);
+			request.open("GET", '<?php echo path ("api.php?method=notify_round_finish&token=$token");?>', true);
 			request.send();	
 		}
 
@@ -308,7 +308,7 @@ $conn->close();
 				}
 			}
 
-			httprq.open("GET", "/api.php?method=get_question_no&token=<?php echo $token ?>", true);
+			httprq.open("GET", '<?php echo path ("api.php?method=get_question_no&token=$token");?>', true);
 			httprq.send();
 		}
 
@@ -398,7 +398,7 @@ $conn->close();
 				}
 			}
 
-			httprq.open("GET", "/api.php?method=get_player&name="+player+"&token=<?php echo $token ?>", true);
+			httprq.open("GET", '<?php echo path ("api.php?method=get_player&name=");?>'+player+"&token=<?php echo $token; ?>", true);
 			httprq.send();
 		}
 
@@ -411,7 +411,7 @@ $conn->close();
 	<script src="<?php echo path ("socket.io.js");?>"></script>
 	<script>
 
-        var socket = io.connect('http://localhost:8080');
+        var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
 		socket.on('<?php echo "onPlayer".$round?>', function(player){
 			// alert ("update needed: " + time);
 			updatePlayerScore (player);	

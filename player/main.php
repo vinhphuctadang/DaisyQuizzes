@@ -137,7 +137,7 @@ include serverpath('middleware/auth.php');
 					render (this.responseText);					
 				}
 			};
-			request.open ("GET", "/api.php?method=get_question_body", true);
+			request.open ("GET", "<?php echo path ('api.php?method=get_question_body');?>", true);
 			request.send ();
 		}
 
@@ -156,15 +156,15 @@ include serverpath('middleware/auth.php');
 			request.send (params);
         }
 
-        var socket = io.connect('http://localhost:8080');
+        var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"];?>');
 		
-		socket.on('<?php echo "onChange".$round?>', function(time){
+		socket.on('<?php echo "onChange".$round;?>', function(time){
 			// alert ("update needed: " + time);
 			setEllapsedTime (time);
         	requestNext ();
         });
 
-   		socket.on('<?php echo "onFinished".$round?>', function(message){
+   		socket.on('<?php echo "onFinished".$round;?>', function(message){
 			alert ("recieve onFinish ");
 			clearInterval(intervalHandler);
         	window.location.href = "rank.php";
