@@ -87,7 +87,7 @@ include serverpath('middleware/auth.php');
 	<form id="question">
 		<p class="timing" id="timing">10</p>
 		<div id="question-body">
-			
+
 		</div>
 	</form>
 
@@ -155,16 +155,17 @@ include serverpath('middleware/auth.php');
 
 			request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {					
-					var status = document.getElementById ('status');
+				if (this.readyState == 4 && this.status == 200) {
+					var status = document.getElementById('status');
 					if (status != null)
 						status.innerHTML = this.responseText;
 				}
 			};
 
-
-			var params = "choice=" + choice.getAttribute ('value');
-			choice.style.backgroundColor = 'GREEN';
+			var params = "choice=" + choice.getAttribute('value');
+			choice.style.backgroundColor = '#4caf50';
+			choice.style.color = 'white';
+			choice.style.borderRadius = '4px';
 
 			request.open("POST", "check.php", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -186,10 +187,10 @@ include serverpath('middleware/auth.php');
 			// alert ("update needed: " + time);
 
 			// do approriate stuff for expressing explanation
-			var status = document.getElementById ('explanation');
+			var status = document.getElementById('explanation');
 			if (status != null)
 				status.innerHTML = explain;
-			setEllapsedTime(time); 
+			setEllapsedTime(time);
 		});
 
 
