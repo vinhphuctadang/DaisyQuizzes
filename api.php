@@ -29,7 +29,7 @@ function __render($question)
 		return;
 	}
 	if ($question == "ERR_ROUND_CLOSED") {
-		echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='/'>trang chủ </a></p>";
+		echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='".path('')."'>trang chủ </a></p>";
 		return;
 	}
 
@@ -44,7 +44,7 @@ function __render($question)
 	<div id="wrapper" class="main-container">
 		<div class="mdc-card wrapper-card question">
 			<form action='check.php' method='post'>
-				<h1>Câu hỏi</h1>
+				<h1>Câu hỏi <?php echo $question["question_no"];?>:</h1>
 				<p><?php echo $question['body'] ?></p>
 				<div class="group-answer">
 					<?php
@@ -76,26 +76,26 @@ function __render($question)
 <?php
 }
 
-function renderQuestion($question)
-{
-	// should render NULL (ERROR) QUESTION
+// function renderQuestion($question) // dành cho phiên bản trước của api 
+// {
+// 	// should render NULL (ERROR) QUESTION
 
-	if ($question == "ERR_NOT_LOGGED_IN") {
-		echo $question;
-		return;
-	}
+// 	if ($question == "ERR_NOT_LOGGED_IN") {
+// 		echo $question;
+// 		return;
+// 	}
 
-	// echo json_encode($question);
-	echo "<h1>Câu hỏi</h1>";
-	echo "<p>" . $question['body'] . "</p>";
-	$val = ['a', 'b', 'c', 'd'];
+// 	// echo json_encode($question);
+// 	echo "<h1>Câu hỏi</h1>";
+// 	echo "<p>" . $question['body'] . "</p>";
+// 	$val = ['a', 'b', 'c', 'd'];
 
-	shuffle($val);
-	foreach ($val as $c) {
-		echo "<input type='button' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-	}
-	echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
-}
+// 	shuffle($val);
+// 	foreach ($val as $c) {
+// 		echo "<input type='button' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
+// 	}
+// 	echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
+// }
 
 /*
 		Tất cả các hàm sau đều là các hàm chức năng

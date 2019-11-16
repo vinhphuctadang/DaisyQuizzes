@@ -88,7 +88,6 @@ if (isset ($_SESSION['question_no']) && $_SESSION['question_no'] == $info['quest
 // khi chưa trả lời:
 
 $answer = db_fetch_question($conn, $round, $info);
-
 if ($answer['choice_a'] == $_POST['choice']) 
 	respondCorrect($conn, $round, $token);
 else
