@@ -6,16 +6,24 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 include $DOCUMENT_ROOT . '/database.php';
 include serverpath('middleware/auth.php');
 
-function db_fetch_question($conn, $round)
-{
+function db_fetch_round_info ($conn, $round) {
 	$sql = "SELECT status, question_no FROM daisy_round where round='$round'";
 	$result = $conn->query($sql);
 	$assoc = $result->fetch_assoc();
+	return $assoc;
+}
+
+function db_fetch_question($conn, $round, $assoc) // assoc là thông tin vòng chơi hiện tại, lấy được nhờ db_fetch_round_info
+{
 	$status = $assoc['status'];
 	if ($status == 0)
 		die("Vòng này đã đóng hoặc không tồn tại!");
+	if ($status == 1)
+		die("Vòng này đang chờ đợi để diễn ra!");
+
 	$question_no =  $assoc['question_no'];
-	$sql = "SELECT choice_a FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=" . $question_no;
+	
+	$sql = "SELECT choice_a FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=$question_no AND daisy_shuffle_content.round='$round'";
 	$result = $conn->query($sql);
 	$question = $result->fetch_assoc();
 	return $question;
@@ -40,18 +48,22 @@ function setScore($conn, $round, $token, $score)
 function respondCorrect($conn, $round, $token)
 {
 	try {
+
 		$score = getScore($conn, $round, $token);
 		setScore($conn, $round, $token, $score + 1);
+		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
+		file_get_contents ($NODEJS_HOST_SERVER.'/player/'.$round."/".$token); 
+
 	} catch (exception $e) {
 		echo "Lỗi giao dịch: Không cập nhật được (lỗi đường truyền)<br>";
 	} finally {
-		echo "Câu trả lời đúng";
+		echo "Câu trả lời đã được xử lí! Hãy chờ câu hỏi tiếp theo";
 	}
 }
 
 function respondIncorrect($conn, $round, $token)
 {
-	echo "Câu trả lời sai";
+	echo "Câu trả lời đã được xử lí! Hãy chờ câu hỏi tiếp theo";
 }
 
 if (!isset($_SESSION['round']))
@@ -60,14 +72,27 @@ if (!isset($_SESSION['token']))
 	die("Không tìm thấy người chơi");
 
 $conn = db_connect();
+
 $round = $_SESSION['round'];
 $token = $_SESSION['token'];
-//echo $player;
-$answer = db_fetch_question($conn, $round);
 
-if ($answer['choice_a'] == $_POST['choice'])
+
+//echo $player;
+$info = db_fetch_round_info ($conn, $round);
+// echo json_encode($_POST);
+
+// middleware: kiểm tra người dùng đã trả lời câu hỏi này chưa mới duyệt
+if (isset ($_SESSION['question_no']) && $_SESSION['question_no'] == $info['question_no']) 
+	die ("Câu hỏi này bạn đã trả lời! Hãy đợi nạp câu hỏi tiếp theo");
+
+// khi chưa trả lời:
+
+$answer = db_fetch_question($conn, $round, $info);
+
+if ($answer['choice_a'] == $_POST['choice']) 
 	respondCorrect($conn, $round, $token);
 else
 	respondIncorrect($conn, $round, $token);
+$_SESSION['question_no'] = $info['question_no'];
 
 $conn->close();

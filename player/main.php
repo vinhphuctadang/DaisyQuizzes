@@ -6,8 +6,8 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 include $DOCUMENT_ROOT . '/database.php';
 include serverpath('middleware/auth.php');
 ?>
-<html>
 
+<html>
 <head>
 	<title>Daisy Quizzes</title>
 	<meta charset="utf-8">
@@ -74,103 +74,104 @@ include serverpath('middleware/auth.php');
 
 			$question_no =  $assoc['question_no'];
 			// TODO: Here comes a bug
-			$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=" . $question_no;
+			$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=$question_no AND daisy_shuffle_content.round='$round'"; 
 			//echo $sql;
 			$result = $conn->query($sql);
 			$question = $result->fetch_assoc();
 			return $question;
-		}
-
-		function display($question, $round, $token)
-		{
-			?>
-		<div id="wrapper" class="main-container">
-			<form action='check.php' method='post'>
-				<h1>Câu hỏi</h1>
-				<p><?php echo $question['body'] ?></p>
-				<div class="group-answer">
-					<?php
-						$val = ['a', 'b', 'c', 'd'];
-						shuffle($val);
-						foreach ($val as $c) {
-							?>
-						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" type='submit' name='choice' value="<?php echo $question['choice_' . $c] ?>">
-							<div class="mdc-notched-outline mdc-notched-outline--no-label">
-								<div class="mdc-notched-outline__leading"></div>
-								<div class="mdc-notched-outline__notch">
-									<label for="text-field-hero-input" class="mdc-floating-label"></label>
-								</div>
-								<div class="mdc-notched-outline__trailing"></div>
-							</div>
-						</div>
-					<?php
-							// echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-						}
-						?>
-				</div>
-				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
-				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-			</form>
-		</div>
-	<?php
-
-	}
+		}		
 	?>
-	
-</body>
 
-	<form id="question" action='check.php' method='post'>	
+
+
+	<form id="question">
+		<p class="timing" id="timing">10</p>
+		<div id="question-body"></div>
 	</form>
-
-	</body>
 
 	<script>
 		window.mdc.autoInit();
 	</script>
-
+	<script src="<?php echo path ("socket.io.js");?>"></script>
 	<script>
+		timeLeft = 10;
+		intervalHandler = null;
 
+		function renderTimer () {
+			var timingView = document.getElementById ("timing");
+			if (timingView != null)
+				timingView.innerText = timeLeft;
+		}
 
-		// viết tất cả các hàm này để thể hiện câu hỏi theo thời gian
-		function render (question) {
-			var question_pane = document.getElementById ("question");
-			question_pane.innerHTML = question;
-			var nxtTime = document.getElementById ("next_timestamp").value;
-			if (next_timestamp != null) {
-				calculate (nxtTime);
+		function setEllapsedTime (time) {
+			if (intervalHandler != null)
+				clearInterval (intervalHandler);
+			intervalHandler = setInterval ("onTimingInterval ()", 1000);
+			timeLeft = time;
+			renderTimer ();
+		}
+
+		function onTimingInterval () {
+			if (timeLeft > 0) {
+				renderTimer ();
+				timeLeft-=1;
+			} else {
+				timeLeft = 0;
+				renderTimer ();
 			}
+		}
+
+		
+
+		function render (question) {
+			var question_pane = document.getElementById ("question-body");
+			question_pane.innerHTML = question;
 			// TODO: Invoke onInterval after a desired time 
 		}
 
 		function requestNext () {
 			request = new XMLHttpRequest ();
-			request.open ("GET", "/api.php?method=get_question_body", true)
-			request.onreadystatechange = function () {
+			
+			request.onreadystatechange = function () {	
 				if (this.readyState == 4 && this.status == 200) {			
 					render (this.responseText);					
 				}
 			};
+			request.open ("GET", "/api.php?method=get_question_body", true);
 			request.send ();
 		}
 
-		function calculate (nxtTime) {
-			var fromTime = Date ();
-			var toTime   = Date (nxtTime)+1;
-			var diff = toTime - fromTime;
-			console.log (fromTime);
-			console.log (toTime);
-			console.log (diff);
-			setTimeout("requestNext", diff);
-		}
+        function onChoiceClick (choice) {
+        	request = new XMLHttpRequest ();
+        	request.onreadystatechange = function () {	
+				if (this.readyState == 4 && this.status == 200) {			
+					var question_pane = document.getElementById ("question-body");
+					question_pane.innerHTML = this.responseText;
+				}		
+			};
 
-		function onInterval () {
-			requestNext ();
-		}
+			var params = "choice="+choice;
+			request.open ("POST", "check.php", true);
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");			
+			request.send (params);
+        }
 
-		requestNext ();
+        var socket = io.connect('http://localhost:8080');
+		
+		socket.on('<?php echo "onChange".$round?>', function(time){
+			// alert ("update needed: " + time);
+			setEllapsedTime (time);
+        	requestNext ();
+        });
 
+   		socket.on('<?php echo "onFinished".$round?>', function(message){
+			alert ("recieve onFinish ");
+			clearInterval(intervalHandler);
+        	window.location.href = "rank.php";
+        });
+
+
+        requestNext ();
 	</script>
-	
+	</body>
 </html>

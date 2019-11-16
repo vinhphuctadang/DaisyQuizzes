@@ -25,7 +25,7 @@ function getStatus($conn, $round)
 
 function setStatus($conn, $round, $status)
 {
-	$sql = "UPDATE daisy_round SET status=$status, question_no=1 WHERE round='$round'";
+	$sql = "UPDATE daisy_round SET status=$status, question_no=0 WHERE round='$round'";
 	$conn->query($sql);
 }
 
@@ -131,7 +131,7 @@ $conn->close();
 			</fieldset>
 		</div>
 		<div class="container">
-			<h3> Câu hỏi hiện tại: <span id="number">1</span>
+			<h3> Câu hỏi hiện tại: <span id="number">0</span>
 			</h3>
 			<p id="time">10</p>
 			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
@@ -154,7 +154,7 @@ $conn->close();
 								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
-								<td class="mdc-data-table__cell text-center">
+								<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 									<?php echo $each['score']; ?>
 								</td>
 							</tr>
@@ -242,12 +242,13 @@ $conn->close();
 		</div>
 	</div>
 	<script>
-		var timing = 10;
+		var totalTime = 10;
+		var timing = totalTime;
 		var x = null;
 
 		function startInterval() {
-			render();
-			x = setInterval("onInterval()", 1000);
+			increaseQuestionNumber (updateQuestionNumber);			
+			x = setInterval ("onInterval ()", 1000);
 		}
 
 		function render() {
@@ -255,32 +256,53 @@ $conn->close();
 		}
 
 		function onInterval() {
-			timing -= 1;
-			render();
+			
 			if (timing == 0) {
-				timing = 10;
+				timing = totalTime;
 				increaseQuestionNumber(updateQuestionNumber);
-			}
+			} else 
+				timing -= 1;
+
+			render();
 		}
 
 		function increaseQuestionNumber(onDoneResp) {
 			httprqIQ = new XMLHttpRequest();
 
 			httprqIQ.onreadystatechange = function() {
-				if (httprq.readyState == 4 && httprq.status == 200) {
-					onDoneResp(httprqIQ.responseText);
+				if (this.readyState == 4 && this.status == 200) {
+					onDoneResp(this.responseText);
+					console.log (this.responseText);
 				}
 			}
 			httprqIQ.open("GET", "/api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
 			httprqIQ.send();
-			//alert ("New question updated");
+		}
+
+		function notifyRoundFinish () {
+			var request = new XMLHttpRequest ();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log (this.responseText);			
+				}
+			}
+			request.open("GET", "/api.php?method=notify_round_finish&token=<?php echo $token; ?>", true);
+			request.send();	
 		}
 
 		function updateQuestionNumber(msg) {
 
+			jsn = JSON.parse (msg);
+			if (jsn.result === "ERR_EXCEED") {
+				clearInterval (x);			
+				notifyRoundFinish ();
+				alert ("Vòng chơi đã kết thúc");	
+				return;
+			}
+
 			httprq = new XMLHttpRequest();
 			httprq.onreadystatechange = function() {
-				if (httprq.readyState == 4 && httprq.status == 200) {
+				if (this.readyState == 4 && this.status == 200) {
 					var txt = httprq.responseText;
 					var jsn = JSON.parse(txt);
 					document.getElementById("number").innerText = jsn.result;
@@ -298,8 +320,8 @@ $conn->close();
 		var status = document.getElementById("status").innerText;
 		if (status == '2') {
 			startInterval();
-			updateQuestionNumber();
 		}
+
 		window.mdc.autoInit();
 		var MDCDialog = mdc.dialog.MDCDialog;
 		const dialog = new MDCDialog(document.querySelector('.mdc-dialog'));
@@ -360,11 +382,43 @@ $conn->close();
 			var tooltip = document.getElementById("tooltip-token");
 			tooltip.innerHTML = "Copy";
 		}
+
+		function updatePlayerScore (player) {
+			
+			httprq = new XMLHttpRequest();
+				
+			httprq.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var txt = httprq.responseText;
+					console.log (txt);
+					var jsn = JSON.parse(txt);
+					var arr = jsn.result;
+					var id = arr[0].name;
+					var score = arr[0].score;
+					document.getElementById(id).innerText = score;
+				}
+			}
+
+			httprq.open("GET", "/api.php?method=get_player&name="+player+"&token=<?php echo $token ?>", true);
+			httprq.send();
+		}
+
 	</script>
 	<?php
 	if (isset($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
+
+	<script src="<?php echo path ("socket.io.js");?>"></script>
+	<script>
+
+        var socket = io.connect('http://localhost:8080');
+		socket.on('<?php echo "onPlayer".$round?>', function(player){
+			// alert ("update needed: " + time);
+			updatePlayerScore (player);	
+        });        
+
+	</script>
 </body>
 
 </html>

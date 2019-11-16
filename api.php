@@ -3,6 +3,7 @@
 	include serverpath ('middleware/auth_admin.php');
 	// Dành cho đội ngũ phát triển sử dụng
 	// sử dụng api để lấy dữ liệu từ vòng chơi (admin)
+	
 
 	function formResp ($success, $result, $error) {
 		$json = [];
@@ -15,9 +16,19 @@
 	}
 
 	function __render($question){
+
 		// echo json_encode ($question);
-		if ($question == "ERR_NOT_LOGGED_IN" || $question == "ERR_ROUND_CLOSED"){
-			echo $question;
+		if ($question == "ERR_NOT_LOGGED_IN"){
+			echo "<p> Vui lòng đăng nhập vào vòng chơi </p>";
+			return;
+		}
+		if ($question == "ERR_ROUND_CLOSED"){
+			echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='/'>trang chủ </a></p>";
+			return;
+		}
+
+		if ($question == "ERR_ROUND_IS_WAITING") {
+			echo "<p>Vòng chơi đang chờ đợi để bắt đầu</p>";
 			return;
 		}
 
@@ -35,7 +46,7 @@
 						foreach ($val as $c) {
 							?>
 						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" type='submit' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this.value)" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
@@ -51,11 +62,7 @@
 				</div>
 				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
 				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-				<!--cái này chưa có bảo mật, mặc định là daisy, 1-10-2019: đã fix bảo mật -->
-				<?php
-					echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
-				?>
+				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>				
 			</form>
 		</div>
 	<?php
@@ -81,15 +88,23 @@
 		}
 		echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
 		
-		echo "<input type='hidden' id='next_timestamp' value='" . $question['next_timestamp'] . "'>" . "</input> <br>";
+		
 	}
 
 	/*
 		Tất cả các hàm sau đều là các hàm chức năng
 	*/	
 
-	function findLoggedPlayer ($conn, $token) {		
-		$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' ORDER BY score DESC";
+	// Trả về (danh sách) người chơi trong vòng đó ($name là tùy chọn, nếu $name = "", hàm trả về danh sách tất cả người chơi tương ứng vòng đó)
+	// Lưu ý: name là token của người chơi
+	// Lỗi: Chưa sửa injection
+
+	function findLoggedPlayer ($conn, $token, $name) {
+
+		$addition = "";
+		if ($name != "")
+			$addition = " AND daisy_player_round.token='$name'";
+		$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' $addition ORDER BY score DESC";
 		$result = $conn->query ($sql);
 		$list = [];
 		while ($row = $result->fetch_assoc ()){
@@ -107,6 +122,14 @@
 		return $result['status'];
 	}
 	
+	function getQuestionNumber ($conn, $token) {
+		$sql = "SELECT question_no FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		if ($result->num_rows == 0)
+			return -1;
+		$result = $result->fetch_assoc ();
+		return $result['question_no'];
+	}
 
 	function changeQuestion ($conn, $token, $increment, $time) { 
 		// TODO: Fix injection error here (IMPORTANT)
@@ -114,8 +137,38 @@
 			return "ERR_ROUND_STILL_CLOSE ".getStatus ($conn, $token);
 		}
 
-		$sql = "UPDATE daisy_round SET question_no=question_no+$increment, next_timestamp=TIMESTAMP (CURRENT_TIMESTAMP()+$time) WHERE access_token='$token'";
+
+		$sql = "SELECT MAX(question_no) AS mx FROM daisy_shuffle_content";
+		$result = $conn->query ($sql);
+		$maxNumber = $result->fetch_assoc ()['mx'];
+		$questionNumber = getQuestionNumber ($conn, $token);
+
+		if ($questionNumber + $increment > $maxNumber) 
+			return "ERR_EXCEED";
+		
+
+		$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
 		$conn->query ($sql);
+
+		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		$value = $result->fetch_assoc ();
+		$round = $value['round'];
+		// TODO: Send NodeJS request to notify all clients about that
+		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
+		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
+		file_get_contents ($NODEJS_HOST_SERVER.'/notify/'.$round."/".$time); 
+		return "success";
+	}
+
+	function notifyRoundFinish ($conn, $token) {
+		$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
+		$result = $conn->query ($sql);
+		$row = $result->fetch_assoc();
+		$round= $row['round'];
+		$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
+		// TODO: Security measure: AUTHORIZATION PROCESS NEEDED
+		file_get_contents ($NODEJS_HOST_SERVER.'/finish/'.$round); 
 		return "success";
 	}
 	
@@ -128,18 +181,11 @@
 	}
 	
 	function setStatus ($conn, $round, $status) {
-		$sql = "UPDATE daisy_round SET status=$status, question_no=1 WHERE round='$round'";
+		$sql = "UPDATE daisy_round SET status=$status, question_no=0 WHERE round='$round'";
 		$conn->query ($sql);	
 	}
 	
-	function getQuestionNumber ($conn, $token) {
-		$sql = "SELECT question_no FROM daisy_round WHERE access_token='$token'";
-		$result = $conn->query ($sql);
-		if ($result->num_rows == 0)
-			return -1;
-		$result = $result->fetch_assoc ();
-		return $result['question_no'];
-	}
+	
 
 	function getQuestionBody ($conn, $token) { //để javascript truy cập từ bên ngoài
 
@@ -149,24 +195,26 @@
 
 		if ($token === "") {
 			$round = $_SESSION['round'];
-			$sql = "SELECT status, question_no, next_timestamp FROM daisy_round where round='$round'";
+			$sql = "SELECT status, question_no, round FROM daisy_round where round='$round'";
 		} else {
-			$sql = "SELECT status, question_no, next_timestamp FROM daisy_round where access_token='$token'";
+			$sql = "SELECT status, question_no, round FROM daisy_round where access_token='$token'";
 		}
 		
 		$result = $conn->query($sql);
 		$assoc = $result->fetch_assoc();
 		$status = $assoc['status'];
-		$next_timestamp = $assoc['next_timestamp'];
+		$round = $assoc['round'];
+		
 
 		if ($status == 0)
 			return "ERR_ROUND_CLOSED";
-		// if ($status == 1) {
-		// 	return "ERR_ROUND_IS_WAITING";
-		// }
+		if ($status == 1) {
+			return "ERR_ROUND_IS_WAITING";
+		}
 
 		$question_no =  $assoc['question_no'];
-		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE daisy_shuffle_content.question_id = daisy_question.id AND daisy_shuffle_content.question_no=$question_no";
+		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE daisy_shuffle_content.question_id = daisy_question.id AND daisy_shuffle_content.question_no=$question_no
+			AND daisy_shuffle_content.round = '$round'";
 		// echo $sql;
 		// echo $sql;
 		$result = $conn->query ($sql);
@@ -174,7 +222,7 @@
 			return -1;
 		$result = $result->fetch_assoc ();
 		$result["question_no"] = $question_no;
-		$result["next_timestamp"] = $next_timestamp;
+		
 		// echo json_encode ($result);
 		return $result;
 	}
@@ -191,8 +239,11 @@
 		switch ($request['method']) {
 			case "get_player":
 				$err = checkRequiredParam ($request, ['token']);
+				$name = "";
+				if (isset($request['name']))
+					$name = $request['name'];
 				if ($err === "")
-					$result = findLoggedPlayer ($conn, $request['token']);				
+					$result = findLoggedPlayer ($conn, $request['token'], $name);				
 				else 
 					$success = false;
 				return formResp ($success, $result, $err);
@@ -214,6 +265,13 @@
 					$success = false;
 				return formResp ($success, $result, $err);
 				break;
+			case "notify_round_finish":
+				$err = checkRequiredParam ($request, ['token']);
+				if ($err === "")
+					$result = notifyRoundFinish ($conn, $request['token']);				
+				else 
+					$success = false;
+				return formResp ($success, $result, $err);				
 			case "get_question_body":
 				$err = checkRequiredParam ($request, []);
 				$token = "";	
@@ -242,6 +300,7 @@
 				return formResp ($success, $result, $err);
 				break;
 		}				
+
 		$conn->close ();
 	}
 	
