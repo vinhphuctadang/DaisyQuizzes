@@ -186,7 +186,7 @@ include serverpath('middleware/auth.php');
 			// alert ("update needed: " + time);
 
 			// do approriate stuff for expressing explanation
-			var status = document.getElementById ('status');
+			var status = document.getElementById ('explanation');
 			if (status != null)
 				status.innerHTML = explain;
 			setEllapsedTime(time); 
