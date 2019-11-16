@@ -42,34 +42,36 @@ function __render($question)
 	$token = $_SESSION['token'];
 	?>
 	<div id="wrapper" class="main-container">
-		<form action='check.php' method='post'>
-			<h1>Câu hỏi</h1>
-			<p><?php echo $question['body'] ?></p>
-			<div class="group-answer">
-				<?php
-					$val = ['a', 'b', 'c', 'd'];
-					shuffle($val);
-					foreach ($val as $c) {
-						?>
-					<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-						<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this.value)" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
-						<div class="mdc-notched-outline mdc-notched-outline--no-label">
-							<div class="mdc-notched-outline__leading"></div>
-							<div class="mdc-notched-outline__notch">
-								<label for="text-field-hero-input" class="mdc-floating-label"></label>
+		<div class="mdc-card wrapper-card question">
+			<form action='check.php' method='post'>
+				<h1>Câu hỏi</h1>
+				<p><?php echo $question['body'] ?></p>
+				<div class="group-answer">
+					<?php
+						$val = ['a', 'b', 'c', 'd'];
+						shuffle($val);
+						foreach ($val as $c) {
+							?>
+						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this.value)" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<div class="mdc-notched-outline mdc-notched-outline--no-label">
+								<div class="mdc-notched-outline__leading"></div>
+								<div class="mdc-notched-outline__notch">
+									<label for="text-field-hero-input" class="mdc-floating-label"></label>
+								</div>
+								<div class="mdc-notched-outline__trailing"></div>
 							</div>
-							<div class="mdc-notched-outline__trailing"></div>
 						</div>
-					</div>
-				<?php
-						// echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-					}
-					?>
-			</div>
-			<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
-			<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
-			<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
-		</form>
+					<?php
+							// echo "<input type='submit' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
+						}
+						?>
+				</div>
+				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
+				<input type='hidden' name='round' value='<?php echo $round ?>'> <br>
+				<input type='hidden' name='token' value='<?php echo $token ?>'> <br>
+			</form>
+		</div>
 	</div>
 <?php
 }

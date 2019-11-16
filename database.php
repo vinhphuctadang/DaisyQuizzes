@@ -26,7 +26,7 @@ function db_token($string, $method)
 	return md5($string . $apikey);
 }
 
-function serverpath($dir)
+function serverpath($dir) // generate path for serverside
 {
 	$DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
 	if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
@@ -35,13 +35,13 @@ function serverpath($dir)
 	return $DOCUMENT_ROOT . '/' . $dir;
 }
 
-function path($dir)
+function path($dir) // path for client side that connects to server
 {
-	$str = '/' . $dir;
+	$str = '../' . $dir;
 	return $str;
 }
 
-function assets($dir)
+function assets($dir) // path for client side connect to server, retrieving assets
 {
 	return path('assets/' . $dir);
 }

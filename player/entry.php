@@ -48,19 +48,16 @@ $player = $_POST['player'];
 						<div class="mdc-line-ripple"></div>
 						<label for="player" class="mdc-floating-label">Mã vòng chơi</label>
 					</div>
-					<div id="error"></div>
 					<button id="btnRound" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
 					</button>
 					<?php
 
 					echo "<input type='hidden' name='player' value='$player'>";
 					?>
+					<div id="error" style="visibility: hidden; text-align: center">Không tìm thấy vòng chơi yêu cầu</div>
 				</div>
-				<div style="visibility: hidden">hidden
-				</div>
+			</form>
 		</div>
-		</form>
-	</div>
 	</div>
 	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
 		<div class="mdc-snackbar__surface">
@@ -98,13 +95,12 @@ $player = $_POST['player'];
 		}
 
 		function focus_input() {
-			document.getElementById('error').innerHTML = "";
-			document.getElementById('error').style.display = "none";
+			document.getElementById('error').style.visibility = "hidden";
 			document.getElementById('input_round').classList.remove("mdc-text-field--invalid");
 		}
 
 		function blur_input() {
-			document.getElementById('error').style.display = "";
+			document.getElementById('error').style.visibility = "visible";
 		}
 
 		function open_alert(text) {

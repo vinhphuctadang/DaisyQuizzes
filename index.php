@@ -71,7 +71,6 @@ function disp_alert($alertText)
 		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
 		function open_alert(text) {
-			console.log(text);
 			document.getElementById('mdc-snackbar-label').innerHTML = text;
 			snackbar.open();
 		}

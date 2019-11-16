@@ -13,6 +13,8 @@
     width: fit-content;
     padding: 40px 16px 20px 16px;
     margin: 0 auto;
+    box-shadow: 0px 2px 24px 4px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 /* Full-width inputs */
@@ -40,7 +42,9 @@ button {
 button:hover {
     opacity: 0.8;
 }
-
+p {
+    font-family: Roboto;
+}
 /* Extra style for the cancel button (red) */
 .cancelbtn {
     width: auto;
@@ -105,7 +109,7 @@ form .admin a {
     font-size: 14px;
     color: #f44336;
     font-style: italic;
-    margin: 8px 0;
+    margin: 4px 0 0;
 }
 
 button[disabled] {
@@ -134,4 +138,45 @@ button[disabled] {
 .main-container .group-answer {
     display: flex;
     flex-direction: column;
+}
+.question {
+    padding: 40px 30px 20px;
+    width: 50%;
+}
+@media only screen and (max-width: 800px) {
+    .question,
+    .wrapper-card {
+        width: 90%;
+    }
+}
+.question .mdc-text-field:hover {
+    background-color: rgb(25, 118, 210, 0.2);
+    border-radius: 4px;
+}
+#timing {
+    text-align: center;
+    font-size: 60px;
+    position: absolute;
+    width: 100%;
+    top: 54px;
+}
+.finish {
+    font-size: 26px;
+    text-align: center;
+}
+.btn-exit {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+.btn-exit button {
+    width: 30%;
+}
+.mdc-data-table::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+}
+.mdc-data-table::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 10px;
 }
