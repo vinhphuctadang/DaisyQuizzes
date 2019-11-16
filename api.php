@@ -29,7 +29,7 @@ function __render($question)
 		return;
 	}
 	if ($question == "ERR_ROUND_CLOSED") {
-		echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='".path('')."'>trang chủ </a></p>";
+		echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='" . path('') . "'>trang chủ </a></p>";
 		return;
 	}
 
@@ -44,7 +44,7 @@ function __render($question)
 	<div id="wrapper" class="main-container">
 		<div class="mdc-card wrapper-card question">
 			<form action='check.php' method='post'>
-				<h1>Câu hỏi <?php echo $question["question_no"];?>:</h1>
+				<h1>Câu hỏi <?php echo $question["question_no"]; ?>:</h1>
 				<p><?php echo $question['body'] ?></p>
 				<div class="group-answer">
 					<?php

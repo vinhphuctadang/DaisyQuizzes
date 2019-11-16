@@ -84,8 +84,6 @@ include serverpath('middleware/auth.php');
 	}
 	?>
 
-
-
 	<form id="question">
 		<p class="timing" id="timing">10</p>
 		<div id="question-body"></div>

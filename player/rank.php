@@ -9,7 +9,7 @@ include serverpath('middleware/auth.php');
 function findLoggedPlayer($conn, $round)
 {
 
-	$sql = "SELECT name, created_time, score FROM daisy_player_round WHERE round='$round' ORDER BY score DESC LIMIT 100";
+	$sql = "SELECT name, created_time, score FROM daisy_player_round WHERE round='$round' ORDER BY score DESC LIMIT 5";
 	$result = $conn->query($sql);
 	$list = [];
 	while ($row = $result->fetch_assoc()) {
