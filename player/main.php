@@ -86,7 +86,9 @@ include serverpath('middleware/auth.php');
 
 	<form id="question">
 		<p class="timing" id="timing">10</p>
-		<div id="question-body"></div>
+		<div id="question-body">
+			
+		</div>
 	</form>
 
 	<script>
@@ -96,6 +98,7 @@ include serverpath('middleware/auth.php');
 	<script>
 		timeLeft = 10;
 		intervalHandler = null;
+		chosen = null;
 
 		function renderTimer() {
 			var timingView = document.getElementById("timing");
@@ -137,20 +140,32 @@ include serverpath('middleware/auth.php');
 					render(this.responseText);
 				}
 			};
+
+
 			request.open("GET", "<?php echo path('api.php?method=get_question_body'); ?>", true);
 			request.send();
 		}
 
 		function onChoiceClick(choice) {
+
+			if (chosen != null)
+				return;
+
+			chosen = choice;
+
 			request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var question_pane = document.getElementById("question-body");
-					question_pane.innerHTML = this.responseText;
+				if (this.readyState == 4 && this.status == 200) {					
+					var status = document.getElementById ('status');
+					if (status != null)
+						status.innerHTML = this.responseText;
 				}
 			};
 
-			var params = "choice=" + choice;
+
+			var params = "choice=" + choice.getAttribute ('value');
+			choice.style.backgroundColor = 'GREEN';
+
 			request.open("POST", "check.php", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			request.send(params);
@@ -162,9 +177,21 @@ include serverpath('middleware/auth.php');
 
 		socket.on('<?php echo "onChange" . $round; ?>', function(time) {
 			// alert ("update needed: " + time);
+			chosen = null; // set lại cho nó chưa chọn
 			setEllapsedTime(time);
 			requestNext();
 		});
+
+		socket.on('<?php echo "onExplain" . $round; ?>', function(explain, time) {
+			// alert ("update needed: " + time);
+
+			// do approriate stuff for expressing explanation
+			var status = document.getElementById ('status');
+			if (status != null)
+				status.innerHTML = explain;
+			setEllapsedTime(time); 
+		});
+
 
 		socket.on('<?php echo "onFinished" . $round ?>', function(message) {
 			alert("recieve onFinish ");
