@@ -1,9 +1,9 @@
 :root {
     --mdc-theme-primary: #1976d2 !important;
-  }
-  .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+}
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
     color: #1976d2;
-  }
+}
 body {
     margin: 0;
 }
@@ -14,6 +14,11 @@ body {
     width: 60%;
     justify-content: center;
     margin: 0 auto;
+}
+@media only screen and (max-width: 800px) {
+    #wrapper {
+        width: 90%;
+    }
 }
 #fCName {
     display: flex;
@@ -26,25 +31,28 @@ body {
 .mdc-text-field {
     width: 100%;
 }
-.mdc-top-app-bar, .mdc-fab, .mdc-snackbar__surface{
-    background-color: #4CAF50;
+.mdc-top-app-bar,
+.mdc-fab,
+.mdc-snackbar__surface {
+    background-color: #4caf50;
 }
-.mdc-fab--extended, .mdc-fab--extended:hover {
-    background-color: #4CAF50;
+.mdc-fab--extended,
+.mdc-fab--extended:hover {
+    background-color: #4caf50;
     box-shadow: none;
 }
 .app-fab--absolute {
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-  }
-  
-  @media(min-width: 1024px) {
-     .app-fab--absolute {
-      bottom: 1.5rem;
-      right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .app-fab--absolute {
+        bottom: 1.5rem;
+        right: 1.5rem;
     }
-  }
+}
 .text-center {
     text-align: center;
 }
@@ -58,7 +66,8 @@ table td a:hover {
     text-decoration: underline;
 }
 
-#my-dialog-title, #my-dialog-title-question {
+#my-dialog-title,
+#my-dialog-title-question {
     display: flex;
     align-items: center;
     margin-top: 8px;
@@ -80,7 +89,7 @@ table td a:hover {
     color: #1976d2 !important;
 }
 .mdc-fab-delete {
-    color: #ED1C24 !important;
+    color: #ed1c24 !important;
 }
 .mdc-card__content {
     padding: 0 24px;
@@ -96,7 +105,7 @@ table td a:hover {
 textarea::-webkit-scrollbar {
     height: 5px;
     width: 5px;
-  }
+}
 textarea::-webkit-scrollbar-thumb {
     background: #909090;
     border-radius: 10px;
@@ -105,7 +114,7 @@ textarea::-webkit-scrollbar-thumb {
 #content::-webkit-scrollbar {
     height: 5px;
     width: 5px;
-  }
+}
 #content::-webkit-scrollbar-thumb {
     background: #909090;
     border-radius: 10px;
@@ -123,7 +132,7 @@ textarea::-webkit-scrollbar-thumb {
 .mdc-textfield__label--float-above-fixed {
     transform: translateY(-100%) scale(0.75, 0.75);
     cursor: auto;
-  }
+}
 #radio-status {
     display: flex;
     flex-direction: column;
@@ -138,7 +147,7 @@ label {
 .mdc-data-table::-webkit-scrollbar {
     height: 5px;
     width: 5px;
-  }
+}
 .mdc-data-table::-webkit-scrollbar-thumb {
     background: #909090;
     border-radius: 10px;
@@ -182,9 +191,9 @@ legend {
 .tooltip {
     position: relative;
     display: inline-block;
-  }
-  
-  .tooltip .tooltiptext {
+}
+
+.tooltip .tooltiptext {
     font-size: 14px;
     visibility: hidden;
     width: 50px;
@@ -200,10 +209,10 @@ legend {
     margin-left: -40px;
     opacity: 0;
     transition: opacity 0.3s;
-  }
-  
-  .tooltip .tooltiptext::after {
-    content: "";
+}
+
+.tooltip .tooltiptext::after {
+    content: '';
     position: absolute;
     top: 100%;
     left: 50%;
@@ -211,19 +220,19 @@ legend {
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
-  }
-  
-  .tooltip:hover .tooltiptext {
+}
+
+.tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-  }
-  .btn-copy {
-      cursor: pointer;
-      font-size: 18px;
-  }
-  #change {
+}
+.btn-copy {
+    cursor: pointer;
+    font-size: 18px;
+}
+#change {
     background-color: #1976d2;
-  }
-  label {
+}
+label {
     color: #000000;
-  }
+}

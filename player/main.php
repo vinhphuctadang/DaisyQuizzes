@@ -8,9 +8,11 @@ include serverpath('middleware/auth.php');
 ?>
 
 <html>
+
 <head>
 	<title>Daisy Quizzes</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -65,21 +67,21 @@ include serverpath('middleware/auth.php');
 					<p> Vòng chơi này đang đóng hoặc không tồn tại!</p>
 				</form>
 			</div>
-		<?php
-				exit();
-			}
-			if ($status == 1) {
-				die(onWaiting());
-			}
+	<?php
+			exit();
+		}
+		if ($status == 1) {
+			die(onWaiting());
+		}
 
-			$question_no =  $assoc['question_no'];
-			// TODO: Here comes a bug
-			$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=$question_no AND daisy_shuffle_content.round='$round'"; 
-			//echo $sql;
-			$result = $conn->query($sql);
-			$question = $result->fetch_assoc();
-			return $question;
-		}		
+		$question_no =  $assoc['question_no'];
+		// TODO: Here comes a bug
+		$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_shuffle_content, daisy_question WHERE question_id = id AND question_no=$question_no AND daisy_shuffle_content.round='$round'";
+		//echo $sql;
+		$result = $conn->query($sql);
+		$question = $result->fetch_assoc();
+		return $question;
+	}
 	?>
 
 
@@ -92,86 +94,87 @@ include serverpath('middleware/auth.php');
 	<script>
 		window.mdc.autoInit();
 	</script>
-	<script src="<?php echo path ("socket.io.js");?>"></script>
+	<script src="<?php echo path("socket.io.js"); ?>"></script>
 	<script>
 		timeLeft = 10;
 		intervalHandler = null;
 
-		function renderTimer () {
-			var timingView = document.getElementById ("timing");
+		function renderTimer() {
+			var timingView = document.getElementById("timing");
 			if (timingView != null)
 				timingView.innerText = timeLeft;
 		}
 
-		function setEllapsedTime (time) {
+		function setEllapsedTime(time) {
 			if (intervalHandler != null)
-				clearInterval (intervalHandler);
-			intervalHandler = setInterval ("onTimingInterval ()", 1000);
+				clearInterval(intervalHandler);
+			intervalHandler = setInterval("onTimingInterval ()", 1000);
 			timeLeft = time;
-			renderTimer ();
+			renderTimer();
 		}
 
-		function onTimingInterval () {
+		function onTimingInterval() {
 			if (timeLeft > 0) {
-				renderTimer ();
-				timeLeft-=1;
+				renderTimer();
+				timeLeft -= 1;
 			} else {
 				timeLeft = 0;
-				renderTimer ();
+				renderTimer();
 			}
 		}
 
-		
 
-		function render (question) {
-			var question_pane = document.getElementById ("question-body");
+
+		function render(question) {
+			var question_pane = document.getElementById("question-body");
 			question_pane.innerHTML = question;
 			// TODO: Invoke onInterval after a desired time 
 		}
 
-		function requestNext () {
-			request = new XMLHttpRequest ();
-			
-			request.onreadystatechange = function () {	
-				if (this.readyState == 4 && this.status == 200) {			
-					render (this.responseText);					
+		function requestNext() {
+			request = new XMLHttpRequest();
+
+			request.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					render(this.responseText);
 				}
 			};
-			request.open ("GET", "/api.php?method=get_question_body", true);
-			request.send ();
+			request.open("GET", "/api.php?method=get_question_body", true);
+			request.send();
 		}
 
-        function onChoiceClick (choice) {
-        	request = new XMLHttpRequest ();
-        	request.onreadystatechange = function () {	
-				if (this.readyState == 4 && this.status == 200) {			
-					var question_pane = document.getElementById ("question-body");
+		function onChoiceClick(choice) {
+			request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var question_pane = document.getElementById("question-body");
 					question_pane.innerHTML = this.responseText;
-				}		
+				}
 			};
 
-			var params = "choice="+choice;
-			request.open ("POST", "check.php", true);
-			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");			
-			request.send (params);
-        }
+			var params = "choice=" + choice;
+			request.open("POST", "check.php", true);
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.send(params);
+		}
 
-        var socket = io.connect('http://localhost:8080');
-		
-		socket.on('<?php echo "onChange".$round?>', function(time){
+		var socket = io.connect('http://localhost:8080');
+
+		socket.on('<?php echo "onChange" . $round ?>', function(time) {
 			// alert ("update needed: " + time);
-			setEllapsedTime (time);
-        	requestNext ();
-        });
+			setEllapsedTime(time);
+			requestNext();
+		});
 
-   		socket.on('<?php echo "onFinished".$round?>', function(message){
-			alert ("recieve onFinish ");
+		socket.on('<?php echo "onFinished" . $round ?>', function(message) {
+			alert("recieve onFinish ");
 			clearInterval(intervalHandler);
-        	window.location.href = "rank.php";
-        });
+			window.location.href = "rank.php";
+		});
 
 
-        requestNext ();
+		requestNext();
 	</script>
-	</body>
+</body>
+
 </html>

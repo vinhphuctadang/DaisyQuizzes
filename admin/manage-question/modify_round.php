@@ -75,6 +75,7 @@ $conn->close();
 <head>
 	<title>Vòng <?php echo $round; ?></title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -247,8 +248,8 @@ $conn->close();
 		var x = null;
 
 		function startInterval() {
-			increaseQuestionNumber (updateQuestionNumber);			
-			x = setInterval ("onInterval ()", 1000);
+			increaseQuestionNumber(updateQuestionNumber);
+			x = setInterval("onInterval ()", 1000);
 		}
 
 		function render() {
@@ -256,11 +257,11 @@ $conn->close();
 		}
 
 		function onInterval() {
-			
+
 			if (timing == 0) {
 				timing = totalTime;
 				increaseQuestionNumber(updateQuestionNumber);
-			} else 
+			} else
 				timing -= 1;
 
 			render();
@@ -272,31 +273,31 @@ $conn->close();
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					onDoneResp(this.responseText);
-					console.log (this.responseText);
+					console.log(this.responseText);
 				}
 			}
 			httprqIQ.open("GET", "/api.php?method=change_question&token=<?php echo $token ?>&change=1&nextupdate=10", true);
 			httprqIQ.send();
 		}
 
-		function notifyRoundFinish () {
-			var request = new XMLHttpRequest ();
+		function notifyRoundFinish() {
+			var request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					console.log (this.responseText);			
+					console.log(this.responseText);
 				}
 			}
 			request.open("GET", "/api.php?method=notify_round_finish&token=<?php echo $token; ?>", true);
-			request.send();	
+			request.send();
 		}
 
 		function updateQuestionNumber(msg) {
 
-			jsn = JSON.parse (msg);
+			jsn = JSON.parse(msg);
 			if (jsn.result === "ERR_EXCEED") {
-				clearInterval (x);			
-				notifyRoundFinish ();
-				alert ("Vòng chơi đã kết thúc");	
+				clearInterval(x);
+				notifyRoundFinish();
+				alert("Vòng chơi đã kết thúc");
 				return;
 			}
 
@@ -383,14 +384,14 @@ $conn->close();
 			tooltip.innerHTML = "Copy";
 		}
 
-		function updatePlayerScore (player) {
-			
+		function updatePlayerScore(player) {
+
 			httprq = new XMLHttpRequest();
-				
+
 			httprq.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					var txt = httprq.responseText;
-					console.log (txt);
+					console.log(txt);
 					var jsn = JSON.parse(txt);
 					var arr = jsn.result;
 					var id = arr[0].name;
@@ -399,25 +400,22 @@ $conn->close();
 				}
 			}
 
-			httprq.open("GET", "/api.php?method=get_player&name="+player+"&token=<?php echo $token ?>", true);
+			httprq.open("GET", "/api.php?method=get_player&name=" + player + "&token=<?php echo $token ?>", true);
 			httprq.send();
 		}
-
 	</script>
 	<?php
 	if (isset($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
 
-	<script src="<?php echo path ("socket.io.js");?>"></script>
+	<script src="<?php echo path("socket.io.js"); ?>"></script>
 	<script>
-
-        var socket = io.connect('http://localhost:8080');
-		socket.on('<?php echo "onPlayer".$round?>', function(player){
+		var socket = io.connect('http://localhost:8080');
+		socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
 			// alert ("update needed: " + time);
-			updatePlayerScore (player);	
-        });        
-
+			updatePlayerScore(player);
+		});
 	</script>
 </body>
 

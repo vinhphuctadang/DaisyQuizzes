@@ -62,11 +62,11 @@ function disp_alert($alertText)
 <head>
 	<title><?php echo $collection_name; ?></title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link href="./styles.css" rel="stylesheet" type="text/css">
-	<!-- <link href="../index.css" rel="stylesheet" type="text/css"> -->
 </head>
 
 <body>
@@ -124,11 +124,6 @@ function disp_alert($alertText)
 					</div>
 					<div class="mdc-card__actions">
 						<div class="mdc-card__action-icons">
-							<!-- <button class="mdc-button mdc-fab-edit">
-								<div class="mdc-button__ripple"></div>
-								<i class="material-icons mdc-button__icon" aria-hidden="true">favorite</i>
-								<span class="mdc-button__label">Button</span>
-							</button> -->
 							<button class="mdc-fab mdc-fab--extended mdc-fab-edit" onclick="open_confirm_question('edit', 'Chỉnh sửa câu hỏi', 'modify_question.php?k=<?php echo $collection ?>&question=<?php echo $each['id'] ?>', '<?php echo $each['body'] ?>', '<?php echo $each['choice_a'] ?>', '<?php echo $each['choice_b'] ?>', '<?php echo $each['choice_c'] ?>', '<?php echo $each['choice_d'] ?>', '<?php echo $each['explaination'] ?>')">
 								<div class="mdc-fab__ripple"></div>
 								<i class="material-icons mdc-fab__icon">edit</i>
@@ -154,10 +149,6 @@ function disp_alert($alertText)
 				<span class="tooltiptext" id="myTooltip" style="width: max-content;margin-left: -55px;bottom: 116%;">Thêm câu hỏi</span>
 			</button>
 		</div>
-		<!-- <button class="mdc-fab app-fab--absolute" aria-label="Add" title=" Thêm câu hỏi" onclick="open_confirm_question('add', 'Thêm câu hỏi', 'add_question.php?k=<?php echo $collection ?>')">
-			<div class="mdc-fab__ripple"></div>
-			<span class="mdc-fab__icon material-icons">add</span>
-		</button> -->
 	</div>
 	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
 		<div class="mdc-snackbar__surface">
@@ -223,7 +214,6 @@ function disp_alert($alertText)
 											<textarea id="choice_a" class="mdc-text-field__input" name="choice_a" required placeholder="Aa..."></textarea>
 											<div class="mdc-notched-outline mdc-notched-outline--upgraded">
 												<div class="mdc-notched-outline__leading"></div>
-												<!-- <div class="mdc-notched-outline__notch"><label class="mdc-floating-label mdc-textfield__label--float-above-fixed" for="choice_a">Đáp án A:</label></div> -->
 												<div class="mdc-notched-outline__trailing"></div>
 											</div>
 										</div>
@@ -234,7 +224,6 @@ function disp_alert($alertText)
 											<textarea id="choice_b" class="mdc-text-field__input" name="choice_b" required placeholder="Bb..."></textarea>
 											<div class="mdc-notched-outline mdc-notched-outline--upgraded">
 												<div class="mdc-notched-outline__leading"></div>
-												<!-- <div class="mdc-notched-outline__notch"><label class="mdc-floating-label" for="choice_b">Phương án B</label></div> -->
 												<div class="mdc-notched-outline__trailing"></div>
 											</div>
 										</div>
@@ -247,7 +236,6 @@ function disp_alert($alertText)
 											<textarea id="choice_c" class="mdc-text-field__input" name="choice_c" required placeholder="Cc..."></textarea>
 											<div class="mdc-notched-outline mdc-notched-outline--upgraded">
 												<div class="mdc-notched-outline__leading"></div>
-												<!-- <div class="mdc-notched-outline__notch"><label class="mdc-floating-label" for="choice_c">Phương án C</label></div> -->
 												<div class="mdc-notched-outline__trailing"></div>
 											</div>
 										</div>
@@ -258,7 +246,6 @@ function disp_alert($alertText)
 											<textarea id="choice_d" class="mdc-text-field__input" name="choice_d" required placeholder="Dd..."></textarea>
 											<div class="mdc-notched-outline mdc-notched-outline--upgraded">
 												<div class="mdc-notched-outline__leading"></div>
-												<!-- <div class="mdc-notched-outline__notch"><label class="mdc-floating-label" for="choice_d">Phương án D</label></div> -->
 												<div class="mdc-notched-outline__trailing"></div>
 											</div>
 										</div>
@@ -270,7 +257,6 @@ function disp_alert($alertText)
 								<textarea id="explain" class="mdc-text-field__input" rows="4" name="explain" placeholder="Mô tả..."></textarea>
 								<div class="mdc-notched-outline mdc-notched-outline--upgraded">
 									<div class="mdc-notched-outline__leading"></div>
-									<!-- <div class="mdc-notched-outline__notch"><label class="mdc-floating-label" for="explain">Diễn giải câu trả lời</label></div> -->
 									<div class="mdc-notched-outline__trailing"></div>
 								</div>
 							</div>

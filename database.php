@@ -1,6 +1,6 @@
 <?php
 
-$NODEJS_HOST_SERVER = 'http://localhost:8080';	
+$NODEJS_HOST_SERVER = 'http://localhost:8080';
 
 function db_connect()
 {
@@ -32,7 +32,7 @@ function serverpath($dir)
 	if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 		$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 	}
-	return $DOCUMENT_ROOT .'/' . $dir;
+	return $DOCUMENT_ROOT . '/' . $dir;
 }
 
 function path($dir)

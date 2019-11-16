@@ -25,6 +25,7 @@ function disp_alert($alertText)
 <head>
 	<title>Login</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -33,25 +34,26 @@ function disp_alert($alertText)
 
 <body>
 	<div id="wrapper">
-		<form action="player/entry.php" method="post">
-
-			<div class="imgcontainer">
-				<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
-			</div>
-
-			<div class="container">
-				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-					<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
-					<div class="mdc-line-ripple"></div>
-					<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
+		<div class="mdc-card wrapper-card">
+			<form action="player/entry.php" method="post">
+				<div class="imgcontainer">
+					<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 				</div>
-				<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
-				<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
-				</button>
-			</div>
-			<div class='admin'>
-				<a href='./admin/login'> Tôi là người kiến tạo? </a>
-			</div>
+
+				<div class="container">
+					<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+						<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
+						<div class="mdc-line-ripple"></div>
+						<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
+					</div>
+					<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
+					<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
+					</button>
+				</div>
+				<div class='admin'>
+					<a href='./admin/login'> Tôi là người kiến tạo? </a>
+				</div>
+		</div>
 	</div>
 	</form>
 	</div>

@@ -5,7 +5,9 @@
     color: #1976d2;
 }
 #wrapper {
-    margin-top: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 .header {
     margin: 16px;
