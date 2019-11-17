@@ -119,6 +119,7 @@ function disp_alert($alertText)
 								echo 'B: ' . $each['choice_b'] . "<br>";
 								echo 'C: ' . $each['choice_c'] . "<br>";
 								echo 'D: ' . $each['choice_d'] . "<br>";
+								echo '<b>Diễn giải: </b> <i>' . $each['explaination'] . "</i><br>";							
 								?>
 						</div>
 					</div>
@@ -349,7 +350,8 @@ function disp_alert($alertText)
 		});
 	</script>
 	<?php
-	disp_alert($_SESSION['flash_alert']);
+	if (isset ($_SESSION['flash_alert']))
+		disp_alert($_SESSION['flash_alert']);
 	?>
 </body>
 

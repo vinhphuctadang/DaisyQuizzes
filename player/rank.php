@@ -69,7 +69,7 @@ $conn->close();
 			<p class="finish">🎉 Chúc mừng 🎉</p>
 			<p class="finish">Bạn đã hoàn thành vòng chơi</p>
 			<div style="margin-top: 16%;"> Điểm của bạn: <?php echo $myscore; ?> </div>
-			<div style="margin: 4% 0;"> Bảng xếp hạng: <?php echo $myrank; ?> </div>
+			<div style="margin: 4% 0;"> Hạng của bạn: <?php echo $myrank; ?> </div>
 			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 				<table class="mdc-data-table__table" aria-label="Dessert calories">
 					<thead>

@@ -11,7 +11,7 @@ if (!checkLoggedIn()) {
 include($DOCUMENT_ROOT . '/database.php');
 function db_fetch_questions($conn, $collection)
 {
-	$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d FROM daisy_question WHERE collection_id = $collection";
+	$sql = "SELECT id, body, choice_a, choice_b, choice_c, choice_d, explaination FROM daisy_question WHERE collection_id = $collection";
 	$result = [];
 	$q = $conn->query($sql);
 	while ($row = $q->fetch_assoc()) {
