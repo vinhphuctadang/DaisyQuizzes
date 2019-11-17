@@ -168,7 +168,7 @@ include serverpath('middleware/auth.php');
 			choice.style.backgroundColor = '#FDC228';
 			choice.style.color = 'white';
 			choice.style.borderRadius = '4px';
-
+			document.getElementById('icon-' + choice.id).innerHTML = 'cached';
 			request.open("POST", "check.php", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			request.send(params);
@@ -201,6 +201,7 @@ include serverpath('middleware/auth.php');
 				chosen.style.backgroundColor = "#f44336";
 				chosen.style.color = 'white';
 				chosen.style.borderRadius = '4px';
+				document.getElementById('icon-' + chosen.id).innerHTML = 'highlight_off';
 			}
 
 
@@ -211,12 +212,11 @@ include serverpath('middleware/auth.php');
 
 				if (btn.getAttribute('value') === answer) {
 					console.log(btn.getAttribute('value'));
-					if (chosen == null)
-						btn.style.backgroundColor = "#f44336";
-					else
-						btn.style.backgroundColor = "#4caf50";
+					if (chosen == null) btn.style.backgroundColor = "#f44336";
+					else btn.style.backgroundColor = "#4caf50";
 					btn.style.color = 'white';
 					btn.style.borderRadius = '4px';
+					document.getElementById('icon-' + i).innerHTML = 'check_circle_outline';
 				}
 			}
 			setEllapsedTime(time);

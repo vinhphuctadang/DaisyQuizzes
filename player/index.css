@@ -139,6 +139,9 @@ button[disabled] {
     display: flex;
     flex-direction: column;
 }
+.group-answer .material-icons {
+    color: white !important;
+}
 .question {
     padding: 40px 30px 20px;
     width: 50%;

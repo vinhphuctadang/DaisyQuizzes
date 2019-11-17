@@ -63,11 +63,13 @@ function __render($question)
 					<?php
 						$val = ['a', 'b', 'c', 'd'];
 						shuffle($val);
+						$i = 0;
 						foreach ($val as $c) {
 							?>
 
-						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c]; ?>">
+						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" data-mdc-auto-init="MDCTextField">
+							<i class="material-icons mdc-text-field__icon" id="icon-<?php echo $i; ?>"></i>
+							<input readonly class="mdc-text-field__input" id="<?php echo $i++; ?>" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c]; ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
