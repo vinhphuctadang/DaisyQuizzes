@@ -244,7 +244,7 @@ $conn->close();
 	</div>
 	<script>
 		var totalTime = 10;
-		var totalTimeForExplaination = 2;
+		var totalTimeForExplaination = 1;
 		var timing = totalTime;
 
 		var state = 0; // 0: question state, 1: explaination state
@@ -259,23 +259,23 @@ $conn->close();
 			document.getElementById("time").innerText = timing;
 		}
 
-		function checkTimeline () {
+		function checkTimeline() {
 
 			if (state == 0) {
 				timing = totalTimeForExplaination;
-				state = 1;	
-				notifyQuestionExplaination ();
+				state = 1;
+				notifyQuestionExplaination();
 			} else {
 				timing = totalTime;
-				state = 0;				
+				state = 0;
 				increaseQuestionNumber(updateQuestionNumber);
-			}			
+			}
 		}
 
 		function onInterval() {
 
-			if (timing == 0) {				
-				checkTimeline ();				
+			if (timing == 0) {
+				checkTimeline();
 			} else
 				timing -= 1;
 
@@ -295,17 +295,17 @@ $conn->close();
 			httprqIQ.send();
 		}
 
-		function notifyQuestionExplaination () {
+		function notifyQuestionExplaination() {
 			httprqIQ = new XMLHttpRequest();
 
 			httprqIQ.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {					
+				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
 				}
 			}
 			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate=2"); ?>', true);
-			httprqIQ.send();	
-			
+			httprqIQ.send();
+
 		}
 
 		function notifyRoundFinish() {

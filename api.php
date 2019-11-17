@@ -25,16 +25,28 @@ function __render($question)
 
 	// echo json_encode ($question);
 	if ($question == "ERR_NOT_LOGGED_IN") {
-		echo "<p> Vui lòng đăng nhập vào vòng chơi </p>";
+		echo "<div id='wrapper'>
+				<div class='mdc-card wrapper-card' style='padding: 16px'>
+					<p> Vui lòng đăng nhập vào vòng chơi </p>
+				</div>
+			</div>";
 		return;
 	}
 	if ($question == "ERR_ROUND_CLOSED") {
-		echo "<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='" . path('') . "'>trang chủ </a></p>";
+		echo "<div id='wrapper'>
+				<div class='mdc-card wrapper-card' style='padding: 16px'>
+					<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='" . path('') . "'>trang chủ </a> </p>
+				</div>
+			</div>";
 		return;
 	}
 
 	if ($question == "ERR_ROUND_IS_WAITING") {
-		echo "<p>Vòng chơi đang chờ đợi để bắt đầu</p>";
+		echo "<div id='wrapper'>
+				<div class='mdc-card wrapper-card' style='padding: 16px'>
+					<p>Vòng chơi đang chờ đợi để bắt đầu</p>
+				</div>
+			</div>";
 		return;
 	}
 
@@ -55,7 +67,7 @@ function __render($question)
 							?>
 
 						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c];?>">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c]; ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
@@ -69,7 +81,7 @@ function __render($question)
 						}
 						?>
 				</div>
-				<div class="explanation" id="explanation-pane" style="display:none";>
+				<div class="explanation" id="explanation-pane" style="display:none" ;>
 					<div class="title">* GIẢI THÍCH:</div>
 					<div id="explanation" class="content">Explaination...</div>
 				</div>
@@ -81,27 +93,6 @@ function __render($question)
 	</div>
 <?php
 }
-
-// function renderQuestion($question) // dành cho phiên bản trước của api 
-// {
-// 	// should render NULL (ERROR) QUESTION
-
-// 	if ($question == "ERR_NOT_LOGGED_IN") {
-// 		echo $question;
-// 		return;
-// 	}
-
-// 	// echo json_encode($question);
-// 	echo "<h1>Câu hỏi</h1>";
-// 	echo "<p>" . $question['body'] . "</p>";
-// 	$val = ['a', 'b', 'c', 'd'];
-
-// 	shuffle($val);
-// 	foreach ($val as $c) {
-// 		echo "<input type='button' name='choice' value='" . $question['choice_' . $c] . "'>" . "</input> <br>";
-// 	}
-// 	echo "<input type='hidden' name='question' value=" . $question['id'] . ">";
-// }
 
 /*
 		Tất cả các hàm sau đều là các hàm chức năng
@@ -245,11 +236,12 @@ function getQuestionBody($conn, $token)
 	return $result;
 }
 
-function notifyExplaination ($conn, $token, $time) {
+function notifyExplaination($conn, $token, $time)
+{
 
 	$sql = "SELECT daisy_question.choice_a as answer, daisy_question.explaination as explaination, daisy_round.round as round FROM daisy_question, daisy_round, daisy_shuffle_content WHERE daisy_shuffle_content.round = daisy_round.round AND daisy_shuffle_content.question_no = daisy_round.question_no AND daisy_shuffle_content.question_id = daisy_question.id AND daisy_round.access_token = '$token'";
-	$result = $conn->query ($sql);
-	$row = $result->fetch_assoc ();
+	$result = $conn->query($sql);
+	$row = $result->fetch_assoc();
 	if ($row == null)
 		return "ERR_NO_SUCH_ROUND";
 	$explaination = $row['explaination'];
@@ -266,11 +258,11 @@ function notifyExplaination ($conn, $token, $time) {
 	// use key 'http' even if you send the request to https://...
 	// from stackoverflow: https://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
 	$options = array(
-	    'http' => array(
-	        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-	        'method'  => 'POST',
-	        'content' => http_build_query($data)
-	    )
+		'http' => array(
+			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			'method'  => 'POST',
+			'content' => http_build_query($data)
+		)
 	);
 	$context  = stream_context_create($options);
 	$result = file_get_contents($url, false, $context);
@@ -341,7 +333,7 @@ function control($request)
 				$result = changeQuestion($conn, $request['token'], $request['change'], $request['nextupdate']);
 			else
 				$success = false;
-			return formResp($success, $result, $err);			
+			return formResp($success, $result, $err);
 			break;
 		case "notify_explaination":
 			$err = checkRequiredParam($request, ['token', 'nextupdate']);

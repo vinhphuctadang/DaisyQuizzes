@@ -85,7 +85,7 @@ include serverpath('middleware/auth.php');
 	?>
 
 	<form id="question">
-		<p class="timing" id="timing">10</p>
+		<p class="timing" id="timing"></p>
 		<div id="question-body">
 
 		</div>
@@ -165,7 +165,7 @@ include serverpath('middleware/auth.php');
 			};
 
 			var params = "choice=" + choice.getAttribute('value');
-			choice.style.backgroundColor = 'YELLOW';
+			choice.style.backgroundColor = '#FDC228';
 			choice.style.color = 'white';
 			choice.style.borderRadius = '4px';
 
@@ -188,36 +188,42 @@ include serverpath('middleware/auth.php');
 		socket.on('<?php echo "onExplain" . $round; ?>', function(explain, time, answer) {
 			// alert ("update needed: " + time);
 			// do approriate stuff for expressing explanation
-			console.log (explain + ",'" + answer+"'");
+			console.log(explain + ",'" + answer + "'");
 			if (explain != "") {
-				document.getElementById ("explanation-pane").style.display = "block";
+				document.getElementById("explanation-pane").style.display = "block";
 				var status = document.getElementById('explanation');
 				if (status != null)
-					status.innerHTML = explain;			
+					status.innerHTML = explain;
 			}
 
 
-			if (chosen != null)
-				chosen.style.backgroundColor = "RED";
+			if (chosen != null) {
+				chosen.style.backgroundColor = "#f44336";
+				chosen.style.color = 'white';
+				chosen.style.borderRadius = '4px';
+			}
 
-			var answers = document.getElementsByClassName ('mdc-text-field__input');
-			console.log (answers.length);
-			for (i = 0; i<answers.length; ++i) {
+
+			var answers = document.getElementsByClassName('mdc-text-field__input');
+			console.log(answers.length);
+			for (i = 0; i < answers.length; ++i) {
 				var btn = answers[i];
-				
-				if (btn.getAttribute ('value') === answer) {			
-					console.log (btn.getAttribute ('value'));
+
+				if (btn.getAttribute('value') === answer) {
+					console.log(btn.getAttribute('value'));
 					if (chosen == null)
-						btn.style.backgroundColor = "RED";
+						btn.style.backgroundColor = "#f44336";
 					else
 						btn.style.backgroundColor = "#4caf50";
+					btn.style.color = 'white';
+					btn.style.borderRadius = '4px';
 				}
 			}
-			setEllapsedTime(time);			
+			setEllapsedTime(time);
 		});
 
 
-		socket.on('<?php echo "onFinished" . $round ?>', function(message) {			
+		socket.on('<?php echo "onFinished" . $round ?>', function(message) {
 			alert("Màn chơi đã kết thúc ...");
 			clearInterval(intervalHandler);
 			window.location.href = "rank.php";
