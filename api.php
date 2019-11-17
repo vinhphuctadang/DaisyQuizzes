@@ -55,7 +55,7 @@ function __render($question)
 							?>
 
 						<div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
-							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c] ?>">
+							<input readonly class="mdc-text-field__input" id="text-field-hero-input" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c];?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">
 								<div class="mdc-notched-outline__leading"></div>
 								<div class="mdc-notched-outline__notch">
@@ -69,9 +69,9 @@ function __render($question)
 						}
 						?>
 				</div>
-				<div class="explanation">
+				<div class="explanation" id="explanation-pane" style="display:none";>
 					<div class="title">* GIẢI THÍCH:</div>
-					<div id="explanation" class="content">Explanation...</div>
+					<div id="explanation" class="content">Explaination...</div>
 				</div>
 				<input type='hidden' name='question' value='<?php echo $question['id'] ?>' />
 				<input type='hidden' name='round' value='<?php echo $round ?>'>
@@ -247,20 +247,21 @@ function getQuestionBody($conn, $token)
 
 function notifyExplaination ($conn, $token, $time) {
 
-	$sql = "SELECT daisy_question.explaination as explaination, daisy_round.round as round FROM daisy_question, daisy_round, daisy_shuffle_content WHERE daisy_shuffle_content.round = daisy_round.round AND daisy_shuffle_content.question_no = daisy_round.question_no AND daisy_shuffle_content.question_id = daisy_question.id AND daisy_round.access_token = '$token'";
+	$sql = "SELECT daisy_question.choice_a as answer, daisy_question.explaination as explaination, daisy_round.round as round FROM daisy_question, daisy_round, daisy_shuffle_content WHERE daisy_shuffle_content.round = daisy_round.round AND daisy_shuffle_content.question_no = daisy_round.question_no AND daisy_shuffle_content.question_id = daisy_question.id AND daisy_round.access_token = '$token'";
 	$result = $conn->query ($sql);
 	$row = $result->fetch_assoc ();
 	if ($row == null)
 		return "ERR_NO_SUCH_ROUND";
 	$explaination = $row['explaination'];
-	$round = $row['round'];
+	$round = 	    $row['round'];
+	$answer = 		$row['answer'];
 
 	$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"];
 	// file_get_contents($NODEJS_HOST_SERVER . "/explain/$round/$time");	
 
 
 	$url = $NODEJS_HOST_SERVER . "/explain/$round/$time";
-	$data = array('explain' => $explaination);
+	$data = array('explain' => $explaination, 'answer' => $answer);
 
 	// use key 'http' even if you send the request to https://...
 	// from stackoverflow: https://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php

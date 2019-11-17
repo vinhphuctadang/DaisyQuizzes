@@ -127,8 +127,10 @@ include serverpath('middleware/auth.php');
 
 
 		function render(question) {
+
 			var question_pane = document.getElementById("question-body");
 			question_pane.innerHTML = question;
+			//document.getElementById ("explanation-pane").style.display = "none";
 			// TODO: Invoke onInterval after a desired time 
 		}
 
@@ -163,7 +165,7 @@ include serverpath('middleware/auth.php');
 			};
 
 			var params = "choice=" + choice.getAttribute('value');
-			choice.style.backgroundColor = '#4caf50';
+			choice.style.backgroundColor = 'YELLOW';
 			choice.style.color = 'white';
 			choice.style.borderRadius = '4px';
 
@@ -183,19 +185,40 @@ include serverpath('middleware/auth.php');
 			requestNext();
 		});
 
-		socket.on('<?php echo "onExplain" . $round; ?>', function(explain, time) {
+		socket.on('<?php echo "onExplain" . $round; ?>', function(explain, time, answer) {
 			// alert ("update needed: " + time);
-
 			// do approriate stuff for expressing explanation
-			var status = document.getElementById('explanation');
-			if (status != null)
-				status.innerHTML = explain;
-			setEllapsedTime(time);
+			console.log (explain + ",'" + answer+"'");
+			if (explain != "") {
+				document.getElementById ("explanation-pane").style.display = "block";
+				var status = document.getElementById('explanation');
+				if (status != null)
+					status.innerHTML = explain;			
+			}
+
+
+			if (chosen != null)
+				chosen.style.backgroundColor = "RED";
+
+			var answers = document.getElementsByClassName ('mdc-text-field__input');
+			console.log (answers.length);
+			for (i = 0; i<answers.length; ++i) {
+				var btn = answers[i];
+				
+				if (btn.getAttribute ('value') === answer) {			
+					console.log (btn.getAttribute ('value'));
+					if (chosen == null)
+						btn.style.backgroundColor = "RED";
+					else
+						btn.style.backgroundColor = "#4caf50";
+				}
+			}
+			setEllapsedTime(time);			
 		});
 
 
-		socket.on('<?php echo "onFinished" . $round ?>', function(message) {
-			alert("recieve onFinish ");
+		socket.on('<?php echo "onFinished" . $round ?>', function(message) {			
+			alert("Màn chơi đã kết thúc ...");
 			clearInterval(intervalHandler);
 			window.location.href = "rank.php";
 		});
