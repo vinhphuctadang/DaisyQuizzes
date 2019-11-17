@@ -19,46 +19,52 @@ function formResp($success, $result, $error)
 		$json['error'] = $error;
 	return $json;
 }
+function __renderWaiting($content)
+{
+	echo "<div class='waiting'>
+			<div id='wrapper'>
+				<div class='mdc-card wrapper-card card'><p>" . $content . "</p>
+				</div>
+			</div>
+			<ul class='bg-bubbles'>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>";
+}
 
 function __render($question)
 {
-
 	// echo json_encode ($question);
 	if ($question == "ERR_NOT_LOGGED_IN") {
-		echo "<div id='wrapper'>
-				<div class='mdc-card wrapper-card' style='padding: 16px'>
-					<p> Vui lòng đăng nhập vào vòng chơi </p>
-				</div>
-			</div>";
-		return;
+		return __renderWaiting("Vui lòng đăng nhập vào vòng chơi");
 	}
+
 	if ($question == "ERR_ROUND_CLOSED") {
-		echo "<div id='wrapper'>
-				<div class='mdc-card wrapper-card' style='padding: 16px'>
-					<p> Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='" . path('') . "'>trang chủ </a> </p>
-				</div>
-			</div>";
-		return;
+		return __renderWaiting("Vòng chơi đã kết thúc, có thể bạn cần quay về <a href='" . path('') . "'>trang chủ </a>");
 	}
 
 	if ($question == "ERR_ROUND_IS_WAITING") {
-		echo "<div id='wrapper'>
-				<div class='mdc-card wrapper-card' style='padding: 16px'>
-					<p>Vòng chơi đang chờ đợi để bắt đầu</p>
-				</div>
-			</div>";
-		return;
+		return __renderWaiting("Vòng chơi đang chờ đợi để bắt đầu");
 	}
 
 	$round = $_SESSION['round'];
 	$token = $_SESSION['token'];
 	?>
-	<div id="wrapper" class="main-container">
+	<div id="wrapper" class="main-container animated fadeIn">
 		<div class="mdc-card wrapper-card question">
 			<form action='check.php' method='post'>
 				<h1>Câu hỏi <?php echo $question["question_no"]; ?>:</h1>
 				<p><?php echo $question['body'] ?></p>
-				<p id="status">Trạng thái:</p>
+				<p id="status"></p>
 				<div class="group-answer">
 					<?php
 						$val = ['a', 'b', 'c', 'd'];
@@ -67,7 +73,7 @@ function __render($question)
 						foreach ($val as $c) {
 							?>
 
-						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" data-mdc-auto-init="MDCTextField">
+						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" id="mdc-text-field-<?php echo $i; ?>" data-mdc-auto-init="MDCTextField">
 							<i class="material-icons mdc-text-field__icon" id="icon-<?php echo $i; ?>"></i>
 							<input readonly class="mdc-text-field__input" id="<?php echo $i++; ?>" onClick="onChoiceClick (this)" type='button' name='choice' value="<?php echo $question['choice_' . $c]; ?>">
 							<div class="mdc-notched-outline mdc-notched-outline--no-label">

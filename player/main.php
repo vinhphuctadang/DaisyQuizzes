@@ -191,6 +191,8 @@ include serverpath('middleware/auth.php');
 			console.log(explain + ",'" + answer + "'");
 			if (explain != "") {
 				document.getElementById("explanation-pane").style.display = "block";
+				document.getElementById("explanation-pane").classList.add('animated');
+				document.getElementById("explanation-pane").classList.add('fadeIn');
 				var status = document.getElementById('explanation');
 				if (status != null)
 					status.innerHTML = explain;
@@ -216,6 +218,8 @@ include serverpath('middleware/auth.php');
 					else btn.style.backgroundColor = "#4caf50";
 					btn.style.color = 'white';
 					btn.style.borderRadius = '4px';
+					document.getElementById('mdc-text-field-' + i).classList.add('animated');
+					document.getElementById('mdc-text-field-' + i).classList.add('fadeIn');
 					document.getElementById('icon-' + i).innerHTML = 'check_circle_outline';
 				}
 			}
