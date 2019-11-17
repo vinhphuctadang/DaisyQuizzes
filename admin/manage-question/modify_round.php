@@ -244,7 +244,7 @@ $conn->close();
 	</div>
 	<script>
 		var totalTime = 10;
-		var totalTimeForExplaination = 3;
+		var totalTimeForExplaination = 2;
 		var timing = totalTime;
 
 		var state = 0; // 0: question state, 1: explaination state
@@ -303,7 +303,7 @@ $conn->close();
 					console.log(this.responseText);
 				}
 			}
-			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate=3"); ?>', true);
+			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate=2"); ?>', true);
 			httprqIQ.send();	
 			
 		}

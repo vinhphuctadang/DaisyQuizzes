@@ -20,10 +20,10 @@ io.sockets.on('connection', function (socket) {
     	socket.emit('onChange'+round, time);
   	});
     
-    serverEmitter.on('explain', function (round, explain, time) {
+    serverEmitter.on('explain', function (round, explain, time, answer) {
     // this message will be sent to all connected users
         console.log ("explaination worked for " + round + ", " + explain + ", in " + time);
-        socket.emit('onExplain'+round, explain, time);
+        socket.emit('onExplain'+round, explain, time, answer);
     });
 
 
@@ -51,8 +51,10 @@ app.get('/notify/:round/:time/', function(request, response) { // server tuyên 
 app.post('/explain/:round/:time', function(request, response) { // server tuyên bố thay đổi câu hỏi
     var round = request.params ["round"];
     var explain = request.body.explain;
+    var answer = request.body.answer;
     var time = request.params ["time"];
-    serverEmitter.emit ('explain', round, explain, time);
+
+    serverEmitter.emit ('explain', round, explain, time, answer);
     response.send ('explained');
 });
 
@@ -66,7 +68,6 @@ app.get('/finish/:round', function(request, response) { // tuyên bố kết th�
 app.get('/player/:round/:player/', function(request, response) { // tuyên bố thay đổi điểm
     var round = request.params ["round"];
     var player = request.params ["player"];
-
     serverEmitter.emit ('player', round, player);
     response.send ('finish notified');
 });
