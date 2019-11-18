@@ -313,13 +313,14 @@ $conn->close();
 				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
 				}
-			}
+			}	
 			request.open("GET", '<?php echo path("api.php?method=notify_round_finish&token=$token"); ?>', true);
 			request.send();
 		}
 
 		function updateQuestionNumber(msg) {
 
+			console.log (msg);
 			jsn = JSON.parse(msg);
 			if (jsn.result === "ERR_EXCEED") {
 				clearInterval(x);
