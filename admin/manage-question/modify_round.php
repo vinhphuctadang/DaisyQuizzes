@@ -303,7 +303,7 @@ $conn->close();
 					console.log(this.responseText);
 				}
 			}
-			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate=2"); ?>', true);
+			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>'+totalTimeForExplaination, true);
 			httprqIQ.send();	
 			
 		}

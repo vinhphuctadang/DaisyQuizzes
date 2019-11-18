@@ -163,7 +163,7 @@ function changeQuestion($conn, $token, $increment, $time)
 		return "ERR_EXCEED";
 
 
-	$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
+	$sql = "UPDATE daisy_round SET question_no=question_no+$increment,next_timestamp=CURRENT_TIMESTAMP() WHERE access_token='$token'";
 	$conn->query($sql);
 
 	$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
