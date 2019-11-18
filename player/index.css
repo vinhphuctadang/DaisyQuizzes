@@ -12,7 +12,7 @@
 .wrapper-card {
     width: fit-content;
     padding: 16px;
-    margin: 0 auto;
+    margin: 0 16px;
     box-shadow: 0px 2px 24px 4px rgba(0, 0, 0, 0.2),
         0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
@@ -93,6 +93,7 @@ span.psw {
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 form .admin {
     display: block;
@@ -155,18 +156,6 @@ button[disabled] {
     padding: 40px 30px 20px;
     width: 50%;
 }
-@media only screen and (max-width: 800px) {
-    .question,
-    .wrapper-card {
-        width: 90%;
-    }
-    #timing {
-        margin: 8% 0;
-    }
-    #status {
-        font-size: 13px !important;
-    }
-}
 .question .mdc-text-field:hover {
     background-color: rgb(25, 118, 210, 0.2);
     border-radius: 4px;
@@ -190,6 +179,10 @@ button[disabled] {
 }
 .btn-exit button {
     width: 30%;
+}
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+    height: 36px;
 }
 .mdc-data-table::-webkit-scrollbar {
     height: 5px;
@@ -224,7 +217,7 @@ button[disabled] {
 }
 .waiting .card-rank {
     z-index: 4;
-    width: 600px !important;
+    width: 600px;
 }
 
 .waiting .card {
@@ -417,4 +410,32 @@ button[disabled] {
 .fadeIn {
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
+}
+
+.score {
+    margin-top: 40px;
+}
+.rank {
+    margin: 8px 0 16px;
+}
+.ranking {
+    margin-bottom: 40px;
+}
+@media only screen and (max-width: 800px) {
+    .question,
+    .wrapper-card {
+        width: 90% !important;
+    }
+    #timing {
+        margin: 8% 0;
+    }
+    #status {
+        font-size: 13px !important;
+    }
+    .score {
+        margin-top: 20px;
+    }
+    .ranking {
+        margin-bottom: 20px;
+    }
 }
