@@ -72,6 +72,6 @@ app.get('/player/:round/:player/', function(request, response) { // tuyên bố 
     response.send ('finish notified');
 });
 
-const server = http.listen(8080, '172.20.10.2', function() {
+const server = http.listen(8080, function() {
     console.log('listening on *:8080');
 });
