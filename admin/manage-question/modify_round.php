@@ -100,7 +100,7 @@ $conn->close();
 			</section>
 		</div>
 		<?php
-		$status_name = array("Đóng", "Mở và chời đợi", "Đang diễn ra");
+		$status_name = array("Đóng", "Mở và chờ đợi", "Đang diễn ra");
 		$status_color = array("#ED1C24", "#1976d2", "#4CAF50");
 		$status_icon = array("cancel", "cached", "check_circle");
 		?>
@@ -303,8 +303,8 @@ $conn->close();
 					console.log(this.responseText);
 				}
 			}
-			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>'+totalTimeForExplaination, true);
-			httprqIQ.send();				
+			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>' + totalTimeForExplaination, true);
+			httprqIQ.send();
 		}
 
 		function notifyRoundFinish() {
@@ -313,14 +313,14 @@ $conn->close();
 				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
 				}
-			}	
+			}
 			request.open("GET", '<?php echo path("api.php?method=notify_round_finish&token=$token"); ?>', true);
 			request.send();
 		}
 
 		function updateQuestionNumber(msg) {
 
-			console.log (msg);
+			console.log(msg);
 			jsn = JSON.parse(msg);
 			if (jsn.result === "ERR_EXCEED") {
 				clearInterval(x);

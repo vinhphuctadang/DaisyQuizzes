@@ -64,45 +64,59 @@ $conn->close();
 </head>
 
 <body>
-	<div id="wrapper">
-		<div class="mdc-card wrapper-card">
-			<p class="finish">🎉 Chúc mừng 🎉</p>
-			<p class="finish">Bạn đã hoàn thành vòng chơi</p>
-			<div style="margin-top: 16%;"> Điểm của bạn: <?php echo $myscore; ?> </div>
-			<div style="margin: 4% 0;"> Hạng của bạn: <?php echo $myrank; ?> </div>
-			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
-				<table class="mdc-data-table__table" aria-label="Dessert calories">
-					<thead>
-						<tr class="mdc-data-table__header-row">
-							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
-							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
-							<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th>
-							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
-						</tr>
-					</thead>
-					<tbody class="mdc-data-table__content">
-						<?php
-						$cnt = 0;
-						foreach ($result as $each) {
-							++$cnt;
-							?>
-							<tr class="mdc-data-table__row">
-								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
-								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
-								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
-								<td class="mdc-data-table__cell text-center">
-									<?php echo $each['score']; ?>
-								</td>
+	<div class='waiting'>
+		<div id="wrapper">
+			<div class="mdc-card wrapper-card card-rank">
+				<p class="finish">🎉 Chúc mừng 🎉</p>
+				<p class="finish">Bạn đã hoàn thành vòng chơi</p>
+				<div style="margin-top: 16%;"> Điểm của bạn: <?php echo $myscore; ?> </div>
+				<div style="margin: 4% 0;"> Hạng của bạn: <?php echo $myrank; ?> </div>
+				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
+					<table class="mdc-data-table__table" aria-label="Dessert calories">
+						<thead>
+							<tr class="mdc-data-table__header-row">
+								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
+								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
+								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th>
+								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
 							</tr>
-						<?php
-						}
-						?>
-					</tbody>
-				</table>
+						</thead>
+						<tbody class="mdc-data-table__content">
+							<?php
+							$cnt = 0;
+							foreach ($result as $each) {
+								++$cnt;
+								?>
+								<tr class="mdc-data-table__row">
+									<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
+									<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
+									<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
+									<td class="mdc-data-table__cell text-center">
+										<?php echo $each['score']; ?>
+									</td>
+								</tr>
+							<?php
+							}
+							?>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
+					</button></div>
 			</div>
-			<div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
-				</button></div>
 		</div>
+		<ul class='bg-bubbles'>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
 </body>
 

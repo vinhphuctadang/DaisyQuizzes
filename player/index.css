@@ -217,9 +217,11 @@ button[disabled] {
 }
 
 /* css for waiting.html*/
-.waiting .card-round {
+.waiting .card-round,
+.waiting .card-rank {
     z-index: 4;
 }
+
 .waiting .card {
     font-size: 24px;
     padding: 16px;
