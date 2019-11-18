@@ -39,16 +39,14 @@ function disp_alert($alertText)
 					<div class="imgcontainer">
 						<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 					</div>
-					<div class="container">
-						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-							<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
-							<div class="mdc-line-ripple"></div>
-							<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
-						</div>
-						<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
-						<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
-						</button>
+					<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+						<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
+						<div class="mdc-line-ripple"></div>
+						<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
 					</div>
+					<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
+					<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
+					</button>
 					<div class='admin'>
 						<a href='./admin/login'> Tôi là người kiến tạo? </a>
 					</div>

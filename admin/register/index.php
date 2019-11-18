@@ -15,7 +15,7 @@
 <body>
 	<div id="wrapper">
 		<div class="mdc-card wrapper-card">
-			<form name="fRegister" class="center-card" action="middle_register.php" method="post">
+			<form name="fRegister" action="middle_register.php" method="post">
 				<div class="imgcontainer">
 					<img src="../../assets/img_avatar.png" alt="Avatar" class="avatar">
 					<div>Đăng ký</div>
