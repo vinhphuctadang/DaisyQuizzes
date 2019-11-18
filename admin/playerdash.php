@@ -125,8 +125,7 @@ $conn->close();
 				if (view == null) 
 					addPlayer (pendingPlayerInfos[i]);
 				else {
-					view.innerText = score;
-					view.className += " bounceIn";
+					view.innerText = score;					
 				}
 			}
 			pendingPlayerInfos = []
