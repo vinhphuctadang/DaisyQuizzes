@@ -32,7 +32,7 @@ function setStatus($conn, $round, $status)
 function findLoggedPlayer($conn, $round)
 {
 
-	$sql = "SELECT name, created_time, score FROM daisy_player_round WHERE round='$round' ORDER BY score DESC";
+	$sql = "SELECT name, created_time, score FROM daisy_player_round WHERE round='$round' ORDER BY score DESC LIMIT 5";
 	$result = $conn->query($sql);
 	$list = [];
 	while ($row = $result->fetch_assoc()) {
@@ -76,9 +76,8 @@ $conn->close();
 	<title>Vòng <?php echo $round; ?></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="<?php echo path("/assets/material-components-web.min.css") ?> " rel="stylesheet">
+	<script src="<?php echo path("/assets/material-components-web.min.js") ?> "></script>
 	<link href="./styles.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -100,7 +99,7 @@ $conn->close();
 			</section>
 		</div>
 		<?php
-		$status_name = array("Đóng", "Mở và chời đợi", "Đang diễn ra");
+		$status_name = array("Đóng", "Mở và chờ đợi", "Đang diễn ra");
 		$status_color = array("#ED1C24", "#1976d2", "#4CAF50");
 		$status_icon = array("cancel", "cached", "check_circle");
 		?>
@@ -303,8 +302,8 @@ $conn->close();
 					console.log(this.responseText);
 				}
 			}
-			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>'+totalTimeForExplaination, true);
-			httprqIQ.send();				
+			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>' + totalTimeForExplaination, true);
+			httprqIQ.send();
 		}
 
 		function notifyRoundFinish() {
@@ -313,14 +312,14 @@ $conn->close();
 				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
 				}
-			}	
+			}
 			request.open("GET", '<?php echo path("api.php?method=notify_round_finish&token=$token"); ?>', true);
 			request.send();
 		}
 
 		function updateQuestionNumber(msg) {
 
-			console.log (msg);
+			console.log(msg);
 			jsn = JSON.parse(msg);
 			if (jsn.result === "ERR_EXCEED") {
 				clearInterval(x);

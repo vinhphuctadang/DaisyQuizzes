@@ -63,9 +63,8 @@ function disp_alert($alertText)
 	<title><?php echo $collection_name; ?></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="<?php echo path("/assets/material-components-web.min.css") ?> " rel="stylesheet">
+	<script src="<?php echo path("/assets/material-components-web.min.js") ?> "></script>
 	<link href="./styles.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -119,7 +118,7 @@ function disp_alert($alertText)
 								echo 'B: ' . $each['choice_b'] . "<br>";
 								echo 'C: ' . $each['choice_c'] . "<br>";
 								echo 'D: ' . $each['choice_d'] . "<br>";
-								echo '<b>Diễn giải: </b> <i>' . $each['explaination'] . "</i><br>";							
+								echo '<b>Diễn giải: </b> <i>' . $each['explaination'] . "</i><br>";
 								?>
 						</div>
 					</div>
@@ -350,7 +349,7 @@ function disp_alert($alertText)
 		});
 	</script>
 	<?php
-	if (isset ($_SESSION['flash_alert']))
+	if (isset($_SESSION['flash_alert']))
 		disp_alert($_SESSION['flash_alert']);
 	?>
 </body>
