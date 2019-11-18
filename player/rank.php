@@ -76,7 +76,6 @@ $conn->close();
 							<tr class="mdc-data-table__header-row">
 								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
-								<!-- <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th> -->
 								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
 							</tr>
 						</thead>

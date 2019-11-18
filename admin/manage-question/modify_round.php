@@ -317,6 +317,11 @@ $conn->close();
 			request.send();
 		}
 
+		function reloadWithCloseStatus () {
+			document.forms["fStatus"]["name"].value = 0;
+			document.getElementById ("btnOK").click ();
+		}
+
 		function updateQuestionNumber(msg) {
 
 			console.log(msg);
@@ -325,6 +330,7 @@ $conn->close();
 				clearInterval(x);
 				notifyRoundFinish();
 				alert("Vòng chơi đã kết thúc");
+				reloadWithCloseStatus ();
 				return;
 			}
 
