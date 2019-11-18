@@ -152,8 +152,7 @@ function changeQuestion($conn, $token, $increment, $time)
 		return "ERR_ROUND_STILL_CLOSE " . getStatus($conn, $token);
 	}
 
-
-	$sql = "SELECT MAX(question_no) AS mx FROM daisy_shuffle_content";
+	$sql = "SELECT MAX(daisy_shuffle_content.question_no) AS mx FROM daisy_shuffle_content, daisy_round WHERE daisy_round.round = daisy_shuffle_content.round AND daisy_round.access_token = '$token'";
 	$result = $conn->query($sql);
 	$maxNumber = $result->fetch_assoc()['mx'];
 	$questionNumber = getQuestionNumber($conn, $token);
@@ -162,7 +161,7 @@ function changeQuestion($conn, $token, $increment, $time)
 		return "ERR_EXCEED";
 
 
-	$sql = "UPDATE daisy_round SET question_no=question_no+$increment WHERE access_token='$token'";
+	$sql = "UPDATE daisy_round SET question_no=question_no+$increment,next_timestamp=CURRENT_TIMESTAMP() WHERE access_token='$token'";
 	$conn->query($sql);
 
 	$sql = "SELECT round FROM daisy_round WHERE access_token='$token'";
