@@ -33,29 +33,41 @@ function disp_alert($alertText)
 </head>
 
 <body>
-	<div id="wrapper">
-		<div class="mdc-card wrapper-card">
-			<form action="player/entry.php" method="post">
-				<div class="imgcontainer">
-					<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
-				</div>
-
-				<div class="container">
-					<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-						<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
-						<div class="mdc-line-ripple"></div>
-						<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
+	<div class='waiting'>
+		<div id="wrapper">
+			<div class="mdc-card wrapper-card card">
+				<form action="player/entry.php" method="post">
+					<div class="imgcontainer">
+						<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 					</div>
-					<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
-					<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
-					</button>
-				</div>
-				<div class='admin'>
-					<a href='./admin/login'> Tôi là người kiến tạo? </a>
-				</div>
+					<div class="container">
+						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+							<input class="mdc-text-field__input" id="player" name="player" onkeyup="handle_change(this.value)">
+							<div class="mdc-line-ripple"></div>
+							<label for="player" class="mdc-floating-label">Tên bạn muốn hiển thị *</label>
+						</div>
+						<!-- <input type="text" placeholder="Tên bạn muốn hiển thị" name="player" required> -->
+						<button id="btnLogin" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
+						</button>
+					</div>
+					<div class='admin'>
+						<a href='./admin/login'> Tôi là người kiến tạo? </a>
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
-	</form>
+		<ul class='bg-bubbles'>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
 	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
 		<div class="mdc-snackbar__surface">

@@ -35,29 +35,43 @@ $player = $_POST['player'];
 </head>
 
 <body>
-	<div id="wrapper">
-		<div class="mdc-card wrapper-card">
-			<form action="middle.php" method="post">
-				<div class="imgcontainer">
-					<img src="../assets/img_avatar.png" alt="Avatar" class="avatar">
-				</div>
-
-				<div class="container">
-					<div id="input_round" class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-						<input class="mdc-text-field__input " id="round" name="round" required onkeyup="loadXMLDoc(this.value, '<?php echo $player; ?>')" onfocus="focus_input()" onblur="blur_input()">
-						<div class="mdc-line-ripple"></div>
-						<label for="player" class="mdc-floating-label">Mã vòng chơi</label>
+	<div class='waiting'>
+		<div id="wrapper">
+			<div class="mdc-card wrapper-card card-round">
+				<form action="middle.php" method="post">
+					<div class="imgcontainer">
+						<img src="../assets/img_avatar.png" alt="Avatar" class="avatar">
 					</div>
-					<button id="btnRound" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
-					</button>
-					<?php
 
-					echo "<input type='hidden' name='player' value='$player'>";
-					?>
-					<div id="error" style="visibility: hidden; text-align: center">Không tìm thấy vòng chơi yêu cầu</div>
-				</div>
-			</form>
+					<div class="container">
+						<div id="input_round" class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+							<input class="mdc-text-field__input " id="round" name="round" required onkeyup="loadXMLDoc(this.value, '<?php echo $player; ?>')" onfocus="focus_input()" onblur="blur_input()">
+							<div class="mdc-line-ripple"></div>
+							<label for="player" class="mdc-floating-label">Mã vòng chơi</label>
+						</div>
+						<button id="btnRound" class="btn mdc-button mdc-button--raised" type="submit" disabled>TIẾP TỤC
+						</button>
+						<?php
+
+						echo "<input type='hidden' name='player' value='$player'>";
+						?>
+						<div id="error" style="visibility: hidden; text-align: center">Không tìm thấy vòng chơi yêu cầu</div>
+					</div>
+				</form>
+			</div>
 		</div>
+		<ul class='bg-bubbles'>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
 	<div id="mdc-snackbar" class="mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
 		<div class="mdc-snackbar__surface">
