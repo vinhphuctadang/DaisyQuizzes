@@ -46,6 +46,7 @@ $conn->close();
 		<link href="<?php echo path("/assets/material-components-web.min.css"); ?> " rel="stylesheet">
 		<script src="<?php echo path("/assets/material-components-web.min.js"); ?> "></script>
 		<link href="<?php echo path("/player/index.css"); ?>" rel="stylesheet" type="text/css">
+		<link href="playerdash.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>		
@@ -53,6 +54,7 @@ $conn->close();
 			<div class="mdc-card wrapper-card">
 				
 				<p class="finish">🎉Bảng thông tin🎉</p>
+				<p><b id="question"> </b></p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
@@ -122,8 +124,10 @@ $conn->close();
 				var view = document.getElementById(id);
 				if (view == null) 
 					addPlayer (pendingPlayerInfos[i]);
-				else 
+				else {
 					view.innerText = score;
+					view.className += " bounceIn";
+				}
 			}
 			pendingPlayerInfos = []
 		}	
