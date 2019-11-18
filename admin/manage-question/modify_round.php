@@ -76,9 +76,8 @@ $conn->close();
 	<title>Vòng <?php echo $round; ?></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="<?php echo path("/assets/material-components-web.min.css") ?> " rel="stylesheet">
+	<script src="<?php echo path("/assets/material-components-web.min.js") ?> "></script>
 	<link href="./styles.css" rel="stylesheet" type="text/css">
 </head>
 
