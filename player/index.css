@@ -144,7 +144,7 @@ button[disabled] {
     color: white !important;
 }
 .group-answer .mdc-text-field {
-    height: auto;
+    height: fit-content;
 }
 .group-answer input {
     overflow: hidden;
@@ -219,9 +219,12 @@ button[disabled] {
 }
 
 /* css for waiting.html*/
-.waiting .card-round,
+.waiting .card-round {
+    z-index: 4;
+}
 .waiting .card-rank {
     z-index: 4;
+    width: 600px !important;
 }
 
 .waiting .card {
