@@ -3,6 +3,7 @@ $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
 if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 }
+include $DOCUMENT_ROOT . '/database.php';
 $str = $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 include $str;
 
@@ -17,7 +18,6 @@ if (checkLoggedIn()) {
 	<title>Login</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<link href="<?php echo path("/assets/material-components-web.min.css") ?> " rel="stylesheet">
 	<script src="<?php echo path("/assets/material-components-web.min.js") ?> "></script>
 	<link href="../general.css" rel="stylesheet">
