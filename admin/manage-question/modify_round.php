@@ -106,6 +106,7 @@ $conn->close();
 	</header>
 
 	<div id="wrapper">
+
 		<!-- <a href="../dashboard.php">Quay lại trang chính </a> -->
 		<h3 style="display: none">Trạng thái: <span id="status"><?php echo $status; ?></span>
 		</h3>
@@ -120,7 +121,7 @@ $conn->close();
 		<div id="token">
 			<fieldset>
 				<legend>Mã truy cập cho nhà phát triển</legend>
-				<div style="display: flex">
+				<div style="display: flex">					
 					<input type="text" value="<?php echo $token; ?>" id="myInput" readonly>
 					<div class="tooltip">
 						<span class="tooltiptext" id="tooltip-token">Copy</span>
@@ -131,6 +132,7 @@ $conn->close();
 			</fieldset>
 		</div>
 		<div class="container">
+
 			<h3> Câu hỏi hiện tại: <span id="number">0</span>
 			</h3>
 			<p id="time">10</p>
@@ -318,7 +320,7 @@ $conn->close();
 		}
 
 		function reloadWithCloseStatus () {
-			document.forms["fStatus"]["name"].value = 0;
+			document.forms["fStatus"]["change"].value = 0;
 			document.getElementById ("btnOK").click ();
 		}
 
