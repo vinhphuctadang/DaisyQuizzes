@@ -1,6 +1,6 @@
 <?php
 
-$NODEJS_HOST_SERVER = 'http://localhost:8080';
+$NODEJS_HOST_SERVER = 'http://192.168.0.111:8080';
 
 function db_connect()
 {

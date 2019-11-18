@@ -256,21 +256,16 @@ $conn->close();
 		var totalTime = 10;
 		var totalTimeForExplaination = 1;
 		var timing = totalTime;
-
 		var state = 0; // 0: question state, 1: explaination state
 		var x = null;
-
 		function startInterval() {
 			increaseQuestionNumber(updateQuestionNumber);
 			x = setInterval("onInterval ()", 1000);
 		}
-
 		function render() {
 			document.getElementById("time").innerText = timing;
 		}
-
 		function checkTimeline() {
-
 			if (state == 0) {
 				timing = totalTimeForExplaination;
 				state = 1;
@@ -283,24 +278,22 @@ $conn->close();
 		}
 
 		function onInterval() {
-
 			if (timing == 0) {
 				checkTimeline();
 			} else
 				timing -= 1;
-
 			render();
 		}
 
 		function increaseQuestionNumber(onDoneResp) {
 			httprqIQ = new XMLHttpRequest();
-
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					onDoneResp(this.responseText);
-					console.log(this.responseText);
+					console.log(this.responseText);					
 				}
 			}
+			clearInterval(x);
 			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=10"); ?>', true);
 			httprqIQ.send();
 		}
@@ -311,8 +304,10 @@ $conn->close();
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
+					x = setInterval("onInterval ()", 1000);
 				}
 			}
+			clearInterval (x);
 			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>' + totalTimeForExplaination, true);
 			httprqIQ.send();
 		}
@@ -351,9 +346,11 @@ $conn->close();
 					var txt = httprq.responseText;
 					var jsn = JSON.parse(txt);
 					document.getElementById("number").innerText = jsn.result;
+					x = setInterval("onInterval ()", 1000);
 				}
 			}
 
+			clearInterval(x);
 			httprq.open("GET", '<?php echo path("api.php?method=get_question_no&token=$token"); ?>', true);
 			httprq.send();
 		}
