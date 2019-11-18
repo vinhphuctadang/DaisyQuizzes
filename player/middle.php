@@ -47,7 +47,11 @@ if (checkExists($conn, $player, $round)) {
 } else {
 	addPlayer($conn, $player, $round);
 	$_SESSION['round'] = $round;
-	$_SESSION['token'] = md5($player . $GLOBALS['apikey']);
+	$token = md5($player . $GLOBALS['apikey']);
+	$_SESSION['token'] = $token;
+
+	$NODEJS_HOST_SERVER = $GLOBALS["NODEJS_HOST_SERVER"]; // Thông báo ai đó đã đăng nhập vào vòng chơi
+	file_get_contents($NODEJS_HOST_SERVER . '/player/' . $round . "/" . $token);
 	header('Location: ./main.php');
 }
 

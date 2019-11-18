@@ -4,7 +4,12 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 }
 include $DOCUMENT_ROOT . '/database.php';
-include serverpath('middleware/auth.php');
+include $DOCUMENT_ROOT.'/middleware/auth_admin.php';
+
+if (!checkLoggedIn()) {
+	header('Location: ./login');
+	exit();
+}
 
 function findLoggedPlayer($conn, $token)
 {
@@ -18,19 +23,18 @@ function findLoggedPlayer($conn, $token)
 	return $list;
 }
 
-function findRoundByToken($conn, $token) {
-	$sql = "SELECT round FROM daisy_round WHERE access_token = '$token'";
+function findTokenByRound($conn, $round) {
+	$sql = "SELECT access_token FROM daisy_round WHERE round = '$round'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc ();
-	return $row['round'];
+	return $row['access_token'];
 }
 
 $conn = db_connect();
-$token = $_GET['token'];
-$round = findRoundByToken($conn, $token);
+$round = $_GET['round'];
+$token = findTokenByRound($conn, $round);
 $result = findLoggedPlayer($conn, $token);
 $conn->close();
-
 ?>
 
 <html>
@@ -47,26 +51,24 @@ $conn->close();
 	<body>		
 		<div id="wrapper">
 			<div class="mdc-card wrapper-card">
-				<p class="finish">🎉 Chúc mừng 🎉</p>
-				<p class="finish">Bảng thông tin</p>
+				
+				<p class="finish">🎉Bảng thông tin🎉</p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
-							<tr class="mdc-data-table__header-row">
-								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">STT</th>
+							<tr class="mdc-data-table__header-row">								
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th>
 								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
 							</tr>
 						</thead>
-						<tbody class="mdc-data-table__content">
+						<tbody id="players" class="mdc-data-table__content">
 							<?php
 							$cnt = 0;
 							foreach ($result as $each) {
 								++$cnt;
 								?>
-								<tr class="mdc-data-table__row">
-									<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
+								<tr class="mdc-data-table__row">									
 									<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 									<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
 									<td class="mdc-data-table__cell text-center" id="<?php echo $each['name'];?>">
@@ -103,26 +105,36 @@ $conn->close();
 			httprq.send();
 		}
 
+		function addPlayer (player) {
+
+			anElement = '<tr class="mdc-data-table__row">'
+				+'<td class="mdc-data-table__cell">'+player.name+'</td>'
+				+'<td class="mdc-data-table__cell">'+player.created_time+'</td>'
+				+'<td class="mdc-data-table__cell text-center" id="'+player.name+'">'+player.score+'</td>'
+				+'</tr>';
+			document.getElementById ("players").innerHTML += anElement;
+		}
+
 		function updatePendingPlayerInfos () {
 			for (i=0;i<pendingPlayerInfos.length;++i) {
 				var id = pendingPlayerInfos[i].name;
 				var score = pendingPlayerInfos[i].score;
-				document.getElementById(id).innerText = score;
+				var view = document.getElementById(id);
+				if (view == null) 
+					addPlayer (pendingPlayerInfos[i]);
+				else 
+					view.innerText = score;
 			}
 			pendingPlayerInfos = []
 		}	
 		var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
-		socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
-			// alert ("update needed: " + player);
+		socket.on('<?php echo "onPlayer" . $round ?>', function(player) {			
 			updatePlayerScore(player);
 		});
 		socket.on('<?php echo "onChange" . $round ?>', function(player) {
-			// alert ("update needed: " + player);
 			updatePendingPlayerInfos ();
 		});
-
 		socket.on('<?php echo "onFinished" . $round ?>', function(player) {
-			// alert ("update needed: " + player);
 			updatePendingPlayerInfos ();
 		});
 	</script>

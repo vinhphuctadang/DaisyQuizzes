@@ -86,13 +86,21 @@ $conn->close();
 		<div class="mdc-top-app-bar__row">
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../dashboard.php')">
+					<div class="mdc-fab__ripple"></div>
 					<span class="material-icons mdc-fab__icon">arrow_back</span>
 					<span class="mdc-fab__label">Trang chủ</span>
 				</button>
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../playerdash.php?round=<?php echo $round;?>', true)">
+					<div class="mdc-fab__ripple"></div>
+					<span class="material-icons mdc-fab__icon">bar_chart</span>
+					<span class="mdc-fab__label">Bảng RANK</span>
+				</button>
+			</section>
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../logout.php')">
-					<!-- <div class="mdc-fab__ripple"></div> -->
+					<div class="mdc-fab__ripple"></div>
 					<span class="material-icons mdc-fab__icon">exit_to_app</span>
 					<span class="mdc-fab__label">Đăng xuất</span>
 				</button>
@@ -117,6 +125,7 @@ $conn->close();
 				<i class="material-icons mdc-button__icon" aria-hidden="true"><?php echo $status_icon[$status] ?></i>
 				<span class="mdc-button__label"><?php echo $status_name[$status] ?></span>
 			</button>
+
 		</div>
 		<div id="token">
 			<fieldset>
@@ -146,7 +155,7 @@ $conn->close();
 							<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
 						</tr>
 					</thead>
-					<tbody class="mdc-data-table__content">
+					<tbody id="players" class="mdc-data-table__content">
 						<?php
 						$cnt = 0;
 						foreach ($result as $each) {
@@ -365,8 +374,12 @@ $conn->close();
 		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
 		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
-		function linkTo(link) {
-			window.location = link;
+		function linkTo(link,isNewTab=false) {
+			if (!isNewTab) {
+				window.location = link;
+			} else {
+				window.open (link, '_blank');
+			}
 		}
 
 		function disp_confirm(text, link) {
@@ -419,6 +432,17 @@ $conn->close();
 			tooltip.innerHTML = "Copy";
 		}
 
+		function addPlayer (player) {
+			var x = document.getElementById("players").childElementCount;
+			anElement = '<tr class="mdc-data-table__row">'
+				+'<td class="mdc-data-table__cell">'+(x+1)+'</td>'
+				+'<td class="mdc-data-table__cell">'+player.name+'</td>'
+				+'<td class="mdc-data-table__cell">'+player.created_time+'</td>'
+				+'<td class="mdc-data-table__cell text-center" id="'+player.name+'">'+player.score+'</td>'
+				+'</tr>';
+			document.getElementById ("players").innerHTML += anElement;
+		}
+
 		function updatePlayerScore(player) {
 
 			httprq = new XMLHttpRequest();
@@ -431,7 +455,12 @@ $conn->close();
 					var arr = jsn.result;
 					var id = arr[0].name;
 					var score = arr[0].score;
-					document.getElementById(id).innerText = score;
+
+					var view = document.getElementById(id);
+					if (view != null) 
+						view.innerText = score;
+					else 
+						addPlayer (arr[0]);
 				}
 			}
 
