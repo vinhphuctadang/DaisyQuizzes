@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const http = require('http').Server(app)
@@ -74,6 +73,6 @@ app.get('/player/:round/:player/', function(request, response) {
     response.send('finish notified')
 })
 
-const server = http.listen(8080, function() {
+const server = http.listen(8080, '172.20.10.3', function() {
     console.log('listening on *:8080')
 })
