@@ -148,6 +148,9 @@ label {
 .mdc-data-table__header-cell {
     height: 36px;
 }
+.mdc-data-table__header-cell {
+    font-weight: bold;
+}
 .mdc-data-table::-webkit-scrollbar {
     height: 5px;
     width: 5px;

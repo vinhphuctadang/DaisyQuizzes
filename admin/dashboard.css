@@ -87,8 +87,11 @@ table td a:hover {
 
 .mdc-icon-edit,
 .mdc-icon-delete {
+    padding: 0;
     opacity: 0.54;
-    /* color: #1976d2 !important; */
+    width: 24px;
+    height: 24px;
+    margin: 6px 4px;
 }
 /* .mdc-icon-delete {
     color: #ED1C24 !important;
@@ -129,4 +132,11 @@ table td a:hover {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+.mdc-data-table__cell {
+    height: 36px;
+}
+.mdc-data-table__header-cell {
+    height: 45px;
+    font-weight: bold;
 }

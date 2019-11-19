@@ -10,7 +10,7 @@
     font-family: sans-serif;
 }
 .wrapper-card {
-    width: fit-content;
+    width: 400px;
     padding: 16px;
     margin: 0 16px;
     box-shadow: 0px 2px 24px 4px rgba(0, 0, 0, 0.2),
@@ -66,7 +66,7 @@ img.avatar {
 
 /* Add padding to containers */
 .container {
-    padding: 16px;
+    /* padding: 16px; */
 }
 .container .mdc-text-field {
     width: 100%;
@@ -183,6 +183,9 @@ button[disabled] {
 .mdc-data-table__cell,
 .mdc-data-table__header-cell {
     height: 36px;
+}
+.mdc-data-table__header-cell {
+    font-weight: bold;
 }
 .mdc-data-table::-webkit-scrollbar {
     height: 5px;
