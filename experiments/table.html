@@ -27,7 +27,18 @@
 			</tr>
 		</table>
 	</body>
+	<script>
+		function flyTo (src, dst){
+			srcElement = document.getElementById (src);
+			dstElement = document.getElementById (dst);
+			
+			console.log (srcElement.offsetTop + " " + srcElement.offsetLeft);
+		}
+		
+		function rearrange () {
 
-	
+		}
+		flyTo ("row1", "row5");
 
+	</script>
 </html>
