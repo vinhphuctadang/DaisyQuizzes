@@ -13,6 +13,7 @@ if (!checkLoggedIn()) {
 	exit();
 }
 
+
 function getStatus($conn, $round)
 {
 	$sql = "SELECT status, access_token FROM daisy_round WHERE round='$round'";
@@ -45,6 +46,10 @@ function findLoggedPlayer($conn, $round)
 // TODO: Kiểm tra quyền admin cho phương thức này
 $round = $_GET['k'];
 $conn = db_connect();
+if (!db_round_authen ($conn, $_SESSION['userid'], $round)){
+	header('Location: ../dashboard.php');
+	exit();
+}
 $result = findLoggedPlayer($conn, $round);
 $statusTuple = getStatus($conn, $round);
 
