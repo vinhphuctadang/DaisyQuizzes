@@ -56,7 +56,7 @@ $conn->close();
 		<div id="wrapper">
 
 			<div class="mdc-card wrapper-card card-rank">
-				<p class="finish ranking">🎉 Bảng xếp hạng 🎉</p>
+				<p class="finish ranking">🎉 Bảng điểm 🎉</p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
@@ -117,6 +117,7 @@ $conn->close();
 				var arr = jsn.result[0];
 				if (arr.score == 0) {
 					addPlayer (arr);
+					playBubbleOn ("row-"+arr.name);
 				} else { 
 					pendingPlayerInfos.push(arr);
 				}
@@ -137,6 +138,8 @@ $conn->close();
 		document.getElementById("players").innerHTML += anElement;
 	}
 
+
+
 	function onTimeChunkEllapsed (id) {
 		// console.log ("Time out");
 		element = document.getElementById (id);
@@ -144,22 +147,26 @@ $conn->close();
 		element.classList.add ("animated");
 	}
 
+	function playBubbleOn (id) {
+		row = document.getElementById(id);
+		if (row != null) {
+			row.classList.remove ("bounceIn");
+			row.classList.remove ("animated");
+		}
+		setTimeout ("onTimeChunkEllapsed ('"+id+"')", 10);
+	}
+
 	function updatePendingPlayerInfos () {
 		for (i=0;i<pendingPlayerInfos.length;++i) {
 			var id = pendingPlayerInfos[i].name;
 			var score = pendingPlayerInfos[i].score;
 			var view = document.getElementById(id);
-			
-
 			if (view == null) {
 				addPlayer (pendingPlayerInfos[i]);
 			} else {					
-				row = document.getElementById("row-"+id);
-				row.classList.remove ("bounceIn");
-				row.classList.remove ("animated");
-				setTimeout ("onTimeChunkEllapsed ('"+"row-"+id+"')", 5);
 				view.innerText = score;
-			}
+				playBubbleOn("row-"+id);
+			}			
 		}
 		pendingPlayerInfos = []
 	}
@@ -173,7 +180,7 @@ $conn->close();
 		updatePendingPlayerInfos ();
 	});
 	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
-		updatePendingPlayerInfos ();
+		window.reload ();
 	});
 	</script>
 </html>

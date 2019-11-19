@@ -36,7 +36,7 @@ function disp_alert($alertText)
 		<div id="wrapper">
 			<div class="mdc-card wrapper-card card">
 				<form action="player/entry.php" method="post">
-					<div class="imgcontainer">
+					<div class="imgcontainer bounce">
 						<img src="assets/img_avatar.png" alt="Avatar" class="avatar">
 					</div>
 					<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
