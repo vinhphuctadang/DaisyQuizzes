@@ -113,7 +113,6 @@ $conn->close();
 		httprq.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				var txt = httprq.responseText;
-				console.log(txt);
 				var jsn = JSON.parse(txt);
 				var arr = jsn.result[0];
 				pendingPlayerInfos.push(arr);
@@ -142,30 +141,6 @@ $conn->close();
 				addPlayer(pendingPlayerInfos[i]);
 			else
 				view.innerText = score;
-		}
-		pendingPlayerInfos = []
-	}
-	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
-	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
-		updatePlayerScore(player);
-	});
-	socket.on('<?php echo "onChange" . $round ?>', function(player) {
-		updatePendingPlayerInfos();
-	});
-	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
-		updatePendingPlayerInfos();
-	});
-
-	function updatePendingPlayerInfos() {
-		for (i = 0; i < pendingPlayerInfos.length; ++i) {
-			var id = pendingPlayerInfos[i].name;
-			var score = pendingPlayerInfos[i].score;
-			var view = document.getElementById(id);
-			if (view == null)
-				addPlayer(pendingPlayerInfos[i]);
-			else {
-				view.innerText = score;
-			}
 		}
 		pendingPlayerInfos = []
 	}
