@@ -40,6 +40,7 @@ $conn->close();
 
 <html>
 
+
 <head>
 	<title>Daisy Quizzes</title>
 	<meta charset="utf-8">
@@ -47,11 +48,13 @@ $conn->close();
 	<link href="<?php echo path("/assets/material-components-web.min.css"); ?> " rel="stylesheet">
 	<script src="<?php echo path("/assets/material-components-web.min.js"); ?> "></script>
 	<link href="<?php echo path("/player/index.css"); ?>" rel="stylesheet" type="text/css">
+	<link href="playerdash.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 	<div class='waiting'>
 		<div id="wrapper">
+
 			<div class="mdc-card wrapper-card card-rank">
 				<p class="finish ranking">🎉 Bảng xếp hạng 🎉</p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
@@ -139,6 +142,30 @@ $conn->close();
 				addPlayer(pendingPlayerInfos[i]);
 			else
 				view.innerText = score;
+		}
+		pendingPlayerInfos = []
+	}
+	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
+	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
+		updatePlayerScore(player);
+	});
+	socket.on('<?php echo "onChange" . $round ?>', function(player) {
+		updatePendingPlayerInfos();
+	});
+	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
+		updatePendingPlayerInfos();
+	});
+
+	function updatePendingPlayerInfos() {
+		for (i = 0; i < pendingPlayerInfos.length; ++i) {
+			var id = pendingPlayerInfos[i].name;
+			var score = pendingPlayerInfos[i].score;
+			var view = document.getElementById(id);
+			if (view == null)
+				addPlayer(pendingPlayerInfos[i]);
+			else {
+				view.innerText = score;
+			}
 		}
 		pendingPlayerInfos = []
 	}
