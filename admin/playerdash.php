@@ -53,7 +53,7 @@ $conn->close();
 	<div class='waiting'>
 		<div id="wrapper">
 			<div class="mdc-card wrapper-card card-rank">
-				<p class="finish ranking">🎉 Bảng thông tin 🎉</p>
+				<p class="finish ranking">🎉 Bảng xếp hạng 🎉</p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
@@ -82,8 +82,8 @@ $conn->close();
 						</tbody>
 					</table>
 				</div>
-				<div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
-					</button></div>
+				<!-- <div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
+					</button></div> -->
 
 			</div>
 		</div>
