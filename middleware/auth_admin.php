@@ -18,4 +18,11 @@
 			return false;
 		return $result['name'];		
 	}
+	function db_round_authen ($conn, $userid, $round) {
+		$sql = "SELECT admin_id, round FROM daisy_round WHERE admin_id=$userid and round='$round'";
+		$result = $conn->query ($sql);
+		if ($result->num_rows == 0) 
+			return false;
+		return true;		
+	}
 ?>

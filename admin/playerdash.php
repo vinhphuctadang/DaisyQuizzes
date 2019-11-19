@@ -33,6 +33,10 @@ function findTokenByRound($conn, $round)
 
 $conn = db_connect();
 $round = $_GET['round'];
+if (!db_round_authen ($conn, $_SESSION['userid'], $round)){
+	header('Location: ./dashboard.php');
+	exit();
+}
 $token = findTokenByRound($conn, $round);
 $result = findLoggedPlayer($conn, $token);
 $conn->close();
