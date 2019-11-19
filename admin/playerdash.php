@@ -137,8 +137,9 @@ $conn->close();
 		document.getElementById("players").innerHTML += anElement;
 	}
 
-	function onTimeChunkEllapsed (element) {
-		console.log ("Time out");
+	function onTimeChunkEllapsed (id) {
+		// console.log ("Time out");
+		element = document.getElementById (id);
 		element.classList.add ("bounceIn");
 		element.classList.add ("animated");
 	}
@@ -148,14 +149,15 @@ $conn->close();
 			var id = pendingPlayerInfos[i].name;
 			var score = pendingPlayerInfos[i].score;
 			var view = document.getElementById(id);
-			row = document.getElementById("row-"+id);
+			
 
 			if (view == null) {
 				addPlayer (pendingPlayerInfos[i]);
 			} else {					
+				row = document.getElementById("row-"+id);
 				row.classList.remove ("bounceIn");
 				row.classList.remove ("animated");
-				setTimeout ("onTimeChunkEllapsed (row)", 5);
+				setTimeout ("onTimeChunkEllapsed ('"+"row-"+id+"')", 5);
 				view.innerText = score;
 			}
 		}
