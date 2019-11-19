@@ -29,18 +29,18 @@
 			</tr>
 		</table>
 
-		<button onclick="startBounce('row1')"> Bounce IT</button>
+		<button onclick="startBounce(event, 'row1')"> Bounce IT</button>
 
 		<script>
-			function startBounce (id) {				
+			function timeOut (element) {
+				element.classList.add ("bounceIn");
+				element.classList.add ("animated");
+			}
+			function startBounce (e, id) {				
 				element = document.getElementById (id);
-
 				element.classList.remove ("bounceIn");
 				element.classList.remove ("animated");
-				
-				element.classList.add ("bounceIn");
-				element.classList.add ("animated");					
-				console.log (element.classList);
+				setTimeout ("timeOut (element)", 0);
 			}
 
 		</script>

@@ -72,7 +72,7 @@ $conn->close();
 							foreach ($result as $each) {
 								++$cnt;
 								?>
-								<tr class="mdc-data-table__row">
+								<tr class="mdc-data-table__row" id="row-<?php echo $each['name']; ?>">
 									<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 									<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
 									<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
@@ -125,7 +125,7 @@ $conn->close();
 
 	function addPlayer(player) {
 
-		anElement = '<tr class="mdc-data-table__row">' +
+		anElement = '<tr class="mdc-data-table__row" id="row-'+player.name+'"' +
 			'<td class="mdc-data-table__cell">' + player.name + '</td>' +
 			'<td class="mdc-data-table__cell">' + player.created_time + '</td>' +
 			'<td class="mdc-data-table__cell text-center" id="' + player.name + '">' + player.score + '</td>' +
@@ -140,7 +140,7 @@ $conn->close();
 			var view = document.getElementById(id);
 			if (view == null)
 				addPlayer(pendingPlayerInfos[i]);
-			else
+			else 
 				view.innerText = score;
 		}
 		pendingPlayerInfos = []
@@ -155,15 +155,27 @@ $conn->close();
 	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
 		updatePendingPlayerInfos();
 	});
+
+	function onTimeChunkEllapsed (element) {
+		console.log ("Time out");
+		element.classList.add ("bounceIn");
+		element.classList.add ("animated");
+	}
+
 	function updatePendingPlayerInfos () {
 		for (i=0;i<pendingPlayerInfos.length;++i) {
 			var id = pendingPlayerInfos[i].name;
 			var score = pendingPlayerInfos[i].score;
 			var view = document.getElementById(id);
-			if (view == null) 
+			row = document.getElementById("row-"+id);
+
+			if (view == null) {
 				addPlayer (pendingPlayerInfos[i]);
-			else {
-				view.innerText = score;					
+			} else {					
+				row.classList.remove ("bounceIn");
+				row.classList.remove ("animated");
+				setTimeout ("onTimeChunkEllapsed (row)", 5);
+				view.innerText = score;
 			}
 		}
 		pendingPlayerInfos = []
