@@ -164,7 +164,7 @@ $conn->close();
 							<tr class="mdc-data-table__row">
 								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
-								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
+								<td class="mdc-data-table__cell"><?php echo $each['created_time'];?></td>
 								<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 									<?php echo $each['score']; ?>
 								</td>

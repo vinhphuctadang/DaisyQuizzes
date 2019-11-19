@@ -116,7 +116,7 @@ function findLoggedPlayer($conn, $token, $name)
 	$addition = "";
 	if ($name != "")
 		$addition = " AND daisy_player_round.token='$name'";
-	$sql = "SELECT name, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' $addition ORDER BY score DESC";
+	$sql = "SELECT name, created_time, score FROM daisy_player_round, daisy_round WHERE daisy_round.round=daisy_player_round.round and access_token='$token' $addition ORDER BY score DESC";
 	$result = $conn->query($sql);
 	$list = [];
 	while ($row = $result->fetch_assoc()) {
