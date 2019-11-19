@@ -1,9 +1,9 @@
 <?php
-
+// Tạm thời chấp nhận nó dỡ chỗ này (quá trình đọc đĩa sẽ mất nhiều tg hơn)
 try {
 	$strJsonFileContents = file_get_contents(serverpath("config.json"));
 	$array = json_decode($strJsonFileContents, true);
-	$NODEJS_HOST_SERVER = 'http://' . $array['HOST'] . ':8080';
+	$NODEJS_HOST_SERVER = 'http://' . $array['HOST'] . ':'.$array['PORT'];
 } catch (Exception $e) {
 	$NODEJS_HOST_SERVER = 'http://localhost:8080';
 }

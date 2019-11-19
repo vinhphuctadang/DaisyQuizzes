@@ -30,15 +30,15 @@ $id = checkUserExists($conn, $username, $password);
 
 if ($id == false) {
 	$_SESSION['flash_alert'] = "Đăng nhập thất bại";
-	header('Location: ./');
+	header('Location: ../');
 } else {
 	$_SESSION['userid'] = $id;
 	$_SESSION['username'] = $username;
 	$_SESSION['flash_username'] = "Xin chào, " . $username . "!";
-	header('Location: ../dashboard.php');
+	header('Location: ../index.php');
 }
 ?>
-<a href='./index.php'>Thử lại</a>
+<a href='./login.php'>Thử lại</a>
 <?php
 $conn->close();
 ?>

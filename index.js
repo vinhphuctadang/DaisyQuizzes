@@ -74,6 +74,6 @@ app.get('/player/:round/:player/', function(request, response) {
     response.send('finish notified')
 })
 
-const server = http.listen(8080, URL.HOST, function() {
-    console.log('listening on ' + URL.HOST + ':8080')
+const server = http.listen(URL.PORT, URL.HOST, function() {
+    console.log('listening on ' + URL.HOST + ':'+URL.PORT)
 })
