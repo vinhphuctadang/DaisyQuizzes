@@ -64,7 +64,6 @@ function __render($question)
 			<form action='check.php' method='post'>
 				<h1>Câu hỏi <?php echo $question["question_no"]; ?>:</h1>
 				<p><?php echo $question['body'] ?></p>
-				<p id="status"></p>
 				<div class="group-answer">
 					<?php
 						$val = ['a', 'b', 'c', 'd'];
@@ -89,6 +88,7 @@ function __render($question)
 						}
 						?>
 				</div>
+				<p id="status"></p>
 				<div class="explanation" id="explanation-pane" style="display:none" ;>
 					<div class="title">* GIẢI THÍCH:</div>
 					<div id="explanation" class="content">Explaination...</div>

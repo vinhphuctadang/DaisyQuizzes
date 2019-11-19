@@ -95,7 +95,7 @@ include serverpath('middleware/auth.php');
 	</script>
 	<script src="<?php echo path("socket.io.js"); ?>"></script>
 	<script>
-		timeLeft = 10;
+		timeLeft = 15;
 		intervalHandler = null;
 		chosen = null;
 

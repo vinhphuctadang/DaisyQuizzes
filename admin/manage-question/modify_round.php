@@ -144,7 +144,7 @@ $conn->close();
 
 			<h3> Câu hỏi hiện tại: <span id="number">0</span>
 			</h3>
-			<p id="time">10</p>
+			<p id="time">15</p>
 			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 				<table class="mdc-data-table__table" aria-label="Dessert calories">
 					<thead>
@@ -164,7 +164,7 @@ $conn->close();
 							<tr class="mdc-data-table__row">
 								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
-								<td class="mdc-data-table__cell"><?php echo $each['created_time'];?></td>
+								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
 								<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 									<?php echo $each['score']; ?>
 								</td>
@@ -253,18 +253,21 @@ $conn->close();
 		</div>
 	</div>
 	<script>
-		var totalTime = 10;
+		var totalTime = 15;
 		var totalTimeForExplaination = 1;
 		var timing = totalTime;
 		var state = 0; // 0: question state, 1: explaination state
 		var x = null;
+
 		function startInterval() {
 			increaseQuestionNumber(updateQuestionNumber);
 			x = setInterval("onInterval ()", 1000);
 		}
+
 		function render() {
 			document.getElementById("time").innerText = timing;
 		}
+
 		function checkTimeline() {
 			if (state == 0) {
 				timing = totalTimeForExplaination;
@@ -290,11 +293,11 @@ $conn->close();
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					onDoneResp(this.responseText);
-					console.log(this.responseText);					
+					console.log(this.responseText);
 				}
 			}
 			clearInterval(x);
-			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=10"); ?>', true);
+			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=15"); ?>', true);
 			httprqIQ.send();
 		}
 
@@ -307,7 +310,7 @@ $conn->close();
 					x = setInterval("onInterval ()", 1000);
 				}
 			}
-			clearInterval (x);
+			clearInterval(x);
 			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>' + totalTimeForExplaination, true);
 			httprqIQ.send();
 		}

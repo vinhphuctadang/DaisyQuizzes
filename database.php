@@ -1,6 +1,12 @@
 <?php
 
-$NODEJS_HOST_SERVER = 'http://172.20.10.3:8080';
+try {
+	$strJsonFileContents = file_get_contents(serverpath("config.json"));
+	$array = json_decode($strJsonFileContents, true);
+	$NODEJS_HOST_SERVER = 'http://' . $array['HOST'] . ':8080';
+} catch (Exception $e) {
+	$NODEJS_HOST_SERVER = 'http://localhost:8080';
+}
 
 function db_connect()
 {
