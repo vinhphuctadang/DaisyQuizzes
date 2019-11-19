@@ -95,7 +95,7 @@ include serverpath('middleware/auth.php');
 	</script>
 	<script src="<?php echo path("socket.io.js"); ?>"></script>
 	<script>
-		timeLeft = 10;
+		timeLeft = 15;
 		intervalHandler = null;
 		chosen = null;
 
@@ -105,28 +105,29 @@ include serverpath('middleware/auth.php');
 				timingView.innerText = timeLeft;
 		}
 
-		function setEllapsedTime(time) {
+		function setEllapsedTime(time, visibility=true) {
 			if (intervalHandler != null)
 				clearInterval(intervalHandler);
-			intervalHandler = setInterval("onTimingInterval ()", 1000);
+			if (visibility)
+				document.getElementById("timing").style.visibility = "visible";
+			else 
+				document.getElementById("timing").style.visibility = "hidden";
 			timeLeft = time;
+			intervalHandler = setInterval("onTimingInterval ()", 1000);			
 			renderTimer();
 		}
 
 		function onTimingInterval() {
 			if (timeLeft > 0) {
-				renderTimer();
 				timeLeft -= 1;
+				renderTimer();
 			} else {
 				timeLeft = 0;
 				renderTimer();
 			}
 		}
 
-
-
 		function render(question) {
-
 			var question_pane = document.getElementById("question-body");
 			question_pane.innerHTML = question;
 			//document.getElementById ("explanation-pane").style.display = "none";
@@ -141,19 +142,13 @@ include serverpath('middleware/auth.php');
 					render(this.responseText);
 				}
 			};
-
-
 			request.open("GET", "<?php echo path('api.php?method=get_question_body'); ?>", true);
 			request.send();
 		}
-
 		function onChoiceClick(choice) {
-
 			if (chosen != null)
 				return;
-
 			chosen = choice;
-
 			request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -162,7 +157,6 @@ include serverpath('middleware/auth.php');
 						status.innerHTML = this.responseText;
 				}
 			};
-
 			var params = "choice=" + choice.getAttribute('value');
 			choice.style.backgroundColor = '#FDC228';
 			choice.style.color = 'white';
@@ -204,17 +198,15 @@ include serverpath('middleware/auth.php');
 				chosen.style.borderRadius = '4px';
 				document.getElementById('icon-' + chosen.id).innerHTML = 'highlight_off';
 			}
-
-
 			var answers = document.getElementsByClassName('mdc-text-field__input');
 			console.log(answers.length);
 			for (i = 0; i < answers.length; ++i) {
 				var btn = answers[i];
-
 				if (btn.getAttribute('value') === answer) {
-					console.log(btn.getAttribute('value'));
-					if (chosen == null) btn.style.backgroundColor = "#f44336";
-					else btn.style.backgroundColor = "#4caf50";
+					if (chosen == null) {
+						btn.style.backgroundColor = "#f44336";
+						chosen = btn;
+					} else btn.style.backgroundColor = "#4caf50";					
 					btn.style.color = 'white';
 					btn.style.borderRadius = '4px';
 					document.getElementById('mdc-text-field-' + i).classList.add('animated');
@@ -222,7 +214,7 @@ include serverpath('middleware/auth.php');
 					document.getElementById('icon-' + i).innerHTML = 'check_circle_outline';
 				}
 			}
-			setEllapsedTime(time);
+			setEllapsedTime(time, false)
 		});
 
 
@@ -232,8 +224,7 @@ include serverpath('middleware/auth.php');
 			window.location.href = "rank.php";
 		});
 
-
-		requestNext();
+		requestNext ();
 	</script>
 </body>
 
