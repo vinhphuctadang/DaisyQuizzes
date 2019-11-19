@@ -41,22 +41,22 @@ $conn->close();
 <html>
 
 
-	<head>
-		<title>Daisy Quizzes</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="<?php echo path("/assets/material-components-web.min.css"); ?> " rel="stylesheet">
-		<script src="<?php echo path("/assets/material-components-web.min.js"); ?> "></script>
-		<link href="<?php echo path("/player/index.css"); ?>" rel="stylesheet" type="text/css">
-		<link href="playerdash.css" rel="stylesheet" type="text/css">
-	</head>
+<head>
+	<title>Daisy Quizzes</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="<?php echo path("/assets/material-components-web.min.css"); ?> " rel="stylesheet">
+	<script src="<?php echo path("/assets/material-components-web.min.js"); ?> "></script>
+	<link href="<?php echo path("/player/index.css"); ?>" rel="stylesheet" type="text/css">
+	<link href="playerdash.css" rel="stylesheet" type="text/css">
+</head>
+
 <body>
 	<div class='waiting'>
 		<div id="wrapper">
 
 			<div class="mdc-card wrapper-card card-rank">
-				<p class="finish ranking">🎉 Bảng thông tin 🎉</p>
-
+				<p class="finish ranking">🎉 Bảng xếp hạng 🎉</p>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
@@ -72,7 +72,7 @@ $conn->close();
 							foreach ($result as $each) {
 								++$cnt;
 								?>
-								<tr class="mdc-data-table__row">
+								<tr class="mdc-data-table__row" id="row-<?php echo $each['name']; ?>">
 									<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 									<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
 									<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
@@ -85,8 +85,8 @@ $conn->close();
 						</tbody>
 					</table>
 				</div>
-				<div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
-					</button></div>
+				<!-- <div class="btn-exit"><button class="mdc-button mdc-button--raised" onclick="window.location='../'">THOÁT
+					</button></div> -->
 
 			</div>
 		</div>
@@ -113,10 +113,13 @@ $conn->close();
 		httprq.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				var txt = httprq.responseText;
-				console.log(txt);
 				var jsn = JSON.parse(txt);
 				var arr = jsn.result[0];
-				pendingPlayerInfos.push(arr);
+				if (arr.score == 0) {
+					addPlayer (arr);
+				} else { 
+					pendingPlayerInfos.push(arr);
+				}
 			}
 		}
 		httprq.open("GET", '<?php echo path("api.php?method=get_player&name="); ?>' + player + "&token=<?php echo $token; ?>", true);
@@ -124,8 +127,9 @@ $conn->close();
 	}
 
 	function addPlayer(player) {
-
-		anElement = '<tr class="mdc-data-table__row">' +
+		if (document.getElementById (player.name) != null)
+			return;		
+		anElement = '<tr class="mdc-data-table__row" id="row-'+player.name+'">' +
 			'<td class="mdc-data-table__cell">' + player.name + '</td>' +
 			'<td class="mdc-data-table__cell">' + player.created_time + '</td>' +
 			'<td class="mdc-data-table__cell text-center" id="' + player.name + '">' + player.score + '</td>' +
@@ -133,43 +137,36 @@ $conn->close();
 		document.getElementById("players").innerHTML += anElement;
 	}
 
-	function updatePendingPlayerInfos() {
-		for (i = 0; i < pendingPlayerInfos.length; ++i) {
-			var id = pendingPlayerInfos[i].name;
-			var score = pendingPlayerInfos[i].score;
-			var view = document.getElementById(id);
-			if (view == null)
-				addPlayer(pendingPlayerInfos[i]);
-			else
-				view.innerText = score;
-		}
-		pendingPlayerInfos = []
+	function onTimeChunkEllapsed (id) {
+		// console.log ("Time out");
+		element = document.getElementById (id);
+		element.classList.add ("bounceIn");
+		element.classList.add ("animated");
 	}
-	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
-	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
-		updatePlayerScore(player);
-	});
-	socket.on('<?php echo "onChange" . $round ?>', function(player) {
-		updatePendingPlayerInfos();
-	});
-	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
-		updatePendingPlayerInfos();
-	});
+
 	function updatePendingPlayerInfos () {
 		for (i=0;i<pendingPlayerInfos.length;++i) {
 			var id = pendingPlayerInfos[i].name;
 			var score = pendingPlayerInfos[i].score;
 			var view = document.getElementById(id);
-			if (view == null) 
+			
+
+			if (view == null) {
 				addPlayer (pendingPlayerInfos[i]);
-			else {
-				view.innerText = score;					
+			} else {					
+				row = document.getElementById("row-"+id);
+				row.classList.remove ("bounceIn");
+				row.classList.remove ("animated");
+				setTimeout ("onTimeChunkEllapsed ('"+"row-"+id+"')", 5);
+				view.innerText = score;
 			}
 		}
 		pendingPlayerInfos = []
-	}	
+	}
+
 	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
 	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {			
+		// console.log ("co mot nguoi choi da dang nhap");
 		updatePlayerScore(player);
 	});
 	socket.on('<?php echo "onChange" . $round ?>', function(player) {

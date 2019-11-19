@@ -1,7 +1,9 @@
 <html>
 	<head>
+
 		<title>Daisy Quizzes</title>
 		<meta charset="utf-8">
+		<link href="../admin/playerdash.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<table>
@@ -26,6 +28,22 @@
 				<td id="row1-value">19</td>
 			</tr>
 		</table>
+
+		<button onclick="startBounce(event, 'row1')"> Bounce IT</button>
+
+		<script>
+			function timeOut (element) {
+				element.classList.add ("bounceIn");
+				element.classList.add ("animated");
+			}
+			function startBounce (e, id) {				
+				element = document.getElementById (id);
+				element.classList.remove ("bounceIn");
+				element.classList.remove ("animated");
+				setTimeout ("timeOut (element)", 0);
+			}
+
+		</script>
 	</body>
 	<script>
 		function flyTo (src, dst){
