@@ -68,8 +68,8 @@ $conn->close();
 			<div class="mdc-card wrapper-card card-rank">
 				<p class="finish">🎉 Chúc mừng 🎉</p>
 				<p class="finish">Bạn đã hoàn thành vòng chơi</p>
-				<div style="margin-top: 40px;"> Điểm của bạn: <?php echo $myscore; ?> </div>
-				<div style="margin: 4% 0;"> Hạng của bạn: <?php echo $myrank; ?> </div>
+				<div class="score"> Điểm của bạn: <?php echo $myscore; ?> </div>
+				<div class="rank"> Hạng của bạn: <?php echo $myrank; ?> </div>
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>

@@ -29,13 +29,15 @@ function db_fetch_question_ids($conn, $collection)
 
 function generate($conn, $userid, $round, $collection)
 {
-
 	$token = db_token($round, "");
+	
+
+	$sql = "SELECT round FROM daisy_round WHERE round='$round'";
+	$result = $conn->query($sql);	
+	if ($result->num_rows > 0)
+		return "ERR_CRROUND_EXISTED";
+
 	$sql = "INSERT INTO daisy_round (collection, status, round, admin_id, question_no, access_token) VALUES ($collection, 0, '$round', $userid, 0, '$token')";
-	// echo $sql."<br>";
-	$result = $conn->query($sql);
-	$sql = "DELETE FROM daisy_shuffle_content WHERE round='$round'";
-	// echo $sql."<br>";
 	$result = $conn->query($sql);
 	$outp = db_fetch_question_ids($conn, $collection);
 	shuffle($outp);
@@ -45,6 +47,7 @@ function generate($conn, $userid, $round, $collection)
 		$sql = "INSERT INTO daisy_shuffle_content (round, question_no, question_id) VALUES ('$round', $cnt, $value)";
 		$conn->query($sql);
 	}
+	return "RES_SUCCESSFUL";
 }
 
 $collection = $_GET['k'];
@@ -59,9 +62,12 @@ if ($collection_name == false) {
 
 if (isset($_GET['round'])) {
 	$round = $_GET['round'];
-	generate($conn, $userid, $round, $collection);
+	$ans = generate($conn, $userid, $round, $collection);
 	$conn->close();
-	$_SESSION['flash_alert'] = "Tạo vòng chơi thành công!";
+	if ($ans === "RES_SUCCESSFUL")
+		$_SESSION['flash_alert'] = "Tạo vòng chơi thành công!";
+	else 
+		$_SESSION['flash_alert'] = "Tạo vòng chơi thất bại!";
 	header("Location: ./dashboard.php");
 	exit();
 }

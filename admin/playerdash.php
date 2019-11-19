@@ -4,7 +4,7 @@ if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 }
 include $DOCUMENT_ROOT . '/database.php';
-include $DOCUMENT_ROOT.'/middleware/auth_admin.php';
+include $DOCUMENT_ROOT . '/middleware/auth_admin.php';
 
 if (!checkLoggedIn()) {
 	header('Location: ./login');
@@ -23,10 +23,11 @@ function findLoggedPlayer($conn, $token)
 	return $list;
 }
 
-function findTokenByRound($conn, $round) {
+function findTokenByRound($conn, $round)
+{
 	$sql = "SELECT access_token FROM daisy_round WHERE round = '$round'";
 	$result = $conn->query($sql);
-	$row = $result->fetch_assoc ();
+	$row = $result->fetch_assoc();
 	return $row['access_token'];
 }
 
@@ -39,6 +40,7 @@ $conn->close();
 
 <html>
 
+
 	<head>
 		<title>Daisy Quizzes</title>
 		<meta charset="utf-8">
@@ -46,17 +48,19 @@ $conn->close();
 		<link href="<?php echo path("/assets/material-components-web.min.css"); ?> " rel="stylesheet">
 		<script src="<?php echo path("/assets/material-components-web.min.js"); ?> "></script>
 		<link href="<?php echo path("/player/index.css"); ?>" rel="stylesheet" type="text/css">
+		<link href="playerdash.css" rel="stylesheet" type="text/css">
 	</head>
-
-	<body>		
+<body>
+	<div class='waiting'>
 		<div id="wrapper">
-			<div class="mdc-card wrapper-card">
-				
-				<p class="finish">🎉Bảng thông tin🎉</p>
+
+			<div class="mdc-card wrapper-card card-rank">
+				<p class="finish ranking">🎉 Bảng thông tin 🎉</p>
+
 				<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 					<table class="mdc-data-table__table" aria-label="Dessert calories">
 						<thead>
-							<tr class="mdc-data-table__header-row">								
+							<tr class="mdc-data-table__header-row">
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Tên người chơi<i></i></th>
 								<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Dấu thời gian</th>
 								<th class="mdc-data-table__header-cell text-center" role="columnheader" scope="col">Điểm</th>
@@ -68,10 +72,10 @@ $conn->close();
 							foreach ($result as $each) {
 								++$cnt;
 								?>
-								<tr class="mdc-data-table__row">									
+								<tr class="mdc-data-table__row">
 									<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
 									<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
-									<td class="mdc-data-table__cell text-center" id="<?php echo $each['name'];?>">
+									<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 										<?php echo $each['score']; ?>
 									</td>
 								</tr>
@@ -86,56 +90,93 @@ $conn->close();
 
 			</div>
 		</div>
-	</body>
-	<script src="<?php echo path("socket.io.js"); ?>"></script>	
-	<script>	
-		pendingPlayerInfos = [];
-		function updatePlayerScore(player) {
-			httprq = new XMLHttpRequest();
-			httprq.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var txt = httprq.responseText;
-					console.log(txt);
-					var jsn = JSON.parse(txt);					
-					var arr = jsn.result[0];
-					pendingPlayerInfos.push(arr);					
-				}
+		<ul class='bg-bubbles'>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+</body>
+<script src="<?php echo path("socket.io.js"); ?>"></script>
+<script>
+	pendingPlayerInfos = [];
+
+	function updatePlayerScore(player) {
+		httprq = new XMLHttpRequest();
+		httprq.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var txt = httprq.responseText;
+				console.log(txt);
+				var jsn = JSON.parse(txt);
+				var arr = jsn.result[0];
+				pendingPlayerInfos.push(arr);
 			}
-			httprq.open("GET", '<?php echo path("api.php?method=get_player&name="); ?>' + player + "&token=<?php echo $token; ?>", true);
-			httprq.send();
 		}
+		httprq.open("GET", '<?php echo path("api.php?method=get_player&name="); ?>' + player + "&token=<?php echo $token; ?>", true);
+		httprq.send();
+	}
 
-		function addPlayer (player) {
+	function addPlayer(player) {
 
-			anElement = '<tr class="mdc-data-table__row">'
-				+'<td class="mdc-data-table__cell">'+player.name+'</td>'
-				+'<td class="mdc-data-table__cell">'+player.created_time+'</td>'
-				+'<td class="mdc-data-table__cell text-center" id="'+player.name+'">'+player.score+'</td>'
-				+'</tr>';
-			document.getElementById ("players").innerHTML += anElement;
+		anElement = '<tr class="mdc-data-table__row">' +
+			'<td class="mdc-data-table__cell">' + player.name + '</td>' +
+			'<td class="mdc-data-table__cell">' + player.created_time + '</td>' +
+			'<td class="mdc-data-table__cell text-center" id="' + player.name + '">' + player.score + '</td>' +
+			'</tr>';
+		document.getElementById("players").innerHTML += anElement;
+	}
+
+	function updatePendingPlayerInfos() {
+		for (i = 0; i < pendingPlayerInfos.length; ++i) {
+			var id = pendingPlayerInfos[i].name;
+			var score = pendingPlayerInfos[i].score;
+			var view = document.getElementById(id);
+			if (view == null)
+				addPlayer(pendingPlayerInfos[i]);
+			else
+				view.innerText = score;
 		}
-
-		function updatePendingPlayerInfos () {
-			for (i=0;i<pendingPlayerInfos.length;++i) {
-				var id = pendingPlayerInfos[i].name;
-				var score = pendingPlayerInfos[i].score;
-				var view = document.getElementById(id);
-				if (view == null) 
-					addPlayer (pendingPlayerInfos[i]);
-				else 
-					view.innerText = score;
+		pendingPlayerInfos = []
+	}
+	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
+	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {
+		updatePlayerScore(player);
+	});
+	socket.on('<?php echo "onChange" . $round ?>', function(player) {
+		updatePendingPlayerInfos();
+	});
+	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
+		updatePendingPlayerInfos();
+	});
+	function updatePendingPlayerInfos () {
+		for (i=0;i<pendingPlayerInfos.length;++i) {
+			var id = pendingPlayerInfos[i].name;
+			var score = pendingPlayerInfos[i].score;
+			var view = document.getElementById(id);
+			if (view == null) 
+				addPlayer (pendingPlayerInfos[i]);
+			else {
+				view.innerText = score;					
 			}
-			pendingPlayerInfos = []
-		}	
-		var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
-		socket.on('<?php echo "onPlayer" . $round ?>', function(player) {			
-			updatePlayerScore(player);
-		});
-		socket.on('<?php echo "onChange" . $round ?>', function(player) {
-			updatePendingPlayerInfos ();
-		});
-		socket.on('<?php echo "onFinished" . $round ?>', function(player) {
-			updatePendingPlayerInfos ();
-		});
+		}
+		pendingPlayerInfos = []
+	}	
+	var socket = io.connect('<?php echo $GLOBALS["NODEJS_HOST_SERVER"]; ?>');
+	socket.on('<?php echo "onPlayer" . $round ?>', function(player) {			
+		updatePlayerScore(player);
+	});
+	socket.on('<?php echo "onChange" . $round ?>', function(player) {
+		updatePendingPlayerInfos ();
+	});
+	socket.on('<?php echo "onFinished" . $round ?>', function(player) {
+		updatePendingPlayerInfos ();
+	});
 	</script>
 </html>

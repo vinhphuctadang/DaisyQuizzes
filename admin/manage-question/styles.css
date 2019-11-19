@@ -144,6 +144,10 @@ label {
 .mdc-data-table {
     width: 100%;
 }
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+    height: 36px;
+}
 .mdc-data-table::-webkit-scrollbar {
     height: 5px;
     width: 5px;

@@ -91,8 +91,8 @@ $conn->close();
 					<span class="mdc-fab__label">Trang chủ</span>
 				</button>
 			</section>
-			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../playerdash.php?round=<?php echo $round;?>', true)">
+			<section class="mdc-top-app-bar__section" style="justify-content: center;">
+				<button class="mdc-fab mdc-fab--extended" onclick="linkTo('../playerdash.php?round=<?php echo $round; ?>', true)">
 					<div class="mdc-fab__ripple"></div>
 					<span class="material-icons mdc-fab__icon">bar_chart</span>
 					<span class="mdc-fab__label">Bảng RANK</span>
@@ -130,7 +130,7 @@ $conn->close();
 		<div id="token">
 			<fieldset>
 				<legend>Mã truy cập cho nhà phát triển</legend>
-				<div style="display: flex">					
+				<div style="display: flex">
 					<input type="text" value="<?php echo $token; ?>" id="myInput" readonly>
 					<div class="tooltip">
 						<span class="tooltiptext" id="tooltip-token">Copy</span>
@@ -164,7 +164,7 @@ $conn->close();
 							<tr class="mdc-data-table__row">
 								<td class="mdc-data-table__cell text-center"><?php echo $cnt; ?></td>
 								<td class="mdc-data-table__cell"><?php echo $each['name']; ?></td>
-								<td class="mdc-data-table__cell"><?php echo $each['created_time']; ?></td>
+								<td class="mdc-data-table__cell"><?php echo $each['created_time'];?></td>
 								<td class="mdc-data-table__cell text-center" id="<?php echo $each['name']; ?>">
 									<?php echo $each['score']; ?>
 								</td>
@@ -256,21 +256,16 @@ $conn->close();
 		var totalTime = 10;
 		var totalTimeForExplaination = 1;
 		var timing = totalTime;
-
 		var state = 0; // 0: question state, 1: explaination state
 		var x = null;
-
 		function startInterval() {
 			increaseQuestionNumber(updateQuestionNumber);
 			x = setInterval("onInterval ()", 1000);
 		}
-
 		function render() {
 			document.getElementById("time").innerText = timing;
 		}
-
 		function checkTimeline() {
-
 			if (state == 0) {
 				timing = totalTimeForExplaination;
 				state = 1;
@@ -283,24 +278,22 @@ $conn->close();
 		}
 
 		function onInterval() {
-
 			if (timing == 0) {
 				checkTimeline();
 			} else
 				timing -= 1;
-
 			render();
 		}
 
 		function increaseQuestionNumber(onDoneResp) {
 			httprqIQ = new XMLHttpRequest();
-
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					onDoneResp(this.responseText);
-					console.log(this.responseText);
+					console.log(this.responseText);					
 				}
 			}
+			clearInterval(x);
 			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=10"); ?>', true);
 			httprqIQ.send();
 		}
@@ -311,8 +304,10 @@ $conn->close();
 			httprqIQ.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					console.log(this.responseText);
+					x = setInterval("onInterval ()", 1000);
 				}
 			}
+			clearInterval (x);
 			httprqIQ.open("GET", '<?php echo path("api.php?method=notify_explaination&token=$token&nextupdate="); ?>' + totalTimeForExplaination, true);
 			httprqIQ.send();
 		}
@@ -328,9 +323,9 @@ $conn->close();
 			request.send();
 		}
 
-		function reloadWithCloseStatus () {
+		function reloadWithCloseStatus() {
 			document.forms["fStatus"]["change"].value = 0;
-			document.getElementById ("btnOK").click ();
+			document.getElementById("btnOK").click();
 		}
 
 		function updateQuestionNumber(msg) {
@@ -341,7 +336,7 @@ $conn->close();
 				clearInterval(x);
 				notifyRoundFinish();
 				alert("Vòng chơi đã kết thúc");
-				reloadWithCloseStatus ();
+				reloadWithCloseStatus();
 				return;
 			}
 
@@ -351,9 +346,11 @@ $conn->close();
 					var txt = httprq.responseText;
 					var jsn = JSON.parse(txt);
 					document.getElementById("number").innerText = jsn.result;
+					x = setInterval("onInterval ()", 1000);
 				}
 			}
 
+			clearInterval(x);
 			httprq.open("GET", '<?php echo path("api.php?method=get_question_no&token=$token"); ?>', true);
 			httprq.send();
 		}
@@ -374,11 +371,11 @@ $conn->close();
 		var MDCSnackbar = mdc.snackbar.MDCSnackbar;
 		const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
-		function linkTo(link,isNewTab=false) {
+		function linkTo(link, isNewTab = false) {
 			if (!isNewTab) {
 				window.location = link;
 			} else {
-				window.open (link, '_blank');
+				window.open(link, '_blank');
 			}
 		}
 
@@ -432,21 +429,19 @@ $conn->close();
 			tooltip.innerHTML = "Copy";
 		}
 
-		function addPlayer (player) {
+		function addPlayer(player) {
 			var x = document.getElementById("players").childElementCount;
-			anElement = '<tr class="mdc-data-table__row">'
-				+'<td class="mdc-data-table__cell">'+(x+1)+'</td>'
-				+'<td class="mdc-data-table__cell">'+player.name+'</td>'
-				+'<td class="mdc-data-table__cell">'+player.created_time+'</td>'
-				+'<td class="mdc-data-table__cell text-center" id="'+player.name+'">'+player.score+'</td>'
-				+'</tr>';
-			document.getElementById ("players").innerHTML += anElement;
+			anElement = '<tr class="mdc-data-table__row">' +
+				'<td class="mdc-data-table__cell">' + (x + 1) + '</td>' +
+				'<td class="mdc-data-table__cell">' + player.name + '</td>' +
+				'<td class="mdc-data-table__cell">' + player.created_time + '</td>' +
+				'<td class="mdc-data-table__cell text-center" id="' + player.name + '">' + player.score + '</td>' +
+				'</tr>';
+			document.getElementById("players").innerHTML += anElement;
 		}
 
 		function updatePlayerScore(player) {
-
 			httprq = new XMLHttpRequest();
-
 			httprq.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					var txt = httprq.responseText;
@@ -457,10 +452,10 @@ $conn->close();
 					var score = arr[0].score;
 
 					var view = document.getElementById(id);
-					if (view != null) 
+					if (view != null)
 						view.innerText = score;
-					else 
-						addPlayer (arr[0]);
+					else
+						addPlayer(arr[0]);
 				}
 			}
 

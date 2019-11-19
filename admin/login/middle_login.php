@@ -3,9 +3,8 @@ $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
 if (substr_count($_SERVER['DOCUMENT_ROOT'], 'DaisyQuizzes') == 0) {
 	$DOCUMENT_ROOT = $DOCUMENT_ROOT . '/DaisyQuizzes';
 }
-$str = $DOCUMENT_ROOT .	'/database.php';
-
-include $str;
+include $DOCUMENT_ROOT . '/database.php';
+include $DOCUMENT_ROOT . '/session_start.php';
 
 function checkUserExists($conn, $username, $password)
 {
@@ -28,10 +27,11 @@ $conn = db_connect();
 $username = $_POST['username'];
 $password = $_POST['password'];
 $id = checkUserExists($conn, $username, $password);
-if ($id == false)
-	echo "<p> Tên tài khoản hoặc mật khẩu không tồn tại, đăng nhập thất bại </p>";
-else {
-	session_start();
+
+if ($id == false) {
+	$_SESSION['flash_alert'] = "Đăng nhập thất bại";
+	header('Location: ./');
+} else {
 	$_SESSION['userid'] = $id;
 	$_SESSION['username'] = $username;
 	$_SESSION['flash_username'] = "Xin chào, " . $username . "!";

@@ -1,0 +1,51 @@
+<html>
+	<head>
+
+		<title>Daisy Quizzes</title>
+		<meta charset="utf-8">
+		<link href="../admin/playerdash.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<table>
+			<tr id="row1">
+				<td>Robert</td>
+				<td id="row1-value">10</td>
+			</tr>
+			<tr id="row2">
+				<td>Long</td>
+				<td id="row1-value">11</td>
+			</tr>
+			<tr id="row3">
+				<td>Cave</td>
+				<td id="row1-value">4</td>
+			</tr>
+			<tr id="row4">
+				<td>LyLy</td>
+				<td id="row1-value">15</td>
+			</tr>
+			<tr id="row5">
+				<td>Tarot</td>
+				<td id="row1-value">19</td>
+			</tr>
+		</table>
+
+		<button onclick="startBounce('row1')"> Bounce IT</button>
+
+		<script>
+			function startBounce (id) {				
+				element = document.getElementById (id);
+
+				element.classList.remove ("bounceIn");
+				element.classList.remove ("animated");
+				
+				element.classList.add ("bounceIn");
+				element.classList.add ("animated");					
+				console.log (element.classList);
+			}
+
+		</script>
+	</body>
+
+	
+
+</html>
