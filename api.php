@@ -53,7 +53,7 @@ function __render($question)
 	}
 
 	if ($question == "ERR_ROUND_IS_WAITING") {
-		return __renderWaiting("Vòng chơi đang chờ đợi để bắt đầu");
+		return __renderWaiting("Vòng chơi đang chờ đợi bắt đầu...");
 	}
 
 	$round = $_SESSION['round'];

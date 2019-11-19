@@ -227,6 +227,7 @@ button[disabled] {
     background-color: transparent;
     color: white;
     z-index: 4;
+    text-align: center;
 }
 .waiting .card a {
     color: white;
