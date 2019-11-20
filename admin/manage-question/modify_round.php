@@ -46,7 +46,7 @@ function findLoggedPlayer($conn, $round)
 // TODO: Kiểm tra quyền admin cho phương thức này
 $round = $_GET['k'];
 $conn = db_connect();
-if (!db_round_authen ($conn, $_SESSION['userid'], $round)){
+if (!db_round_authen($conn, $_SESSION['userid'], $round)) {
 	header('Location: ../dashboard.php');
 	exit();
 }
@@ -149,7 +149,7 @@ $conn->close();
 
 			<h3> Câu hỏi hiện tại: <span id="number">0</span>
 			</h3>
-			<p id="time">15</p>
+			<p id="time">10</p>
 			<div class="mdc-data-table" data-mdc-auto-init="MDCDataTable">
 				<table class="mdc-data-table__table" aria-label="Dessert calories">
 					<thead>
@@ -258,7 +258,7 @@ $conn->close();
 		</div>
 	</div>
 	<script>
-		var totalTime = 15;
+		var totalTime = 10;
 		var totalTimeForExplaination = 1;
 		var timing = totalTime;
 		var state = 0; // 0: question state, 1: explaination state
@@ -302,7 +302,7 @@ $conn->close();
 				}
 			}
 			clearInterval(x);
-			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=15"); ?>', true);
+			httprqIQ.open("GET", '<?php echo path("api.php?method=change_question&token=$token&change=1&nextupdate=10"); ?>', true);
 			httprqIQ.send();
 		}
 

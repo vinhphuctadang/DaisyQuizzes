@@ -16,6 +16,7 @@ include serverpath('middleware/auth.php');
 	<link href="<?php echo path("/assets/material-components-web.min.css") ?> " rel="stylesheet">
 	<script src="<?php echo path("/assets/material-components-web.min.js") ?> "></script>
 	<link href="./index.css" rel="stylesheet" type="text/css">
+	<link href="./loading.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -85,6 +86,14 @@ include serverpath('middleware/auth.php');
 
 	<form id="question">
 		<p class="timing" id="timing"></p>
+		<div id="loading">
+			<div class="lds-ellipsis">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
 		<div id="question-body">
 
 		</div>
@@ -95,7 +104,7 @@ include serverpath('middleware/auth.php');
 	</script>
 	<script src="<?php echo path("socket.io.js"); ?>"></script>
 	<script>
-		timeLeft = 15;
+		timeLeft = 10;
 		intervalHandler = null;
 		chosen = null;
 
@@ -105,15 +114,20 @@ include serverpath('middleware/auth.php');
 				timingView.innerText = timeLeft;
 		}
 
-		function setEllapsedTime(time, visibility=true) {
+		function setEllapsedTime(time, visibility = true) {
 			if (intervalHandler != null)
 				clearInterval(intervalHandler);
-			if (visibility)
-				document.getElementById("timing").style.visibility = "visible";
-			else 
-				document.getElementById("timing").style.visibility = "hidden";
+			if (visibility) {
+				document.getElementById("timing").style.display = "block";
+				document.getElementById("loading").style.display = "none";
+			} else {
+				document.getElementById("timing").style.display = "none";
+				document.getElementById("loading").style.display = "flex";
+				document.getElementById("loading").style.justifyContent = "center";
+			}
+
 			timeLeft = time;
-			intervalHandler = setInterval("onTimingInterval ()", 1000);			
+			intervalHandler = setInterval("onTimingInterval ()", 1000);
 			renderTimer();
 		}
 
@@ -145,6 +159,7 @@ include serverpath('middleware/auth.php');
 			request.open("GET", "<?php echo path('api.php?method=get_question_body'); ?>", true);
 			request.send();
 		}
+
 		function onChoiceClick(choice) {
 			if (chosen != null)
 				return;
@@ -206,7 +221,7 @@ include serverpath('middleware/auth.php');
 					if (chosen == null) {
 						btn.style.backgroundColor = "#f44336";
 						chosen = btn;
-					} else btn.style.backgroundColor = "#4caf50";					
+					} else btn.style.backgroundColor = "#4caf50";
 					btn.style.color = 'white';
 					btn.style.borderRadius = '4px';
 					document.getElementById('mdc-text-field-' + i).classList.add('animated');
@@ -224,7 +239,7 @@ include serverpath('middleware/auth.php');
 			window.location.href = "rank.php";
 		});
 
-		requestNext ();
+		requestNext();
 	</script>
 </body>
 

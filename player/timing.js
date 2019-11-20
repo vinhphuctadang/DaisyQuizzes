@@ -1,4 +1,4 @@
-timeLeft = 15
+timeLeft = 10
 intervalHandler = null
 
 function render() {
